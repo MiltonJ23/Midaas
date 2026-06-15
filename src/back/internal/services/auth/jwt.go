@@ -22,7 +22,7 @@ type JWTService struct {
 func NewJWTService() *JWTService {
 	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
-		return nil
+		secret = "midaas_dev_secret_change_in_production"
 	}
 	return &JWTService{
 		secret: []byte(secret),

@@ -15,10 +15,11 @@ import (
 
 type AuthHandler struct {
 	authService contracts.AuthService
+	notifSvc    contracts.NotificationService
 }
 
-func NewAuthHandler(authService contracts.AuthService) *AuthHandler {
-	return &AuthHandler{authService: authService}
+func NewAuthHandler(authService contracts.AuthService, notifSvc contracts.NotificationService) *AuthHandler {
+	return &AuthHandler{authService: authService, notifSvc: notifSvc}
 }
 
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
@@ -58,6 +59,17 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		slog.String("user_id", user.ID.String()),
 		slog.String("email", user.Email),
 	)
+
+	if h.notifSvc != nil {
+		go func() {
+			if err := h.notifSvc.SendRegistrationConfirmation(ctx, user.Email, user.FullName); err != nil {
+				logger.Error(ctx, "handler: failed to send welcome email",
+					slog.String("error", err.Error()),
+				)
+			}
+		}()
+	}
+
 	JSON(w, http.StatusCreated, user)
 }
 
