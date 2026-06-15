@@ -6,27 +6,41 @@ import (
 	"os"
 
 	"github.com/MiltonJ23/Midaas/internal/adapters/email"
-	"github.com/MiltonJ23/Midaas/internal/adapters/memory"
 	"github.com/MiltonJ23/Midaas/internal/adapters/postgres"
 	"github.com/MiltonJ23/Midaas/internal/adapters/storage"
 	"github.com/MiltonJ23/Midaas/internal/contracts"
 	"github.com/MiltonJ23/Midaas/internal/endpoints/handler"
 	"github.com/MiltonJ23/Midaas/internal/endpoints/router"
 	"github.com/MiltonJ23/Midaas/internal/logger"
-	authsvc 	"github.com/MiltonJ23/Midaas/internal/services/auth"
+	authsvc "github.com/MiltonJ23/Midaas/internal/services/auth"
+	notifsvc "github.com/MiltonJ23/Midaas/internal/services/notification"
+	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 )
 
 func main() {
-	log := logger.New(env("LOG_LEVEL", "debug"))
+	_ = godotenv.Load()
+	log := logger.New(require("LOG_LEVEL"))
 
+	db := initDB(log)
 	objStorage := initStorage(log)
-	initEmail(log)
+	emailSvc := initEmail(log)
 
-	userRepo, entrepRepo := initRepos(log)
+	userRepo := postgres.NewUserRepository(db)
+	entrepRepo := postgres.NewEntrepreneurRepository(db)
 
 	authService := authsvc.NewAuthService(userRepo, entrepRepo)
 
-	authHandler := handler.NewAuthHandler(authService)
+	notifSvc := notifsvc.NewNotificationService(
+		emailSvc,
+		postgres.NewMilestoneRepository(db),
+		postgres.NewProjectRepository(db),
+		postgres.NewInvestmentRepository(db),
+		postgres.NewUserRepository(db),
+		requireOr("SMTP_FROM", "noreply@midaas.com"),
+	)
+
+	authHandler := handler.NewAuthHandler(authService, notifSvc)
 	uploadHandler := handler.NewUploadHandler(objStorage, userRepo)
 
 	apiRouter := router.New(log, authHandler, uploadHandler)
@@ -34,113 +48,69 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/", apiRouter)
 
-	port := env("PORT", "8080")
-	log.Info("server starting",
-		slog.String("port", port),
-		slog.String("log_level", env("LOG_LEVEL", "debug")),
-	)
+	port := requireOr("PORT", "8080")
+	log.Info("server ready", slog.String("port", port))
 
-	srv := &http.Server{
-		Addr:    ":" + port,
-		Handler: mux,
-	}
-
+	srv := &http.Server{Addr: ":" + port, Handler: mux}
 	if err := srv.ListenAndServe(); err != nil {
 		log.Error("server failed", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
 }
 
-func initRepos(log *slog.Logger) (contracts.UserRepository, contracts.EntrepreneurRepository) {
+func initDB(log *slog.Logger) *gorm.DB {
 	dsn := os.Getenv("DATABASE_URL")
-	if dsn != "" {
-		db, err := postgres.NewDB(dsn, log)
-		if err != nil {
-			log.Warn("postgres: connection failed, falling back to in-memory",
-				slog.String("error", err.Error()),
-			)
-			goto fallback
-		}
-
-		if err := postgres.AutoMigrate(db); err != nil {
-			log.Warn("postgres: migration failed, falling back to in-memory",
-				slog.String("error", err.Error()),
-			)
-			goto fallback
-		}
-
-		log.Info("database: using supabase/postgres")
-		return postgres.NewUserRepository(db), postgres.NewEntrepreneurRepository(db)
+	if dsn == "" {
+		panic("DATABASE_URL is required")
 	}
-
-fallback:
-	log.Info("database: using in-memory (set DATABASE_URL for postgres)")
-	return memory.NewUserRepository(), memory.NewEntrepreneurRepository()
+	db, err := postgres.NewDB(dsn, log)
+	if err != nil {
+		panic("postgres: " + err.Error())
+	}
+	if err := postgres.AutoMigrate(db); err != nil {
+		panic("migrate: " + err.Error())
+	}
+	log.Info("database: connected")
+	return db
 }
 
 func initStorage(log *slog.Logger) contracts.ObjectStorageService {
-	cloudName := os.Getenv("CLOUDINARY_CLOUD_NAME")
-	apiKey := os.Getenv("CLOUDINARY_API_KEY")
-	apiSecret := os.Getenv("CLOUDINARY_API_SECRET")
-
-	if cloudName != "" && apiKey != "" && apiSecret != "" {
-		store, err := storage.NewCloudinaryStorage(cloudName, apiKey, apiSecret)
-		if err != nil {
-			log.Warn("cloudinary: init failed, falling back to local storage",
-				slog.String("error", err.Error()),
-			)
-		} else {
-			log.Info("storage: using cloudinary",
-				slog.String("cloud_name", cloudName),
-			)
-			return store
-		}
+	store, err := storage.NewCloudinaryStorage(
+		require("CLOUDINARY_CLOUD_NAME"),
+		require("CLOUDINARY_API_KEY"),
+		require("CLOUDINARY_API_SECRET"),
+	)
+	if err != nil {
+		panic("cloudinary: " + err.Error())
 	}
-
-	uploadPath := env("UPLOAD_PATH", "./uploads")
-	log.Info("storage: using local filesystem",
-		slog.String("path", uploadPath),
-	)
-	return storage.NewLocalStorage(
-		uploadPath,
-		env("UPLOAD_BASE_URL", "http://localhost:8080/uploads"),
-	)
+	log.Info("storage: cloudinary")
+	return store
 }
 
 func initEmail(log *slog.Logger) contracts.EmailService {
-	host := os.Getenv("SMTP_HOST")
-	port := os.Getenv("SMTP_PORT")
-	username := os.Getenv("SMTP_USERNAME")
-	password := os.Getenv("SMTP_PASSWORD")
-	from := os.Getenv("SMTP_FROM")
-
-	if host != "" && username != "" && password != "" {
-		if port == "" {
-			port = "587"
-		}
-		if from == "" {
-			from = "noreply@midaas.com"
-		}
-		log.Info("email: using SMTP",
-			slog.String("host", host),
-			slog.String("from", from),
-		)
-		return email.NewSMTPAdapter(email.SMTPConfig{
-			Host:     host,
-			Port:     port,
-			Username: username,
-			Password: password,
-			From:     from,
-		})
+	cfg := email.SMTPConfig{
+		Host:     require("SMTP_HOST"),
+		Port:     requireOr("SMTP_PORT", "587"),
+		Username: require("SMTP_USERNAME"),
+		Password: require("SMTP_PASSWORD"),
+		From:     requireOr("SMTP_FROM", "noreply@midaas.com"),
 	}
-
-	log.Info("email: using log adapter (set SMTP_HOST to send real emails)")
-	return email.NewLogAdapter()
+	log.Info("email: SMTP configured", slog.String("host", cfg.Host))
+	return email.NewSMTPAdapter(cfg)
 }
 
-func env(key, fallback string) string {
-	if v := os.Getenv(key); v != "" {
-		return v
+func require(key string) string {
+	v := os.Getenv(key)
+	if v == "" {
+		panic("Missing required env var: " + key)
 	}
-	return fallback
+	return v
+}
+
+func requireOr(key, fallback string) string {
+	v := os.Getenv(key)
+	if v == "" {
+		return fallback
+	}
+	return v
 }
