@@ -30,7 +30,14 @@ func NewDB(dsn string, log *slog.Logger) (*gorm.DB, error) {
 	return db, nil
 }
 
-func AutoMigrate(db *gorm.DB) error {
+func AutoMigrate(db *gorm.DB, log *slog.Logger) error {
+	exists := db.Migrator().HasTable(&domain.User{})
+	if exists {
+		log.Info("postgres: tables already exist, skipping migration")
+		return nil
+	}
+
+	log.Info("postgres: running auto-migrate")
 	return db.AutoMigrate(
 		&domain.User{},
 		&domain.Entrepreneur{},

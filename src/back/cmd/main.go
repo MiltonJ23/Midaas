@@ -67,7 +67,7 @@ func initDB(log *slog.Logger) *gorm.DB {
 	if err != nil {
 		panic("postgres: " + err.Error())
 	}
-	if err := postgres.AutoMigrate(db); err != nil {
+	if err := postgres.AutoMigrate(db, log); err != nil {
 		panic("migrate: " + err.Error())
 	}
 	log.Info("database: connected")
