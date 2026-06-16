@@ -416,6 +416,12 @@ func (h *ProjectHandler) cancelProject(ctx context.Context, project *domain.Proj
 		h.transactionRepo.Create(ctx, tx)
 	}
 
+	if h.notifSvc != nil {
+		for _, inv := range investments {
+			go h.notifSvc.SendRefundNotification(context.Background(), inv.UserID, project.ID, inv.Amount, inv.Currency)
+		}
+	}
+
 	logger.Info(ctx, "handler: project cancelled",
 		slog.String("project_id", project.ID.String()),
 		slog.Int("refunds", len(investments)),

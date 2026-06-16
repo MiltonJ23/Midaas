@@ -47,7 +47,7 @@ func main() {
 	authService := authsvc.NewAuthService(userRepo, entrepRepo)
 
 	notifSvc := notifsvc.NewNotificationService(
-		emailSvc, milestoneRepo, projectRepo, investmentRepo, userRepo,
+		emailSvc, milestoneRepo, projectRepo, investmentRepo, userRepo, entrepRepo,
 		requireOr("SMTP_FROM", "noreply@midaas.com"),
 	)
 
@@ -63,7 +63,7 @@ func main() {
 	investmentHandler := handler.NewInvestmentHandler(investmentRepo, projectRepo, userRepo, transactionRepo, notifSvc, pawaPayClient)
 
 	seedAdmin(log, adminRepo, authsvc.NewPasswordHasher())
-	worker.StartAutoCancel(projectRepo, investmentRepo, transactionRepo, log)
+	worker.StartAutoCancel(projectRepo, investmentRepo, transactionRepo, notifSvc, log)
 
 	apiRouter := router.New(log, authHandler, uploadHandler, companyHandler, adminHandler, projectHandler, investmentHandler, entrepRepo)
 

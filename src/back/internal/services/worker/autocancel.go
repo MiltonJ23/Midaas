@@ -14,6 +14,7 @@ func StartAutoCancel(
 	projectRepo contracts.ProjectRepository,
 	investmentRepo contracts.InvestmentRepository,
 	transactionRepo contracts.TransactionRepository,
+	notifSvc contracts.NotificationService,
 	log *slog.Logger,
 ) {
 	go func() {
@@ -35,30 +36,26 @@ func StartAutoCancel(
 				if p.AcceptanceDeadline != nil && now.After(*p.AcceptanceDeadline) {
 					p.Status = domain.ProjectStatusCancelled
 					if err := projectRepo.Update(ctx, &p); err != nil {
-						log.Error("worker: cancel project failed", slog.String("project_id", p.ID.String()), slog.String("error", err.Error()))
+						log.Error("worker: cancel failed", slog.String("pid", p.ID.String()), slog.String("error", err.Error()))
 						continue
 					}
 
 					investments, err := investmentRepo.ListByProject(ctx, p.ID)
 					if err != nil {
-						log.Error("worker: list investments failed", slog.String("project_id", p.ID.String()))
+						log.Error("worker: list investments failed", slog.String("pid", p.ID.String()))
 						continue
 					}
 
 					for _, inv := range investments {
 						tx := &domain.Transaction{
-							ID:           uuid.New(),
-							UserID:       inv.UserID,
-							InvestmentID: &inv.ID,
-							Type:         domain.TransactionTypeRefund,
-							Amount:       inv.Amount,
-							Currency:     inv.Currency,
-							Direction:    domain.TransactionDirectionCredit,
-							Status:       domain.TransactionStatusCompleted,
-							Description:  "Auto-refund: project acceptance deadline expired",
+							ID: uuid.New(), UserID: inv.UserID, InvestmentID: &inv.ID,
+							Type: domain.TransactionTypeRefund, Amount: inv.Amount, Currency: inv.Currency,
+							Direction: domain.TransactionDirectionCredit, Status: domain.TransactionStatusCompleted,
+							Description: "Auto-refund: project acceptance deadline expired",
 						}
-						if err := transactionRepo.Create(ctx, tx); err != nil {
-							log.Error("worker: create refund tx failed", slog.String("error", err.Error()))
+						transactionRepo.Create(ctx, tx)
+						if notifSvc != nil {
+							go notifSvc.SendRefundNotification(context.Background(), inv.UserID, p.ID, inv.Amount, inv.Currency)
 						}
 					}
 

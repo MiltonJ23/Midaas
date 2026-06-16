@@ -356,7 +356,8 @@ func (h *AdminHandler) RejectMilestone(w http.ResponseWriter, r *http.Request) {
 	h.milestoneRepo.Update(ctx, milestone)
 
 	if h.notifSvc != nil {
-		go 		h.notifSvc.SendMilestoneRejected(context.Background(), milestone.ProjectID, id, body.Feedback)
+		go h.notifSvc.SendMilestoneRejected(context.Background(), milestone.ProjectID, id, body.Feedback)
+		go h.notifSvc.SendMilestoneRejectedToEntrepreneur(context.Background(), id, milestone.ProjectID, body.Feedback)
 	}
 
 	JSON(w, http.StatusOK, milestone)
