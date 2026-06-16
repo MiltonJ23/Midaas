@@ -9,12 +9,12 @@ import (
 
 type CreateCompanyInput struct {
 	EntrepreneurID  uuid.UUID
-	LegalName       string
-	TradeName       string
-	CorporateForm   string
-	IndustrySector  string
-	GpsCoordinates  string
-	PhysicalAddress string
+	LegalName       string `json:"legal_name"`
+	TradeName       string `json:"trade_name"`
+	CorporateForm   string `json:"corporate_form"`
+	IndustrySector  string `json:"industry_sector"`
+	GpsCoordinates  string `json:"gps_coordinates"`
+	PhysicalAddress string `json:"physical_address"`
 }
 
 type CompanyFilter struct {
