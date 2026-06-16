@@ -147,6 +147,52 @@ func (h *CompanyHandler) Submit(w http.ResponseWriter, r *http.Request) {
 	JSON(w, http.StatusOK, company)
 }
 
+func (h *CompanyHandler) ListPublic(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	companies, err := h.companyRepo.ListApproved(ctx)
+	if err != nil {
+		logger.Error(ctx, "handler: list public companies failed", slog.String("error", err.Error()))
+		JSONError(w, http.StatusInternalServerError, "failed to list companies")
+		return
+	}
+
+	JSON(w, http.StatusOK, companies)
+}
+
+func (h *CompanyHandler) RequestReverify(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	id, err := uuid.Parse(r.PathValue("id"))
+	if err != nil {
+		JSONError(w, http.StatusBadRequest, "invalid company id")
+		return
+	}
+
+	company, err := h.companyRepo.FindByID(ctx, id)
+	if err != nil {
+		JSONError(w, http.StatusNotFound, "company not found")
+		return
+	}
+
+	if company.Status != domain.CompanyStatusApproved {
+		JSONError(w, http.StatusBadRequest, "only approved companies can be flagged for reverify")
+		return
+	}
+
+	company.Status = domain.CompanyStatusReverify
+	if err := h.companyRepo.Update(ctx, company); err != nil {
+		logger.Error(ctx, "handler: reverify company failed", slog.String("error", err.Error()))
+		JSONError(w, http.StatusInternalServerError, "failed to request reverify")
+		return
+	}
+
+	logger.Info(ctx, "handler: company reverify requested",
+		slog.String("company_id", company.ID.String()),
+	)
+	JSON(w, http.StatusOK, company)
+}
+
 func (h *CompanyHandler) UploadDocument(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
