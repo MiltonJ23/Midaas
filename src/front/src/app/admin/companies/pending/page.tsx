@@ -20,23 +20,23 @@ import { toast } from "react-toastify";
 
 const statusConfig: Record<string, { label: string; color: string }> = {
   pending: {
-    label: "En attente",
+    label: "Pending",
     color: "bg-amber-100 text-amber-800 border-amber-200",
   },
   reverify_requested: {
-    label: "Re-vérification",
+    label: "Re-verification",
     color: "bg-purple-100 text-purple-800 border-purple-200",
   },
   approved: {
-    label: "Approuvé",
+    label: "Approved",
     color: "bg-emerald-100 text-emerald-800 border-emerald-200",
   },
   rejected: {
-    label: "Rejeté",
+    label: "Rejected",
     color: "bg-red-100 text-red-800 border-red-200",
   },
   draft: {
-    label: "Brouillon",
+    label: "Draft",
     color: "bg-gray-100 text-gray-800 border-gray-200",
   },
 };
@@ -54,7 +54,7 @@ export default function AdminPendingCompaniesPage() {
     if (data) {
       setPendingCompanies(data);
     } else {
-      toast.error(error || "Erreur lors du chargement");
+      toast.error(error || "Failed to load companies");
     }
     setLoading(false);
   };
@@ -94,11 +94,10 @@ export default function AdminPendingCompaniesPage() {
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-2xl font-MontserratBold text-gray-900">
-              File de validation
+              Review Queue
             </h1>
             <p className="text-gray-500 text-sm mt-1">
-              Parcourez la file d&apos;attente et examinez chaque demande avant
-              de statuer
+              Browse the queue and review each request before making a decision
             </p>
           </div>
           <Button
@@ -117,7 +116,7 @@ export default function AdminPendingCompaniesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Rechercher une entreprise..."
+            placeholder="Search companies..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00de00]/20 focus:border-[#00de00] transition-all"
@@ -128,7 +127,7 @@ export default function AdminPendingCompaniesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">En attente</p>
+              <p className="text-sm text-gray-500">Pending</p>
               <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                 <Clock className="w-4 h-4 text-amber-600" />
               </div>
@@ -137,7 +136,7 @@ export default function AdminPendingCompaniesPage() {
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Re-vérification</p>
+              <p className="text-sm text-gray-500">Re-verification</p>
               <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center">
                 <Shield className="w-4 h-4 text-purple-600" />
               </div>
@@ -146,7 +145,7 @@ export default function AdminPendingCompaniesPage() {
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Traitées</p>
+              <p className="text-sm text-gray-500">Reviewed</p>
               <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               </div>
@@ -177,11 +176,11 @@ export default function AdminPendingCompaniesPage() {
               <div className="flex flex-col items-center gap-3">
                 <CheckCircle2 className="w-16 h-16 text-emerald-200" />
                 <p className="text-gray-500 font-MontserratSemiBold text-lg">
-                  Aucune entreprise en attente
+                  No companies pending
                 </p>
                 <p className="text-gray-400 text-sm max-w-md">
-                  Toutes les demandes d&apos;enregistrement ont été traitées.
-                  Revenez plus tard ou actualisez la page.
+                  All registration requests have been processed. Check back
+                  later or refresh the page.
                 </p>
               </div>
             </div>
@@ -190,10 +189,10 @@ export default function AdminPendingCompaniesPage() {
               {/* Table header */}
               <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 bg-gray-50/50 border-b border-border text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
                 <div className="col-span-1 text-center">#</div>
-                <div className="col-span-3">Entreprise</div>
-                <div className="col-span-2">Forme</div>
-                <div className="col-span-2">Porteur</div>
-                <div className="col-span-2">Statut</div>
+                <div className="col-span-3">Company</div>
+                <div className="col-span-2">Type</div>
+                <div className="col-span-2">Owner</div>
+                <div className="col-span-2">Status</div>
                 <div className="col-span-2 text-right">Action</div>
               </div>
 
@@ -290,7 +289,7 @@ export default function AdminPendingCompaniesPage() {
                       {/* CTA */}
                       <div className="col-span-2 hidden md:flex justify-end">
                         <span className="inline-flex items-center gap-1 text-sm font-MontserratSemiBold text-[#00de00]">
-                          {isDone ? "Voir" : "Examiner"}
+                          {isDone ? "View" : "Review"}
                           <ChevronRight className="w-4 h-4" />
                         </span>
                       </div>

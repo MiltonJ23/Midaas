@@ -37,9 +37,6 @@ export default function Sidebar({
 
   // Filter sidebar items based on user role
   const filteredSidebar = useMemo(() => {
-    // Admin sees everything
-    if (userRole === "admin") return sidebar;
-
     return sidebar.filter((item) => {
       // If no allowedRoles defined, it's visible to everyone
       if (!item.allowedRoles || item.allowedRoles.length === 0) return true;

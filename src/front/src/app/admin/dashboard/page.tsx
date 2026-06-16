@@ -108,11 +108,10 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div>
               <h1 className="text-2xl font-MontserratBold text-gray-900">
-                Tableau de bord administrateur
+                Admin Dashboard
               </h1>
               <p className="text-gray-500 text-sm mt-1">
-                Gérez les entreprises, entrepreneurs et utilisateurs de la
-                plateforme
+                Manage companies, entrepreneurs and platform users
               </p>
             </div>
           </div>
@@ -136,7 +135,7 @@ export default function DashboardPage() {
             <Link href="/admin/companies/pending">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Entreprises totales</p>
+                  <p className="text-sm text-gray-500">Total Companies</p>
                   <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
                     <Building2 className="w-4 h-4 text-gray-600" />
                   </div>
@@ -160,7 +159,7 @@ export default function DashboardPage() {
             <Link href="/admin/users">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Utilisateurs</p>
+                  <p className="text-sm text-gray-500">Users</p>
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <Users className="w-4 h-4 text-blue-600" />
                   </div>
@@ -180,12 +179,12 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h3 className="font-MontserratSemiBold text-gray-900">
-                      Valider des entreprises
+                      Review Companies
                     </h3>
                     <p className="text-sm text-gray-500 mt-0.5">
                       {pendingReviewCount > 0
-                        ? `${pendingReviewCount} entreprise(s) en attente`
-                        : "Aucune en attente"}
+                        ? `${pendingReviewCount} company(ies) pending`
+                        : "None pending"}
                     </p>
                   </div>
                 </div>
@@ -200,7 +199,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h3 className="font-MontserratSemiBold text-gray-900">
-                      Gérer les entrepreneurs
+                      Manage Entrepreneurs
                     </h3>
                     <p className="text-sm text-gray-500 mt-0.5">
                       {entrepreneursCount} entrepreneur(s) inscrit(s)
@@ -218,7 +217,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h3 className="font-MontserratSemiBold text-gray-900">
-                      Voir les utilisateurs
+                      View Users
                     </h3>
                     <p className="text-sm text-gray-500 mt-0.5">
                       {usersCount} utilisateur(s) inscrit(s)
@@ -235,15 +234,15 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between p-5 border-b border-border">
                 <div>
                   <h3 className="text-lg font-MontserratBold text-gray-900">
-                    Dernières demandes en attente
+                    Latest Pending Requests
                   </h3>
                   <p className="text-sm text-gray-500 mt-0.5">
-                    Entreprises nécessitant votre validation
+                    Companies awaiting your review
                   </p>
                 </div>
                 <Link href="/admin/companies/pending">
                   <Button variant="ghost" size="sm" className="gap-1">
-                    Voir tout <ArrowRight className="w-4 h-4" />
+                    View all <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
               </div>
@@ -277,7 +276,7 @@ export default function DashboardPage() {
                       }`}
                     >
                       {company.status === "pending"
-                        ? "En attente"
+                        ? "Pending"
                         : "Re-vérification"}
                     </span>
                   </div>
@@ -324,7 +323,7 @@ export default function DashboardPage() {
             </h1>
             <p className="text-gray-500 text-sm mt-1">
               {isAdmin
-                ? "Administration de la plateforme Midaas"
+                ? "Midaas Platform Administration"
                 : isActiveEntrepreneur
                   ? "Gérez vos entreprises et campagnes de financement"
                   : "Explorez les opportunités d'investissement"}
@@ -544,7 +543,7 @@ export default function DashboardPage() {
               }
             >
               <Button variant="ghost" size="sm" className="gap-1">
-                Voir tout
+                View all
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

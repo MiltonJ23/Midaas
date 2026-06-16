@@ -23,7 +23,58 @@ const toObject = (payload: any): Record<string, any> | null => {
   return null;
 };
 
+/* ─── Types ──────────────────────────────── */
+
+export interface DiscoverProjectItem {
+  id: string;
+  title: string;
+  description?: string;
+  funding_goal: number;
+  funding_raised?: number;
+  currency?: string;
+  category?: string;
+  cover_image_url?: string;
+  status?: string;
+  company?: {
+    id: string;
+    legal_name: string;
+    trade_name?: string;
+    corporate_form: string;
+    industry_sector?: string;
+    physical_address?: string;
+  };
+  short_term_roi?: number;
+  short_term_months?: number;
+  medium_term_roi?: number;
+  medium_term_months?: number;
+  long_term_roi?: number;
+  long_term_months?: number;
+  break_even_months?: number;
+  investor_count?: number;
+}
+
 export const campaignProvider = {
+  // ─── Discover (public) ──────────────────────────────────────────
+
+  /**
+   * GET /projects/discover
+   * Public — top 10 active projects with summary, company, ROI, investor count.
+   */
+  async discover() {
+    return await withErrorHandling<DiscoverProjectItem[]>(async () => {
+      const response = await instance.get("/projects/discover");
+
+      if (response.status === 200) {
+        return {
+          status: response.status,
+          data: toArray(response.data),
+        };
+      }
+
+      return response;
+    }, "Unable to load featured projects");
+  },
+
   // ─── Campaigns / Projects ───────────────────────────────────────
 
   async getAll() {
@@ -159,9 +210,7 @@ export const campaignProvider = {
   async getByCompany(companyId: string) {
     return await withErrorHandling<Project[]>(
       async () => {
-        const response = await instance.get(
-          `/companies/${companyId}/projects`,
-        );
+        const response = await instance.get(`/companies/${companyId}/projects`);
 
         if (response.status === 200) {
           const projects = toArray(response.data).map(

@@ -2,81 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
+import { campaignProvider, type DiscoverProjectItem } from "@/api/campaigns";
 
-/* ─── Types ──────────────────────────── */
-
-interface PublicCompany {
-  id: string;
-  legalName: string;
-  tradeName: string;
-  corporateForm: string;
-  industrySector: string;
-  status: string;
-  physicalAddress: string;
-}
-
-/* ─── Sample data (mirrors API shape) ── */
-
-const SAMPLE_COMPANIES: PublicCompany[] = [
-  {
-    id: "1",
-    legalName: "Societe Alpha SARL",
-    tradeName: "Alpha Tech",
-    corporateForm: "SARL",
-    industrySector: "Fintech",
-    status: "approved",
-    physicalAddress: "Rue 1234, Bastos, Yaounde",
-  },
-  {
-    id: "2",
-    legalName: "Green Harvest ETS",
-    tradeName: "Green Harvest",
-    corporateForm: "ETS",
-    industrySector: "Agribusiness",
-    status: "approved",
-    physicalAddress: "Mvog-Mbi, Yaounde",
-  },
-  {
-    id: "3",
-    legalName: "MediConnect SARL",
-    tradeName: "MediConnect",
-    corporateForm: "SARL",
-    industrySector: "Healthcare",
-    status: "approved",
-    physicalAddress: "Bonanjo, Douala",
-  },
-  {
-    id: "4",
-    legalName: "SolarGrid SA",
-    tradeName: "SolarGrid",
-    corporateForm: "SA",
-    industrySector: "Energy",
-    status: "approved",
-    physicalAddress: "Bastos, Yaounde",
-  },
-  {
-    id: "5",
-    legalName: "EduTech Solutions SARL",
-    tradeName: "EduTech",
-    corporateForm: "SARL",
-    industrySector: "Tech & Innovation",
-    status: "approved",
-    physicalAddress: "Melen, Yaounde",
-  },
-  {
-    id: "6",
-    legalName: "AgriPro ETS",
-    tradeName: "AgriPro",
-    corporateForm: "ETS",
-    industrySector: "Agribusiness",
-    status: "approved",
-    physicalAddress: "Biyem-Assi, Yaounde",
-  },
-];
-
-const INDUSTRY_SECTORS = [
+const CATEGORIES = [
   "All",
   "Fintech",
   "Agribusiness",
@@ -90,7 +20,7 @@ const CORPORATE_FORMS = ["All", "ETS", "SARL", "SA", "SAS"];
 
 /* ─── Helpers ─────────────────────────── */
 
-const industryColor = (sector: string) => {
+const categoryColor = (cat: string) => {
   const map: Record<string, string> = {
     Fintech: "bg-blue-100 text-blue-700",
     Agribusiness: "bg-green-100 text-green-700",
@@ -99,35 +29,51 @@ const industryColor = (sector: string) => {
     "Tech & Innovation": "bg-purple-100 text-purple-700",
     "Retail & Trade": "bg-orange-100 text-orange-700",
   };
-  return map[sector] ?? "bg-gray-100 text-gray-600";
+  return map[cat] ?? "bg-gray-100 text-gray-600";
 };
+
+const formatCurrency = (amount: number, currency = "XOF") =>
+  new Intl.NumberFormat("en-US").format(amount) + ` ${currency}`;
 
 /* ─── Component ──────────────────────── */
 
 export default function ExplorePage() {
+  const [projects, setProjects] = useState<DiscoverProjectItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("All");
   const [formFilter, setFormFilter] = useState("All");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    (async () => {
+      const { data } = await campaignProvider.discover();
+      if (data) setProjects(data);
+      setLoading(false);
+    })();
+  }, []);
+
   const filtered = useMemo(() => {
-    return SAMPLE_COMPANIES.filter((c) => {
-      if (sectorFilter !== "All" && c.industrySector !== sectorFilter)
-        return false;
-      if (formFilter !== "All" && c.corporateForm !== formFilter) return false;
+    return projects.filter((p) => {
+      const sector = p.company?.industry_sector ?? p.category ?? "";
+      const form = p.company?.corporate_form ?? "";
+
+      if (sectorFilter !== "All" && sector !== sectorFilter) return false;
+      if (formFilter !== "All" && form !== formFilter) return false;
+
       if (search) {
         const q = search.toLowerCase();
-        if (
-          !c.legalName.toLowerCase().includes(q) &&
-          !c.tradeName.toLowerCase().includes(q) &&
-          !c.industrySector.toLowerCase().includes(q)
-        )
-          return false;
+        const matchesProject = p.title.toLowerCase().includes(q);
+        const matchesCompany = (p.company?.legal_name ?? "")
+          .toLowerCase()
+          .includes(q);
+        const matchesSector = sector.toLowerCase().includes(q);
+        if (!matchesProject && !matchesCompany && !matchesSector) return false;
       }
       return true;
     });
-  }, [search, sectorFilter, formFilter]);
+  }, [projects, search, sectorFilter, formFilter]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -301,7 +247,7 @@ export default function ExplorePage() {
             {/* Sector */}
             <div className="flex items-center gap-1.5">
               <span className="text-xs text-gray-400 mr-1">Sector:</span>
-              {INDUSTRY_SECTORS.map((s) => (
+              {CATEGORIES.map((s) => (
                 <button
                   key={s}
                   onClick={() => setSectorFilter(s)}
@@ -375,7 +321,7 @@ export default function ExplorePage() {
                   Sector
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {INDUSTRY_SECTORS.map((s) => (
+                  {CATEGORIES.map((s) => (
                     <button
                       key={s}
                       onClick={() => setSectorFilter(s)}
@@ -451,89 +397,191 @@ export default function ExplorePage() {
             </div>
           ) : (
             <>
-              <p className="text-xs text-gray-400 mb-4">
-                Showing {filtered.length} of {SAMPLE_COMPANIES.length} projects
-              </p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filtered.map((company) => (
-                  <div
-                    key={company.id}
-                    className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#00de00]/20 transition-all duration-300 p-6 flex flex-col"
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <svg
+                    className="w-8 h-8 animate-spin text-gray-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
                   >
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-MontserratSemiBold text-gray-900 truncate">
-                          {company.tradeName || company.legalName}
-                        </h3>
-                        {company.tradeName && (
-                          <p className="text-xs text-gray-400 mt-0.5 truncate">
-                            {company.legalName}
-                          </p>
-                        )}
-                      </div>
-                      <span className="text-xs text-gray-400 font-mono shrink-0 ml-2">
-                        {company.corporateForm}
-                      </span>
-                    </div>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeDasharray="31.4 31.4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+              ) : (
+                <>
+                  <p className="text-xs text-gray-400 mb-4">
+                    Showing {filtered.length} of {projects.length} projects
+                  </p>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {filtered.map((project) => {
+                      const company = project.company;
+                      const sector =
+                        company?.industry_sector ?? project.category ?? "";
+                      const progress =
+                        project.funding_goal > 0
+                          ? Math.round(
+                              ((project.funding_raised ?? 0) /
+                                project.funding_goal) *
+                                100,
+                            )
+                          : 0;
 
-                    {/* Industry badge */}
-                    <div className="mb-4">
-                      <span
-                        className={twMerge(
-                          "inline-block px-3 py-1 text-xs font-MontserratSemiBold rounded-full",
-                          industryColor(company.industrySector),
-                        )}
-                      >
-                        {company.industrySector}
-                      </span>
-                    </div>
-
-                    {/* Address */}
-                    {company.physicalAddress && (
-                      <div className="flex items-start gap-2 mb-4 text-xs text-gray-400">
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          className="shrink-0 mt-0.5"
+                      return (
+                        <div
+                          key={project.id}
+                          className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#00de00]/20 transition-all duration-300 p-6 flex flex-col"
                         >
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                          <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span>{company.physicalAddress}</span>
-                      </div>
-                    )}
+                          {/* Project title */}
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="text-base font-MontserratSemiBold text-gray-900 truncate">
+                                {project.title}
+                              </h3>
+                              {company && (
+                                <p className="text-xs text-gray-400 mt-0.5 truncate">
+                                  {company.trade_name || company.legal_name} ·{" "}
+                                  {company.corporate_form}
+                                </p>
+                              )}
+                            </div>
+                          </div>
 
-                    {/* Spacer */}
-                    <div className="flex-1" />
+                          {/* Category badge */}
+                          {sector && (
+                            <div className="mb-3">
+                              <span
+                                className={twMerge(
+                                  "inline-block px-3 py-1 text-xs font-MontserratSemiBold rounded-full",
+                                  categoryColor(sector),
+                                )}
+                              >
+                                {sector}
+                              </span>
+                            </div>
+                          )}
 
-                    {/* CTA */}
-                    <Link
-                      href="/auth/signup"
-                      className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-MontserratSemiBold text-white bg-[#00de00] rounded-xl hover:bg-[#00c800] transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                    >
-                      Sign Up to Invest
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </Link>
+                          {/* Funding progress */}
+                          <div className="mb-3">
+                            <div className="flex items-center justify-between text-xs mb-1.5">
+                              <span className="text-gray-500 font-MontserratSemiBold">
+                                {formatCurrency(
+                                  project.funding_raised ?? 0,
+                                  project.currency,
+                                )}
+                              </span>
+                              <span className="text-gray-400">
+                                of{" "}
+                                {formatCurrency(
+                                  project.funding_goal,
+                                  project.currency,
+                                )}
+                              </span>
+                            </div>
+                            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full rounded-full transition-all ${
+                                  progress >= 100
+                                    ? "bg-emerald-500"
+                                    : progress >= 50
+                                      ? "bg-blue-500"
+                                      : "bg-amber-500"
+                                }`}
+                                style={{ width: `${Math.min(progress, 100)}%` }}
+                              />
+                            </div>
+                            <p className="text-right text-[10px] text-gray-400 mt-1">
+                              {progress}%
+                            </p>
+                          </div>
+
+                          {/* Location + investors */}
+                          <div className="flex items-center gap-3 text-xs text-gray-400 mb-1">
+                            {company?.physical_address && (
+                              <span className="inline-flex items-center gap-1">
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                >
+                                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                  <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                {company.physical_address}
+                              </span>
+                            )}
+                            {project.investor_count !== undefined &&
+                              project.investor_count > 0 && (
+                                <>
+                                  {company?.physical_address && <span>·</span>}
+                                  <span>
+                                    {project.investor_count} investor
+                                    {project.investor_count > 1 ? "s" : ""}
+                                  </span>
+                                </>
+                              )}
+                          </div>
+
+                          {/* ROI badges */}
+                          {(project.short_term_roi ||
+                            project.medium_term_roi) && (
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {project.short_term_roi && (
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-emerald-50 text-emerald-700 rounded-full">
+                                  {project.short_term_roi}% ST ROI
+                                </span>
+                              )}
+                              {project.medium_term_roi && (
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-blue-50 text-blue-700 rounded-full">
+                                  {project.medium_term_roi}% MT ROI
+                                </span>
+                              )}
+                              {project.long_term_roi && (
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-purple-50 text-purple-700 rounded-full">
+                                  {project.long_term_roi}% LT ROI
+                                </span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Spacer */}
+                          <div className="flex-1" />
+
+                          {/* CTA */}
+                          <Link
+                            href="/auth/signup"
+                            className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-MontserratSemiBold text-white bg-[#00de00] rounded-xl hover:bg-[#00c800] transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                          >
+                            Sign Up to Invest
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                          </Link>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </>
           )}
         </div>

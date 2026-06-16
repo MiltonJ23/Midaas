@@ -29,7 +29,7 @@ export default function AdminUsersPage() {
     if (data) {
       setUsers(data);
     } else {
-      toast.error(error || "Erreur lors du chargement");
+      toast.error(error || "Failed to load users");
     }
     setLoading(false);
   };
@@ -64,11 +64,9 @@ export default function AdminUsersPage() {
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-2xl font-MontserratBold text-gray-900">
-              Utilisateurs
+              Users
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
-              Liste de tous les utilisateurs de la plateforme
-            </p>
+            <p className="text-gray-500 text-sm mt-1">All platform users</p>
           </div>
           <Button
             onClick={fetchUsers}
@@ -86,7 +84,7 @@ export default function AdminUsersPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder="Rechercher un utilisateur..."
+            placeholder="Search users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00de00]/20 focus:border-[#00de00] transition-all"
@@ -117,7 +115,7 @@ export default function AdminUsersPage() {
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Pièce d&apos;identité</p>
+              <p className="text-sm text-gray-500">ID Document</p>
               <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                 <BadgeCheck className="w-4 h-4 text-blue-600" />
               </div>
@@ -128,7 +126,7 @@ export default function AdminUsersPage() {
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Sans ID</p>
+              <p className="text-sm text-gray-500">No ID</p>
               <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                 <BadgeX className="w-4 h-4 text-amber-600" />
               </div>
@@ -150,7 +148,7 @@ export default function AdminUsersPage() {
               <div className="flex flex-col items-center gap-3">
                 <Users className="w-16 h-16 text-gray-200" />
                 <p className="text-gray-500 font-MontserratSemiBold text-lg">
-                  Aucun utilisateur trouvé
+                  No users found
                 </p>
               </div>
             </div>
@@ -160,19 +158,19 @@ export default function AdminUsersPage() {
                 <thead>
                   <tr className="border-b border-border bg-gray-50/50">
                     <th className="text-left px-5 py-3.5 text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
-                      Utilisateur
+                      User
                     </th>
                     <th className="text-left px-5 py-3.5 text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
                       Contact
                     </th>
                     <th className="text-left px-5 py-3.5 text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
-                      Statut
+                      Status
                     </th>
                     <th className="text-left px-5 py-3.5 text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
                       ID Card
                     </th>
                     <th className="text-left px-5 py-3.5 text-xs font-MontserratSemiBold text-gray-500 uppercase tracking-wider">
-                      Inscrit le
+                      Registered
                     </th>
                   </tr>
                 </thead>
@@ -220,7 +218,7 @@ export default function AdminUsersPage() {
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
                             <UserIcon className="w-3 h-3" />
-                            Investisseur
+                            Investor
                           </span>
                         )}
                       </td>
@@ -228,12 +226,12 @@ export default function AdminUsersPage() {
                         {user.id_card_url ? (
                           <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
                             <BadgeCheck className="w-3.5 h-3.5" />
-                            Fournie
+                            Provided
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 text-xs text-gray-400">
                             <BadgeX className="w-3.5 h-3.5" />
-                            Non fournie
+                            Not provided
                           </span>
                         )}
                       </td>

@@ -20,7 +20,8 @@ interface ISignupForm {
   password: string;
   phoneNumber: string;
   idCardNumber: string;
-  idCardFile: FileList | null;
+  idCardFront: FileList | null;
+  idCardBack: FileList | null;
 }
 
 export default function Home() {
@@ -31,7 +32,8 @@ export default function Home() {
       password: "",
       phoneNumber: "",
       idCardNumber: "",
-      idCardFile: null,
+      idCardFront: null,
+      idCardBack: null,
     },
   });
 
@@ -54,16 +56,25 @@ export default function Home() {
     setLoading(true);
 
     try {
-      let uploadedCardUrl = "";
+      let idCardFrontUrl = "";
+      let idCardBackUrl = "";
 
-      // 1. Handle File Upload to Object Storage if file is present
-      if (formData.idCardFile && formData.idCardFile.length > 0) {
-        const file = formData.idCardFile[0];
-        // TODO: Call your storage bucket upload provider here
-        // const { url } = await storageProvider.upload(file);
-        // uploadedCardUrl = url;
-        uploadedCardUrl =
-          "https://bucket.s3.region.amazonaws.com/placeholder-uuid.png";
+      // 1. Upload ID card files if provided
+      const hasFront = formData.idCardFront && formData.idCardFront.length > 0;
+      const hasBack = formData.idCardBack && formData.idCardBack.length > 0;
+
+      if (hasFront || hasBack) {
+        const uploadFormData = new FormData();
+        if (hasFront) uploadFormData.append("front", formData.idCardFront![0]);
+        if (hasBack) uploadFormData.append("back", formData.idCardBack![0]);
+
+        const { data: uploadResult } =
+          await authProvider.uploadIdCard(uploadFormData);
+
+        if (uploadResult) {
+          idCardFrontUrl = uploadResult.front_url ?? "";
+          idCardBackUrl = uploadResult.back_url ?? "";
+        }
       }
 
       // 2. Map frontend camelCase state to the API schema
@@ -71,9 +82,9 @@ export default function Home() {
         email: formData.email,
         password: formData.password,
         full_name: formData.fullName,
-        phone_number: formData.phoneNumber,
-        id_card_url: uploadedCardUrl,
-        id_card_number: formData.idCardNumber,
+        phone_number: formData.phoneNumber || undefined,
+        id_card_number: formData.idCardNumber || undefined,
+        id_card_url: idCardFrontUrl || undefined,
       };
 
       // 3. Dispatch structured payload to backend signup route
@@ -247,18 +258,36 @@ export default function Home() {
             <hr className="my-2 border-border" />
 
             {/* KYC/Identity Document Tracking Layer */}
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-foreground pl-1">
+            <div className="flex flex-col gap-3">
+              <p className="text-sm font-medium text-foreground pl-1">
                 Identity Document (ID Card or Receipt)
-              </label>
-              <input
-                type="file"
-                accept="image/*,application/pdf"
-                className="w-full text-sm border border-border rounded-lg p-2.5 bg-background cursor-pointer"
-                {...register("idCardFile", {
-                  required: "Identity document file is required",
-                })}
-              />
+              </p>
+
+              {/* Front (Recto) */}
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-muted-foreground pl-1">
+                  Front (Recto)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*,application/pdf"
+                  className="w-full text-sm border border-border rounded-lg p-2.5 bg-background cursor-pointer"
+                  {...register("idCardFront")}
+                />
+              </div>
+
+              {/* Back (Verso) */}
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-muted-foreground pl-1">
+                  Back (Verso) — optional
+                </label>
+                <input
+                  type="file"
+                  accept="image/*,application/pdf"
+                  className="w-full text-sm border border-border rounded-lg p-2.5 bg-background cursor-pointer"
+                  {...register("idCardBack")}
+                />
+              </div>
             </div>
 
             <Controller

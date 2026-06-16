@@ -76,7 +76,8 @@ export const sidebar: SidebarItem[] = [
     key: 2,
     title: "Explore Projects",
     link: "/admin/projects",
-    // This is the active internal project discovery hub for all authenticated users
+    // Visible to investors and entrepreneurs — not admin
+    allowedRoles: ["ROLE_CLIENT", "ROLE_FRANCHISEE"],
     icon: {
       default: (
         <svg
@@ -116,7 +117,7 @@ export const sidebar: SidebarItem[] = [
     link: "/admin/portfolio",
     // Strictly limited to investors tracking their capital injections
     /**Clean tabular list of only projects the user has committed capital to */
-    allowedRoles: ["ROLE_CLIENT", "ROLE_ADMIN"],
+    allowedRoles: ["ROLE_CLIENT"],
     icon: {
       default: (
         <svg
@@ -156,7 +157,7 @@ export const sidebar: SidebarItem[] = [
     link: "/admin/my-campaigns",
     // Strictly limited to entrepreneurs viewing their operational campaigns
     /**Clean operational list of projects they created, where they can submit milestone completion proofs. */
-    allowedRoles: ["ROLE_FRANCHISEE", "ROLE_ADMIN"],
+    allowedRoles: ["ROLE_FRANCHISEE"],
     icon: {
       default: (
         <svg
