@@ -203,7 +203,7 @@ export default function AnnouncementsTable({
                     {onEditAnnouncement && (
                       <button
                         onClick={() => onEditAnnouncement(announcement)}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-[#F6C305]"
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-[#00de00]"
                         title="Modifier"
                       >
                         <svg

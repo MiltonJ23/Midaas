@@ -17,6 +17,8 @@ import { campaignProvider } from "@/api/campaigns";
 import { toast } from "react-toastify";
 import { useAuthStore } from "@/store/auth";
 import { useCampaignsStore } from "@/store/campaigns";
+import { useCompanyStore } from "@/store/company";
+import useGetCompanies from "@/hooks/useCompanies";
 import { Loader } from "lucide-react";
 import { DatePicker } from "@/components/molecules/date-picker";
 import Project from "@/entities/project/project";
@@ -41,6 +43,7 @@ type ICampaignForm = {
   description: string;
   fundingGoal: string;
   category: string;
+  companyId: string;
   currency: string;
   startDate: Date;
   endDate: Date;
@@ -50,6 +53,10 @@ export default function AddCampaignModal() {
   const { toggle, data } = useModalStore();
   const { user } = useAuthStore();
   const { addCampaign, updateCampaignInList } = useCampaignsStore();
+  const { companies } = useCompanyStore();
+
+  // Load companies for the selector
+  useGetCompanies();
 
   const { handleSubmit, control, reset, getValues, setValue } =
     useForm<ICampaignForm>({
@@ -58,6 +65,7 @@ export default function AddCampaignModal() {
         description: "",
         fundingGoal: "",
         category: "",
+        companyId: "",
         currency: "XOF",
         startDate: new Date(),
         endDate: new Date(),
@@ -77,15 +85,12 @@ export default function AddCampaignModal() {
     setValue("fundingGoal", campaignToEdit.fundingGoal.toString());
     setValue("category", campaignToEdit.category);
     setValue("currency", campaignToEdit.currency);
+    if (campaignToEdit.companyId)
+      setValue("companyId", campaignToEdit.companyId);
     if (campaignToEdit.startDate)
       setValue("startDate", campaignToEdit.startDate);
     if (campaignToEdit.endDate) setValue("endDate", campaignToEdit.endDate);
     setPrefilled(true);
-  }
-
-  // Reset form when in create mode
-  if (!isEditMode && !prefilled) {
-    // handled via reset on mount
   }
 
   const onSubmit: SubmitHandler<ICampaignForm> = async (value) => {
@@ -96,7 +101,7 @@ export default function AddCampaignModal() {
 
     setLoading(true);
 
-    const payload = {
+    const payload: any = {
       title: value.title,
       description: value.description,
       funding_goal: parseFloat(value.fundingGoal),
@@ -105,6 +110,11 @@ export default function AddCampaignModal() {
       start_date: value.startDate.toISOString().split("T")[0],
       end_date: value.endDate.toISOString().split("T")[0],
     };
+
+    // Attach company_id for new campaigns
+    if (!isEditMode && value.companyId) {
+      payload.company_id = value.companyId;
+    }
 
     try {
       if (isEditMode && campaignToEdit) {
@@ -230,6 +240,29 @@ export default function AddCampaignModal() {
               />
             )}
           />
+
+          {/* Company (only in create mode) */}
+          {!isEditMode && companies.length > 0 && (
+            <Controller
+              name="companyId"
+              control={control}
+              rules={{ required: "Veuillez sélectionner une entreprise" }}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="Sélectionner une entreprise" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {companies.map((company) => (
+                      <SelectItem key={company.id} value={company.id}>
+                        {company.displayName} ({company.corporateForm})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          )}
 
           {/* Category */}
           <Controller

@@ -112,21 +112,7 @@ export default function AddCompanyModal() {
           }}
           className="w-8 h-8 flex items-center justify-center border border-primary/30 rounded-full cursor-pointer"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-primary"
-          >
-            <path
-              d="M6 18L18 6M6 6L18 18"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          X
         </span>
       </div>
 

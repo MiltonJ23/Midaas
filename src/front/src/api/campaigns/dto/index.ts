@@ -2,6 +2,7 @@ export interface CreateCampaignDto {
   title: string;
   description: string;
   funding_goal: number;
+  company_id?: string;
   currency?: string;
   category?: string;
   cover_image_url?: string;
