@@ -1245,6 +1245,27 @@ paths:
         "200":
           description: Liste de mes investissements
 
+  /transactions/my:
+    get:
+      summary: Mes transactions
+      description: Tous les logs de transactions (investissement, fee, refund, payout)
+      tags: [investments]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Liste des transactions
+
+  /admin/transactions:
+    get:
+      summary: Toutes les transactions (admin)
+      tags: [admin]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Liste de toutes les transactions de la plateforme
+
   /milestones/{id}/upload:
     post:
       summary: Uploader les preuves d'un milestone (entrepreneur)
