@@ -1,0 +1,71 @@
+"use client";
+
+import { contractProvider } from "@/api/contracts";
+import { rentalsProvider } from "@/api/rentals";
+import { useAuthStore } from "@/store/auth";
+import { useContractsStore } from "@/store/contracts";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+export default function useGetContracts({ page }: { page: number }) {
+  const { user } = useAuthStore();
+ const { loadData, isLoading } = useContractsStore();
+    const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    if (isLoading) return;
+
+    (async () => {
+      const { data, error } = await contractProvider.getContractsList(page?.toString());
+
+      if (data) {
+        loadData({
+          contracts: data.contracts,
+          count: data.count,
+        });
+      } else {
+        toast.error(error);
+      }
+      setLoading(false)
+    })();
+  }, [user, page]);
+
+  return { loading };
+}
+
+// export function useFilterRentals(
+// 	params: Array<{ key: string; value: string }>
+// ) {
+// 	const { user } = useAuthStore();
+// 	const [rentals, setRentals] = useState<{
+// 		data: Rental[];
+// 		count: number;
+// 		next: string | null;
+// 	}>({
+// 		data: [],
+// 		count: 0,
+// 		next: null,
+// 	});
+// 	const [loading, setLoading] = useState(false);
+
+// 	useEffect(() => {
+// 		if (!user || params.length === 0) return;
+// 		if (loading) return;
+
+// 		(async () => {
+// 			setLoading(true);
+// 			const { data, error } = await rentalsProvider.getFilteredRentals(params);
+
+// 			if (data) {
+// 				setRentals({ ...data, data: data.rentals });
+// 			} else {
+// 				toast.error(error);
+// 			}
+
+// 			setLoading(false);
+// 		})();
+// 	}, [user, JSON.stringify(params)]);
+
+// 	return { rentals, loading };
+// }
