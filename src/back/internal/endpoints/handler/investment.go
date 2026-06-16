@@ -59,8 +59,10 @@ func (h *InvestmentHandler) Invest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var input struct {
-		Amount   float64 `json:"amount"`
-		Currency string  `json:"currency"`
+		Amount      float64 `json:"amount"`
+		Currency    string  `json:"currency"`
+		PhoneNumber string  `json:"phone_number"`
+		Provider    string  `json:"provider"`
 	}
 	if err := Decode(r, &input); err != nil {
 		JSONError(w, http.StatusBadRequest, "invalid request body")
