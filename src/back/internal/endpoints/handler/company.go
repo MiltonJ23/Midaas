@@ -7,6 +7,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"path/filepath"
+	"strconv"
 
 	"github.com/MiltonJ23/Midaas/internal/contracts"
 	"github.com/MiltonJ23/Midaas/internal/domain"
@@ -150,14 +151,26 @@ func (h *CompanyHandler) Submit(w http.ResponseWriter, r *http.Request) {
 func (h *CompanyHandler) ListPublic(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	companies, err := h.companyRepo.ListApproved(ctx)
+	filter := contracts.CompanyFilter{
+		IndustrySector: r.URL.Query().Get("industry_sector"),
+		CorporateForm:  r.URL.Query().Get("corporate_form"),
+		Query:          r.URL.Query().Get("query"),
+		Page:           parseInt(r.URL.Query().Get("page"), 1),
+		PageSize:       parseInt(r.URL.Query().Get("page_size"), 20),
+	}
+
+	companies, total, err := h.companyRepo.ListApproved(ctx, filter)
 	if err != nil {
 		logger.Error(ctx, "handler: list public companies failed", slog.String("error", err.Error()))
 		JSONError(w, http.StatusInternalServerError, "failed to list companies")
 		return
 	}
 
-	JSON(w, http.StatusOK, companies)
+	JSONPaginated(w, http.StatusOK, companies, map[string]interface{}{
+		"total":     total,
+		"page":      filter.Page,
+		"page_size": filter.PageSize,
+	})
 }
 
 func (h *CompanyHandler) RequestReverify(w http.ResponseWriter, r *http.Request) {
@@ -272,4 +285,15 @@ func (h *CompanyHandler) uploadCompanyFiles(ctx context.Context, companyID uuid.
 
 func entrepIDFromContext(ctx context.Context) string {
 	return ctx.Value(EntrepIDKey).(string)
+}
+
+func parseInt(s string, fallback int) int {
+	if s == "" {
+		return fallback
+	}
+	v, err := strconv.Atoi(s)
+	if err != nil || v < 1 {
+		return fallback
+	}
+	return v
 }
