@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 import useNotifications from "@/hooks/useNotifications";
 import { usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
+import useAdminAuth from "@/hooks/useAdminAuth";
 
 type Props = {
   children: React.ReactNode;
@@ -18,12 +19,15 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   const [open, setOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [, setIsMobile] = useState(false);
 
   const { user } = useAuthStore();
 
   const router = useRouter();
 
+  // Try admin auth first, fall back to regular user auth
+  useAdminAuth();
   useAuth();
   // useNotifications();
   const isSubscribed = true;
@@ -76,12 +80,19 @@ export default function Layout({ children }: Props) {
 
       {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 z-30">
-        <Navbar onOpen={() => setOpen(true)} />
+        <Navbar
+          onOpen={() => setOpen(true)}
+          sidebarCollapsed={sidebarCollapsed}
+        />
       </div>
 
       {/* Sidebar - Desktop (floating with shadow) */}
       <div className="hidden lg:block fixed left-4 top-4 bottom-4 z-40">
-        <Sidebar onClose={() => setOpen(false)} />
+        <Sidebar
+          onClose={() => setOpen(false)}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
+        />
       </div>
 
       {/* Sidebar - Mobile */}
@@ -91,11 +102,18 @@ export default function Layout({ children }: Props) {
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <Sidebar onClose={() => setOpen(false)} />
+        <Sidebar
+          onClose={() => setOpen(false)}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
+        />
       </div>
 
       {/* Main content area - starts below navbar, overlaps maroon strip */}
-      <main className="w-full h-full ml-0 lg:ml-[296px] pt-20 relative z-20">
+      <main
+        className="w-full h-full pt-20 relative z-20 transition-all duration-300"
+        style={{ marginLeft: sidebarCollapsed ? "124px" : "296px" }}
+      >
         <div className="h-full overflow-y-auto scrollable">
           <div className="min-h-full bg-white rounded-[2rem] shadow-2xl p-8 m-6">
             {children}

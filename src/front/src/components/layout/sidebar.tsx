@@ -1,12 +1,14 @@
 "use client";
 
 import { authProvider } from "@/api/auth";
+import { AdminStorageKeys } from "@/api/admin";
 import { sidebar } from "@/data/navigation/sidebar";
 import { useModalStore } from "@/store/modal";
+import { Storage } from "@/api/auth/storage";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { useAuthStore } from "@/store/auth";
 
@@ -24,12 +26,11 @@ export default function Sidebar({
   const pathname = usePathname();
   const { openModal } = useModalStore();
   const [logoutLoading, setLogoutLoading] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(collapsed);
 
   // Subscription check
   const { user } = useAuthStore();
   const isSubscribed = true;
-  const isExpanded = !sidebarCollapsed;
+  const isExpanded = !collapsed;
 
   // Determine user's role for sidebar filtering
   const userRole = user?.role ?? "investor";
@@ -55,12 +56,17 @@ export default function Sidebar({
   }, [userRole]);
 
   const handleToggleCollapse = () => {
-    setSidebarCollapsed((prev) => !prev);
     onToggleCollapse?.();
   };
 
   const handleLogout = async () => {
     setLogoutLoading(true);
+
+    // Clear admin storage keys if present
+    Storage.removeItem(AdminStorageKeys.adminAccess);
+    Storage.removeItem(AdminStorageKeys.adminId);
+
+    // Clear regular auth
     const { data } = await authProvider.logout();
 
     setLogoutLoading(false);

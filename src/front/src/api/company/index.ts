@@ -26,7 +26,7 @@ export const companyProvider = {
   async getAll() {
     return await withErrorHandling<Company[]>(
       async () => {
-        const response = await instance.get("/companies/");
+        const response = await instance.get("/companies");
 
         if (response.status === 200) {
           const companies = toArray(response.data).map(
@@ -53,7 +53,7 @@ export const companyProvider = {
   async getById(id: string) {
     return await withErrorHandling<Company | null>(
       async () => {
-        const response = await instance.get(`/companies/${id}/`);
+        const response = await instance.get(`/companies/${id}`);
 
         if (response.status === 200) {
           const detail = toObject(response.data);
@@ -86,7 +86,7 @@ export const companyProvider = {
   async create(payload: CreateCompanyDto) {
     return await withErrorHandling<{ message: string; company?: Company }>(
       async () => {
-        const response = await instance.post("/companies/", payload);
+        const response = await instance.post("/companies", payload);
 
         if (response.status === 200 || response.status === 201) {
           const detail = toObject(response.data);
@@ -118,7 +118,7 @@ export const companyProvider = {
   async update(id: string, payload: UpdateCompanyDto) {
     return await withErrorHandling<{ message: string; company?: Company }>(
       async () => {
-        const response = await instance.put(`/companies/${id}/`, payload);
+        const response = await instance.put(`/companies/${id}`, payload);
 
         if (response.status === 200) {
           const detail = toObject(response.data);
@@ -150,7 +150,7 @@ export const companyProvider = {
    */
   async remove(id: string) {
     return await withErrorHandling<{ message: string }>(async () => {
-      const response = await instance.delete(`/companies/${id}/`);
+      const response = await instance.delete(`/companies/${id}`);
 
       if (response.status === 200 || response.status === 204) {
         return {
@@ -164,5 +164,111 @@ export const companyProvider = {
 
       return response;
     }, "Une erreur s'est produite lors de la suppression de l'entreprise");
+  },
+
+  /**
+   * POST /companies/:id/submit
+   * Submit the company for admin validation (draft → pending).
+   */
+  async submitForValidation(id: string) {
+    return await withErrorHandling<{
+      id: string;
+      status: string;
+      message: string;
+    }>(async () => {
+      const response = await instance.post(`/companies/${id}/submit`);
+
+      if (response.status === 200) {
+        const detail = toObject(response.data) ?? response.data;
+        return {
+          status: response.status,
+          data: {
+            id: detail.id,
+            status: detail.status,
+            message: detail.message ?? "Company submitted for validation",
+          },
+        };
+      }
+
+      return response;
+    }, "Failed to submit company for validation");
+  },
+
+  /**
+   * GET /companies/public
+   * List approved companies — public endpoint, no auth required.
+   */
+  async getPublic(params?: {
+    industry_sector?: string;
+    corporate_form?: string;
+    query?: string;
+    page?: number;
+    page_size?: number;
+  }) {
+    return await withErrorHandling<{
+      companies: Company[];
+      meta?: { total: number; page: number; page_size: number };
+    }>(async () => {
+      const response = await instance.get("/companies/public", {
+        params: {
+          ...params,
+          page: params?.page ?? 1,
+          page_size: params?.page_size ?? 20,
+        },
+      });
+
+      if (response.status === 200) {
+        const rawList = toArray(response.data);
+        const companies = rawList.map((item: ICompany) => new Company(item));
+        const meta = response.data?.meta;
+
+        return {
+          status: response.status,
+          data: {
+            companies,
+            meta: meta ?? { total: companies.length, page: 1, page_size: 20 },
+          },
+        };
+      }
+
+      return response;
+    }, "Impossible de récupérer la liste des entreprises approuvées");
+  },
+
+  /**
+   * POST /companies/:id/upload
+   * Upload documents for a specific category.
+   * Accepts multipart form-data with `files` (array) and `category`.
+   */
+  async uploadDocuments(id: string, files: File[], category: string) {
+    return await withErrorHandling<{ urls: string[]; category: string }>(
+      async () => {
+        const formData = new FormData();
+        files.forEach((file) => formData.append("files", file));
+        formData.append("category", category);
+
+        const response = await instance.post(
+          `/companies/${id}/upload`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          },
+        );
+
+        if (response.status === 200) {
+          const detail = toObject(response.data) ?? response.data;
+          return {
+            status: response.status,
+            data: {
+              urls: detail.urls ?? [],
+              category: detail.category ?? category,
+            },
+          };
+        }
+
+        return response;
+      },
+      `Failed to upload ${category} documents`,
+    );
   },
 };

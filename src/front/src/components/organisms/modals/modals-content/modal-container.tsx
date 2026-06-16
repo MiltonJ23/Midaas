@@ -28,6 +28,7 @@ import AddCampaignModal from "./campaigns/add-campaign";
 import CampaignDetailsModal from "./campaigns/campaign-details";
 import AddMilestoneModal from "./campaigns/add-milestone";
 import AddCompanyModal from "./dashboard/add-company";
+import ConfirmActionModal from "./admin/confirm-action";
 
 export default function ModalContainer() {
   const { open, toggle, name } = useModalStore();
@@ -144,6 +145,10 @@ export default function ModalContainer() {
 
       case ModalNames.ADD_COMPANY: {
         return <AddCompanyModal />;
+      }
+
+      case ModalNames.CONFIRM_ACTION: {
+        return <ConfirmActionModal />;
       }
 
       default:

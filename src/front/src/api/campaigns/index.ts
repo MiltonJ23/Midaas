@@ -29,7 +29,7 @@ export const campaignProvider = {
   async getAll() {
     return await withErrorHandling<Project[]>(
       async () => {
-        const response = await instance.get("/projects/");
+        const response = await instance.get("/projects");
 
         if (response.status === 200) {
           const projects = toArray(response.data).map(
@@ -52,7 +52,7 @@ export const campaignProvider = {
   async getById(id: string) {
     return await withErrorHandling<Project | null>(
       async () => {
-        const response = await instance.get(`/projects/${id}/`);
+        const response = await instance.get(`/projects/${id}`);
 
         if (response.status === 200) {
           const detail = toObject(response.data);
@@ -81,7 +81,7 @@ export const campaignProvider = {
   async create(payload: CreateCampaignDto) {
     return await withErrorHandling<{ message: string; project?: Project }>(
       async () => {
-        const response = await instance.post("/projects/", payload);
+        const response = await instance.post("/projects", payload);
 
         if (response.status === 200 || response.status === 201) {
           const detail = toObject(response.data);
@@ -109,7 +109,7 @@ export const campaignProvider = {
   async update(id: string, payload: UpdateCampaignDto) {
     return await withErrorHandling<{ message: string; project?: Project }>(
       async () => {
-        const response = await instance.put(`/projects/${id}/`, payload);
+        const response = await instance.put(`/projects/${id}`, payload);
 
         if (response.status === 200) {
           const detail = toObject(response.data);
@@ -137,7 +137,7 @@ export const campaignProvider = {
 
   async remove(id: string) {
     return await withErrorHandling<{ message: string }>(async () => {
-      const response = await instance.delete(`/projects/${id}/`);
+      const response = await instance.delete(`/projects/${id}`);
 
       if (response.status === 200 || response.status === 204) {
         return {
@@ -152,13 +152,42 @@ export const campaignProvider = {
     }, "Une erreur s'est produite lors de la suppression de la campagne");
   },
 
+  /**
+   * GET /companies/:companyId/projects/
+   * Get all campaigns belonging to a specific company.
+   */
+  async getByCompany(companyId: string) {
+    return await withErrorHandling<Project[]>(
+      async () => {
+        const response = await instance.get(
+          `/companies/${companyId}/projects`,
+        );
+
+        if (response.status === 200) {
+          const projects = toArray(response.data).map(
+            (project: IProject) => new Project(project),
+          );
+
+          return {
+            status: response.status,
+            data: projects,
+          };
+        }
+
+        return response;
+      },
+      "Unable to fetch campaigns for this company",
+      "Company campaigns retrieved successfully",
+    );
+  },
+
   // ─── Milestones ─────────────────────────────────────────────────
 
   async getMilestones(projectId: string) {
     return await withErrorHandling<Milestone[]>(
       async () => {
         const response = await instance.get(
-          `/projects/${projectId}/milestones/`,
+          `/projects/${projectId}/milestones`,
         );
 
         if (response.status === 200) {
@@ -183,7 +212,7 @@ export const campaignProvider = {
     return await withErrorHandling<{ message: string; milestone?: Milestone }>(
       async () => {
         const response = await instance.post(
-          `/projects/${projectId}/milestones/`,
+          `/projects/${projectId}/milestones`,
           payload,
         );
 
@@ -218,7 +247,7 @@ export const campaignProvider = {
     return await withErrorHandling<{ message: string; milestone?: Milestone }>(
       async () => {
         const response = await instance.put(
-          `/projects/${projectId}/milestones/${milestoneId}/`,
+          `/projects/${projectId}/milestones/${milestoneId}`,
           payload,
         );
 
@@ -248,7 +277,7 @@ export const campaignProvider = {
   async removeMilestone(projectId: string, milestoneId: string) {
     return await withErrorHandling<{ message: string }>(async () => {
       const response = await instance.delete(
-        `/projects/${projectId}/milestones/${milestoneId}/`,
+        `/projects/${projectId}/milestones/${milestoneId}`,
       );
 
       if (response.status === 200 || response.status === 204) {

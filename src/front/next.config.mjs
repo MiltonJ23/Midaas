@@ -40,12 +40,6 @@ export default withPWA({
   },
 
   async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/admin/dashboard",
-        permanent: true,
-      },
-    ];
+    return [];
   },
 });
