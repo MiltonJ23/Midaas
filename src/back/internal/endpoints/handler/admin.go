@@ -347,7 +347,12 @@ func (h *AdminHandler) ApproveMilestone(w http.ResponseWriter, r *http.Request) 
 					resp, err := h.pawaPay.InitiatePayout(context.Background(), pReq)
 					if err != nil {
 						logger.Error(ctx, "handler: pawapay payout failed", slog.String("error", err.Error()))
-					} else if resp.Status == "ACCEPTED" {
+					} else 					if resp.Status == "ACCEPTED" {
+						logger.Info(ctx, "handler: pawapay payout sent",
+							slog.String("payout_id", payoutID),
+							slog.String("amount", pReq.Amount),
+							slog.String("milestone", milestone.Title),
+						)
 						tx := &domain.Transaction{
 							ID: uuid.New(), UserID: user.ID,
 							Type: domain.TransactionTypeMilestonePayout, Amount: milestone.FundAllocation,

@@ -152,6 +152,12 @@ func (h *InvestmentHandler) Invest(w http.ResponseWriter, r *http.Request) {
 			if resp.FailureReason != nil {
 				pawaPayStatus = resp.Status + " (" + resp.FailureReason.FailureCode + ")"
 			}
+			logger.Info(ctx, "handler: pawapay deposit response",
+				slog.String("deposit_id", depositID),
+				slog.String("status", resp.Status),
+				slog.String("amount", depReq.Amount),
+				slog.String("provider", input.Provider),
+			)
 		}
 	}
 
