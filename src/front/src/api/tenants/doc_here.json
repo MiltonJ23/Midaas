@@ -1,0 +1,223 @@
+{ "/api/parrain": {
+            "post": {
+                "tags": [
+                    "PARRAIN"
+                ],
+                "summary": "API de creation d'un parrain.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "userReference": {
+                                        "description": "La reference de l'utilisateur  est obligatoire.",
+                                        "type": "string",
+                                        "example": "reference utilisateur"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Payload data invalid"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/parrain/all": {
+            "get": {
+                "tags": [
+                    "PARRAIN"
+                ],
+                "summary": "La requ\u00eate qui permet de voir la liste de tous les parrains",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token not found"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/parrain/{id}/infos": {
+            "get": {
+                "tags": [
+                    "PARRAIN"
+                ],
+                "summary": "La requ\u00eate qui permet de voir le detail d'un parrain",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du parrain",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token not found"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/filleul": {
+            "post": {
+                "tags": [
+                    "FILLEUL"
+                ],
+                "summary": "API de creation d'un filleul.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "userFilleulReference": {
+                                        "description": "La reference de l'utilisateur filleul  est obligatoire.",
+                                        "type": "string",
+                                        "example": "reference utilisateur"
+                                    },
+                                    "codeParrainage": {
+                                        "description": "Le code parrainage  est obligatoire.",
+                                        "type": "string",
+                                        "example": "SMK-ieeioeoe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Payload data invalid"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/api/v1/filleul/all": {
+            "get": {
+                "tags": [
+                    "FILLEUL"
+                ],
+                "summary": "La requ\u00eate qui permet de voir la liste de tous les filleul",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/filleul/{id}/infos": {
+            "get": {
+                "tags": [
+                    "FILLEUL"
+                ],
+                "summary": "La requ\u00eate qui permet de voir le detail d'un filleul",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du parrain",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "JWT Token not found"
+                    }
+                },
+                "security": []
+            }
+        }}
