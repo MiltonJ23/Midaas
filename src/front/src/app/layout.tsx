@@ -32,7 +32,6 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
   keywords:
     "africa investment, local crowdfunding, financing platform, entrepreneur support, secure investing, milestone funding, Midaas",
-  manifest: "/manifest.json",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

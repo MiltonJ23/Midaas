@@ -17,13 +17,9 @@ export default function useAuth() {
     (async () => {
       const { data } = await authProvider.getMe();
 
-      if (data) {
+      if (data?.user) {
         loadUser(data.user);
-
-        toast.success("Connexion réussie");
       } else {
-        toast.error("Votre session a expiré");
-
         router.replace("/auth/signin");
       }
     })();

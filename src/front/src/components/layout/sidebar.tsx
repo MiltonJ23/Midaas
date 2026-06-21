@@ -37,6 +37,7 @@ export default function Sidebar({
   const userRole = user?.role ?? "investor";
 
   const filteredSidebar = useMemo(() => {
+    if (!userRole) return sidebar;
     return sidebar.filter((item) => {
       if (!item.allowedRoles || item.allowedRoles.length === 0) return true;
       const roleMap: Record<string, string> = {

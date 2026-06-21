@@ -26,7 +26,7 @@ export const sidebar: SidebarItem[] = [
   {
     key: 2,
     title: "Explore Projects",
-    link: "/admin/projects",
+    link: "/projects",
     allowedRoles: ["ROLE_CLIENT", "ROLE_FRANCHISEE"],
     icon: Search,
   },
