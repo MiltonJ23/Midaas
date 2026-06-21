@@ -1,0 +1,11 @@
+{
+  "name": "midaas-root",
+  "private": true,
+  "scripts": {
+    "build": "cd src/front && npm run build",
+    "postinstall": "cd src/front && npm install"
+  },
+  "dependencies": {
+    "next": "15.2.4"
+  }
+}
