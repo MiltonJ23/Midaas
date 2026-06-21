@@ -76,7 +76,7 @@ export default function ProfileDetailModal() {
   return (
     <section className="w-full bg-background p-8">
       <div className="w-full flex items-center justify-between">
-        <h2 className="text-lg font-MontserratBold">Profile</h2>
+        <h2 className="text-lg font-bold">Profile</h2>
 
         <span
           onClick={() => toggle()}
@@ -238,7 +238,7 @@ export default function ProfileDetailModal() {
             )}
           />
 
-          {/* <Button disabled className="w-full h-12 font-MontserratBold">
+          {/* <Button disabled className="w-full h-12 font-bold">
             Modifier les informations
           </Button> */}
         </form>

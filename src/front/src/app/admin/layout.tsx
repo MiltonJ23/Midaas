@@ -8,7 +8,6 @@ import { useAuthStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import useNotifications from "@/hooks/useNotifications";
 import { usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 import useAdminAuth from "@/hooks/useAdminAuth";
@@ -20,64 +19,26 @@ type Props = {
 export default function Layout({ children }: Props) {
   const [open, setOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [, setIsMobile] = useState(false);
 
   const { user } = useAuthStore();
-
   const router = useRouter();
 
-  // Try admin auth first, fall back to regular user auth
   useAdminAuth();
   useAuth();
-  // useNotifications();
-  const isSubscribed = true;
 
   useEffect(() => {
-    if (typeof window === undefined) return;
-
-    if (window.innerWidth < 1024) {
-      setIsMobile(true);
-    }
-
-    window.addEventListener("resize", () => {
-      if (window.innerWidth < 1024) {
-        setIsMobile(true);
-        setOpen(false);
-      } else {
-        setIsMobile(false);
-      }
-    });
-
-    return () => {
-      window.removeEventListener("resize", () => {});
+    if (typeof window === "undefined") return;
+    const handleResize = () => {
+      if (window.innerWidth < 1024) setOpen(false);
     };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // useEffect(() => {
-  // 	if (!subscription) return;
-
-  // 	if (!subscribed) {
-  // 		router.push("/subscriptions");
-  // 	}
-  // }, [subscribed, subscription]);
-
-  useEffect(() => {
-    if (!user) {
-      //   router.push("/auth/signin");
-    }
-    // Uncomment and adjust if needed for subscription redirect
-    // if (!subscribed) {
-    //   router.push("/subscriptions");
-    // }
-  }, [user, isSubscribed, router]); // Dependencies: re-run if user or
 
   const pathname = usePathname();
 
   return (
-    <section className="bg-gray-50 w-screen h-screen flex overflow-hidden relative">
-      {/* Maroon background strip at top */}
-      <div className="fixed top-0 left-0 right-0 h-32 bg-[#00de00] z-10" />
-
+    <section className="bg-slate-50 w-screen h-screen flex overflow-hidden">
       {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 z-30">
         <Navbar
@@ -86,8 +47,8 @@ export default function Layout({ children }: Props) {
         />
       </div>
 
-      {/* Sidebar - Desktop (floating with shadow) */}
-      <div className="hidden lg:block fixed left-4 top-4 bottom-4 z-40">
+      {/* Sidebar - Desktop */}
+      <div className="hidden lg:block fixed left-3 top-3 bottom-3 z-40">
         <Sidebar
           onClose={() => setOpen(false)}
           collapsed={sidebarCollapsed}
@@ -98,59 +59,37 @@ export default function Layout({ children }: Props) {
       {/* Sidebar - Mobile */}
       <div
         className={twMerge(
-          "block lg:hidden fixed top-0 left-0 bottom-0 z-50 transition-all duration-300",
-          open ? "translate-x-0" : "-translate-x-full",
+          "block lg:hidden fixed top-0 left-0 bottom-0 z-50 transition-transform duration-300",
+          open ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <Sidebar
           onClose={() => setOpen(false)}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
+          collapsed={false}
+          onToggleCollapse={() => {}}
         />
       </div>
 
-      {/* Main content area - starts below navbar, overlaps maroon strip */}
+      {/* Main content */}
       <main
-        className="w-full h-full pt-20 relative z-20 transition-all duration-300"
-        style={{ marginLeft: sidebarCollapsed ? "124px" : "296px" }}
+        className="w-full h-full pt-20 relative z-20 transition-[margin-left] duration-300"
+        style={{ marginLeft: sidebarCollapsed ? "96px" : "272px" }}
       >
-        <div className="h-full overflow-y-auto scrollable">
-          <div className="min-h-full bg-white rounded-[2rem] shadow-2xl p-8 m-6">
+        <div className="h-full overflow-y-auto">
+          <div className="min-h-full p-6 lg:p-8">
             {children}
           </div>
         </div>
       </main>
 
+      {/* Mobile overlay */}
       <div
         className={twMerge(
-          "fixed top-0 left-0 w-full h-full bg-black/40 z-30",
-          open ? "block" : "hidden",
+          "fixed inset-0 bg-black/40 z-30 lg:hidden",
+          open ? "block" : "hidden"
         )}
         onClick={() => setOpen(false)}
-      >
-        <span
-          onClick={() => setOpen(false)}
-          className="fixed top-4 right-4 w-10 h-10 flex items-center justify-center cursor-pointer rounded-full bg-background"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-primary"
-          >
-            <path
-              d="M6 18L18 6M6 6L18 18"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-      </div>
-
-      <ModalContainer />
+      />
     </section>
   );
 }

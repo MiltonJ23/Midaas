@@ -215,7 +215,7 @@ export default function ForgotPassword() {
     <section className="w-screen h-screen p-4 flex items-center overflow-auto">
       <div className="w-full lg:w-1/2 h-full flex flex-col items-center">
         <div className="mt-[100px] max-w-[430px] w-full px-10 pb-[100px] lg:pb-0">
-          <h1 className="text-3xl font-MontserratSemiBold text-center">
+          <h1 className="text-3xl font-semibold text-center">
             {getStepTitle()}
           </h1>
 
@@ -227,7 +227,7 @@ export default function ForgotPassword() {
             className="mx-auto mb-6"
           />
 
-          <p className="text-gray-600 text-center mb-6">
+          <p className="text-slate-600 text-center mb-6">
             {getStepDescription()}
           </p>
 

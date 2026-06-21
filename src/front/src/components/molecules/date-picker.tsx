@@ -75,7 +75,7 @@ export function DatePicker({ label, onChange, value, disabled }: Props) {
 
     return (
         <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-slate-700">
                 {label}
             </label>
             
@@ -260,7 +260,7 @@ export function DatePicker({ label, onChange, value, disabled }: Props) {
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent 
-                    className='w-auto p-0 z-[9999] bg-white border border-gray-200 rounded-lg shadow-lg' 
+                    className='w-auto p-0 z-[9999] bg-white border border-slate-200 rounded-lg shadow-lg' 
                     align='start'
                     side='bottom'
                     sideOffset={4}

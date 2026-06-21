@@ -172,7 +172,7 @@ export default function AddCampaignModal() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             stroke="currentColor"
-            className="text-[#00de00]"
+            className="text-primary"
           >
             <path
               d="M6 18L18 6M6 6L18 18"
@@ -231,7 +231,7 @@ export default function AddCampaignModal() {
                 label="Funding Goal"
                 after={
                   <div className="pr-4">
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-slate-500 text-sm">
                       {getValues("currency") || "XOF"}
                     </span>
                   </div>
@@ -267,7 +267,7 @@ export default function AddCampaignModal() {
                         </SelectContent>
                       </Select>
                     ) : (
-                      <div className="h-12 flex items-center px-3 rounded-md border border-input bg-white text-sm text-gray-400 cursor-not-allowed">
+                      <div className="h-12 flex items-center px-3 rounded-md border border-input bg-white text-sm text-slate-400 cursor-not-allowed">
                         No company available
                       </div>
                     )}
@@ -275,7 +275,7 @@ export default function AddCampaignModal() {
                 )}
               />
               {companies.length === 0 && (
-                <p className="text-xs text-gray-400 pl-1">
+                <p className="text-xs text-slate-400 pl-1">
                   Create a company first from your dashboard
                 </p>
               )}

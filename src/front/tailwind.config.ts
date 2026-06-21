@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -22,10 +21,6 @@ export default {
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        "primary-dark": {
-          DEFAULT: "hsl(var(--primary-dark))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -54,11 +49,6 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
-
-        // Others colors
-        "light-gray": {
-          DEFAULT: "hsl(var(--light-gray))",
-        },
         success: "hsl(var(--success))",
       },
       borderRadius: {
@@ -67,18 +57,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        MontserratRegular: ["Montserrat-Regular", "sans-serif"],
-        MontserratBold: ["Montserrat-Bold", "sans-serif"],
-        MontserratSemiBold: ["Montserrat-SemiBold", "sans-serif"],
-      },
-      width: {
-        main: "calc(100% - 266px)",
-        "chat-body": "calc(100% - 380px)",
-      },
-      height: {
-        main: "calc(100vh - 80px)",
-        "sidebar-content": "calc(100vh - 150px - 40px)",
-        "chat-body": "calc(100% - 144px)",
+        sans: ["Montserrat-Regular", "sans-serif"],
+        bold: ["Montserrat-Bold", "sans-serif"],
+        semibold: ["Montserrat-SemiBold", "sans-serif"],
       },
     },
   },

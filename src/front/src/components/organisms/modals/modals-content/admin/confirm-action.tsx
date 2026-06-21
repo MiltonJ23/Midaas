@@ -88,17 +88,17 @@ export default function ConfirmActionModal() {
         <div className="mb-4">{config.icon}</div>
 
         {/* Title */}
-        <h3 className="text-xl font-MontserratBold text-gray-900 mb-2">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
           {title}
         </h3>
 
         {/* Description */}
-        <p className="text-gray-500 text-sm max-w-sm mb-6">{description}</p>
+        <p className="text-slate-500 text-sm max-w-sm mb-6">{description}</p>
 
         {/* Reason textarea for rejections */}
         {requireReason && (
           <div className="w-full mb-6">
-            <label className="block text-sm font-MontserratSemiBold text-gray-700 mb-2 text-left">
+            <label className="block text-sm font-semibold text-slate-700 mb-2 text-left">
               Motif du rejet (optionnel)
             </label>
             <MUITextarea

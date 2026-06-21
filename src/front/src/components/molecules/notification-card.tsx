@@ -64,7 +64,7 @@ export default function NotificationCard({ data }: Props) {
 
   const openDeleteModal = () => {
     toggle({
-      name: ModalNames.CONFIRM_DELETE, // Adjust to your modal name
+      name: ModalNames.CONFIRM_ACTION,
       data: {
         title: "Supprimer la notification",
         description: `Êtes-vous sûr de vouloir supprimer cette notification ? Cette action est irréversible.`,
@@ -103,7 +103,7 @@ export default function NotificationCard({ data }: Props) {
             )}
           </div>
 
-          <span className="text-lg text-primary font-MontserratBold">
+          <span className="text-lg text-primary font-bold">
             {data.notificationType}
           </span>
         </div>

@@ -3,8 +3,6 @@
 import { Button } from "@/components/atoms/button";
 import { MUIInput } from "@/components/atoms/input";
 import Image from "next/image";
-import vector from "@/assets/images/Vector.svg";
-import illustration from "@/assets/images/pana.svg";
 import Link from "next/link";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -13,6 +11,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Storage, StorageKeys } from "@/api/auth/storage";
 import { useAuthStore } from "@/store/auth";
+import { User, Mail, Lock, Phone, CircleDollarSign, ArrowLeft, Eye, EyeOff, Upload } from "lucide-react";
 
 interface ISignupForm {
   fullName: string;
@@ -43,7 +42,6 @@ export default function Home() {
   useEffect(() => {
     const access = Storage.getItem(StorageKeys.access);
     const refresh = Storage.getItem(StorageKeys.refresh);
-
     if (user && access && refresh) {
       router.replace("/dashboard");
     }
@@ -54,12 +52,9 @@ export default function Home() {
 
   const onSubmit: SubmitHandler<ISignupForm> = async (formData) => {
     setLoading(true);
-
     try {
       let idCardFrontUrl = "";
       let idCardBackUrl = "";
-
-      // 1. Upload ID card files if provided
       const hasFront = formData.idCardFront && formData.idCardFront.length > 0;
       const hasBack = formData.idCardBack && formData.idCardBack.length > 0;
 
@@ -67,17 +62,14 @@ export default function Home() {
         const uploadFormData = new FormData();
         if (hasFront) uploadFormData.append("front", formData.idCardFront![0]);
         if (hasBack) uploadFormData.append("back", formData.idCardBack![0]);
-
         const { data: uploadResult } =
           await authProvider.uploadIdCard(uploadFormData);
-
         if (uploadResult) {
           idCardFrontUrl = uploadResult.front_url ?? "";
           idCardBackUrl = uploadResult.back_url ?? "";
         }
       }
 
-      // 2. Map frontend camelCase state to the API schema
       const backendPayload = {
         email: formData.email,
         password: formData.password,
@@ -87,86 +79,66 @@ export default function Home() {
         id_card_url: idCardFrontUrl || undefined,
       };
 
-      // 3. Dispatch structured payload to backend signup route
       const { data, error } = await authProvider.signup(backendPayload);
 
       if (data && !error) {
-        toast.success("Registration successful");
+        toast.success("Inscription réussie");
         reset();
         router.push("/auth/signin");
       } else {
-        toast.error(error || "An error occurred during registration");
+        toast.error(error || "Une erreur est survenue");
       }
-    } catch (err) {
-      toast.error("Server communication error");
+    } catch {
+      toast.error("Erreur de communication");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className="w-screen h-screen p-4 flex items-center ">
-      <div className="relative hidden lg:flex w-1/2 h-full bg-primary rounded-2xl">
-        <Image
-          src={illustration}
-          alt="Illustration"
-          objectFit="cover"
-          width={400}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-        />
-        <Image
-          src={vector}
-          alt="Vector"
-          objectFit="cover"
-          width={1000}
-          className="absolute w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-lg">
+        <div className="text-center mb-8">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              alt="Midaas"
+              width={130}
+              height={40}
+              className="mx-auto object-contain"
+            />
+          </Link>
+        </div>
 
-      <div className="relative w-full lg:w-1/2 h-full flex flex-col items-center overflow-auto">
-        <Link href="/auth/signin">
-          <span className="absolute top-4 left-12 border-2 border-border w-10 h-10 flex items-center justify-center cursor-pointer rounded-full bg-background">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10 19L3 12M3 12L10 5M3 12L21 12"
-                stroke="black"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-        </Link>
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/auth/signin"
+                className="w-9 h-9 flex items-center justify-center rounded-full border border-slate-200 hover:bg-slate-50 text-slate-400 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
+              <h1 className="text-xl font-bold text-slate-900">Inscription</h1>
+              <div className="w-9" />
+            </div>
+            <p className="text-sm text-slate-500 mt-2 text-center">
+              Créez votre compte investisseur Midaas
+            </p>
+          </div>
 
-        <div className="mt-[60px] max-w-[430px] w-full px-10 pb-[60px] lg:pb-0">
-          <h1 className="text-3xl font-MontserratSemiBold text-center uppercase tracking-tight">
-            Sign up on
-          </h1>
-
-          <Image
-            src="/logo.png"
-            alt="Midaas logo"
-            width={200}
-            height={50}
-            className="mx-auto mb-6"
-          />
-
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
             <Controller
               name="fullName"
               control={control}
-              rules={{ required: "Full name is required" }}
+              rules={{ required: "Le nom complet est requis" }}
               render={({ field }) => (
-                <MUIInput className="w-full" label="Full name" {...field} />
+                <MUIInput
+                  label="Nom complet"
+                  placeholder="Votre nom et prénom"
+                  before={<User className="w-4 h-4" />}
+                  {...field}
+                />
               )}
             />
 
@@ -174,17 +146,18 @@ export default function Home() {
               name="email"
               control={control}
               rules={{
-                required: "Email is required",
+                required: "L'email est requis",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
+                  message: "Email invalide",
                 },
               }}
               render={({ field }) => (
                 <MUIInput
-                  className="w-full"
                   label="Email"
                   type="email"
+                  placeholder="vous@exemple.com"
+                  before={<Mail className="w-4 h-4" />}
                   {...field}
                 />
               )}
@@ -193,9 +166,14 @@ export default function Home() {
             <Controller
               name="phoneNumber"
               control={control}
-              rules={{ required: "Phone number is required" }}
+              rules={{ required: "Le téléphone est requis" }}
               render={({ field }) => (
-                <MUIInput className="w-full" label="Phone number" {...field} />
+                <MUIInput
+                  label="Téléphone"
+                  placeholder="+225 XX XX XX XX"
+                  before={<Phone className="w-4 h-4" />}
+                  {...field}
+                />
               )}
             />
 
@@ -203,116 +181,100 @@ export default function Home() {
               name="password"
               control={control}
               rules={{
-                required: "Password is required",
-                minLength: { value: 6, message: "Minimum 6 characters" },
+                required: "Le mot de passe est requis",
+                minLength: { value: 6, message: "Minimum 6 caractères" },
               }}
               render={({ field }) => (
                 <MUIInput
-                  className="w-full"
-                  label="Password"
+                  label="Mot de passe"
                   type={passwordViewed ? "text" : "password"}
+                  placeholder="Minimum 6 caractères"
+                  before={<Lock className="w-4 h-4" />}
                   after={
-                    <div
-                      className="mr-4 cursor-pointer"
+                    <button
+                      type="button"
                       onClick={() => setPasswordViewed((prev) => !prev)}
+                      className="text-slate-400 hover:text-slate-600"
                     >
                       {passwordViewed ? (
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-                            stroke="#333"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M2.45825 12C3.73253 7.94288 7.52281 5 12.0004 5C16.4781 5 20.2684 7.94291 21.5426 12C20.2684 16.0571 16.4781 19 12.0005 19C7.52281 19 3.73251 16.0571 2.45825 12Z"
-                            stroke="#333"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
+                        <EyeOff className="w-4 h-4" />
                       ) : (
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            d="M3 3L6.58916 6.58916M21 21L17.4112 17.4112M13.8749 18.8246C13.2677 18.9398 12.6411 19 12.0005 19C7.52281 19 3.73251 16.0571 2.45825 12C2.80515 10.8955 3.33851 9.87361 4.02143 8.97118M9.87868 9.87868C10.4216 9.33579 11.1716 9 12 9C13.6569 9 15 10.3431 15 12C15 12.8284 14.6642 13.5784 14.1213 14.1213M9.87868 9.87868L14.1213 14.1213M9.87868 9.87868L6.58916 6.58916M14.1213 14.1213L6.58916 6.58916M14.1213 14.1213L17.4112 17.4112M6.58916 6.58916C8.14898 5.58354 10.0066 5 12.0004 5C16.4781 5 20.2684 7.94291 21.5426 12C20.8357 14.2507 19.3545 16.1585 17.4112 17.4112"
-                            stroke="#333"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
+                        <Eye className="w-4 h-4" />
                       )}
-                    </div>
+                    </button>
                   }
                   {...field}
                 />
               )}
             />
 
-            <hr className="my-2 border-border" />
+            <hr className="border-slate-200" />
 
-            {/* KYC/Identity Document Tracking Layer */}
-            <div className="flex flex-col gap-3">
-              <p className="text-sm font-medium text-foreground pl-1">
-                Identity Document (ID Card or Receipt)
+            {/* KYC Section */}
+            <div>
+              <p className="text-sm font-semibold text-slate-900 mb-4">
+                Pièce d&apos;identité (CNI ou Récépissé)
               </p>
 
-              {/* Front (Recto) */}
-              <div className="flex flex-col gap-1">
-                <label className="text-xs text-muted-foreground pl-1">
-                  Front (Recto)
-                </label>
-                <input
-                  type="file"
-                  accept="image/*,application/pdf"
-                  className="w-full text-sm border border-border rounded-lg p-2.5 bg-background cursor-pointer"
-                  {...register("idCardFront")}
-                />
-              </div>
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-600">
+                    Recto (face avant)
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*,application/pdf"
+                    className="w-full text-sm border border-slate-200 rounded-lg p-2.5 bg-white cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
+                    {...register("idCardFront")}
+                  />
+                </div>
 
-              {/* Back (Verso) */}
-              <div className="flex flex-col gap-1">
-                <label className="text-xs text-muted-foreground pl-1">
-                  Back (Verso) — optional
-                </label>
-                <input
-                  type="file"
-                  accept="image/*,application/pdf"
-                  className="w-full text-sm border border-border rounded-lg p-2.5 bg-background cursor-pointer"
-                  {...register("idCardBack")}
-                />
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-600">
+                    Verso (face arrière) — optionnel
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*,application/pdf"
+                    className="w-full text-sm border border-slate-200 rounded-lg p-2.5 bg-white cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
+                    {...register("idCardBack")}
+                  />
+                </div>
               </div>
             </div>
 
             <Controller
               name="idCardNumber"
               control={control}
-              rules={{ required: "Document number is required" }}
+              rules={{ required: "Le numéro de pièce est requis" }}
               render={({ field }) => (
                 <MUIInput
-                  className="w-full"
-                  label="Identity card number"
+                  label="Numéro de la pièce d'identité"
+                  placeholder="Ex: 1234567890"
+                  before={<CircleDollarSign className="w-4 h-4" />}
                   {...field}
                 />
               )}
             />
 
             <Button
-              className="w-full h-11 rounded-lg mt-4  text-black bg-[#00de00] hover:bg-primary/90 font-semibold"
+              className="w-full"
+              size="lg"
               type="submit"
               disabled={loading}
             >
-              {loading ? "Loading..." : "Create my account"}
+              {loading ? "Inscription..." : "Créer mon compte"}
             </Button>
           </form>
         </div>
+
+        <p className="mt-6 text-center text-sm text-slate-500">
+          Déjà un compte ?{" "}
+          <Link href="/auth/signin" className="text-primary font-semibold hover:underline">
+            Se connecter
+          </Link>
+        </p>
       </div>
-    </section>
+    </main>
   );
 }

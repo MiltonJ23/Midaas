@@ -54,7 +54,7 @@ export default function NotificationPage() {
   console.log("Rendering notifications", notifications);
 
   const renderEmptyState = () => (
-    <div className="col-span-1 md:col-span-2 flex flex-col items-center justify-center p-12 bg-gray-50 rounded-lg border border-gray-200">
+    <div className="col-span-1 md:col-span-2 flex flex-col items-center justify-center p-12 bg-slate-50 rounded-lg border border-slate-200">
       <svg
         width="64"
         height="64"
@@ -70,10 +70,10 @@ export default function NotificationPage() {
           strokeLinejoin="round"
         />
       </svg>
-      <h3 className="text-lg text-gray-700 font-medium mb-1">
+      <h3 className="text-lg text-slate-700 font-medium mb-1">
         Aucune notification pour le moment!
       </h3>
-      <p className="text-sm text-gray-500 text-center mb-4">
+      <p className="text-sm text-slate-500 text-center mb-4">
         Les notifications apparaîtront ici une fois envoyées ou reçues.
       </p>
       <button
@@ -87,7 +87,7 @@ export default function NotificationPage() {
 
   return (
     <section className="mt-4">
-      <h2 className="py-4 font-MontserratBold font-lg">Notifications</h2>
+      <h2 className="py-4 font-bold font-lg">Notifications</h2>
 
       {/* Tabs for Sent/Received and Delete All
       <div className="flex items-center gap-4 mb-4">
@@ -117,7 +117,7 @@ export default function NotificationPage() {
           className="w-auto h-10 rounded-lg bg-[#FF3B30] text-white hover:bg-[#FF3B30]/80 ml-auto"
           onClick={() =>
             toggle({
-              name: "CONFIRM_DELETE",
+              name: ModalNames.CONFIRM_ACTION,
               data: {
                 title: "Supprimer toutes les notifications",
                 description:

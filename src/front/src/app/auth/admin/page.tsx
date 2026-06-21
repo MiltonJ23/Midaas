@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useAdminStore } from "@/store/admin";
 import { useAuthStore } from "@/store/auth";
 import User from "@/entities/user/user";
-import { ShieldAlert } from "lucide-react";
+import { Shield, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 interface IAdminSigninForm {
   email: string;
@@ -30,7 +30,6 @@ export default function AdminSignin() {
   const [loading, setLoading] = useState(false);
   const [passwordViewed, setPasswordViewed] = useState(false);
 
-  // Redirect if already logged in as admin
   useEffect(() => {
     const token = Storage.getItem(AdminStorageKeys.adminAccess);
     if (admin && token) {
@@ -43,10 +42,8 @@ export default function AdminSignin() {
     const { data, error } = await adminProvider.login(formData);
 
     if (data && !error) {
-      // Store admin in admin store
       loadAdmin(data.admin);
 
-      // Also create a synthetic user in the auth store so the sidebar/layout work
       const adminUser = new User({
         id: data.admin.id,
         email: data.admin.email,
@@ -56,7 +53,6 @@ export default function AdminSignin() {
       });
       loadUser(adminUser);
 
-      // Also store the admin token as the regular access token for API requests
       if (data.token) {
         Storage.setItem(StorageKeys.access, data.token);
       }
@@ -71,155 +67,97 @@ export default function AdminSignin() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-950">
-      {/* Top Accent */}
-      <div className="h-1 w-full bg-gradient-to-r from-emerald-500 via-[#00de00] to-emerald-400" />
+    <main className="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        {/* Shield badge */}
+        <div className="flex justify-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center">
+            <Shield className="w-7 h-7 text-primary" />
+          </div>
+        </div>
 
-      <div className="min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          {/* Shield Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-              <ShieldAlert className="w-8 h-8 text-emerald-400" />
-            </div>
+        {/* Card */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/logo.png"
+              alt="Midaas Admin"
+              width={120}
+              height={36}
+              className="object-contain brightness-0 invert opacity-90"
+            />
           </div>
 
-          {/* Card */}
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/logo.png"
-                alt="Midaas Admin"
-                width={120}
-                height={36}
-                className="object-contain brightness-0 invert opacity-90"
-              />
-            </div>
+          <div className="text-center mb-8">
+            <h1 className="text-lg font-bold text-white">Administration</h1>
+            <p className="text-slate-400 text-sm mt-1">
+              Accès réservé aux administrateurs
+            </p>
+          </div>
 
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-MontserratBold text-white">
-                Administration
-              </h2>
-              <p className="text-gray-400 text-sm mt-1">
-                Accès réservé aux administrateurs
-              </p>
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <MUIInput
+                  {...field}
+                  label="Email"
+                  type="email"
+                  placeholder="admin@midaas.com"
+                  before={<Mail className="w-4 h-4" />}
+                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                />
+              )}
+            />
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Controller
-                name="email"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <MUIInput
-                    {...field}
-                    className="w-full my-3"
-                    label=""
-                    placeholderShown
-                    placeholder="admin@midaas.com"
-                    type="email"
-                    aria-label="Email"
-                    after={
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="mr-4"
-                      >
-                        <path
-                          d="M3 8L10.8906 13.2604C11.5624 13.7083 12.4376 13.7083 13.1094 13.2604L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z"
-                          stroke="#888"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    }
-                  />
-                )}
-              />
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <MUIInput
+                  {...field}
+                  label="Mot de passe"
+                  type={passwordViewed ? "text" : "password"}
+                  placeholder="Votre mot de passe"
+                  before={<Lock className="w-4 h-4" />}
+                  after={
+                    <button
+                      type="button"
+                      onClick={() => setPasswordViewed((prev) => !prev)}
+                      className="text-slate-500 hover:text-slate-300"
+                    >
+                      {passwordViewed ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  }
+                  className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+                />
+              )}
+            />
 
-              <Controller
-                name="password"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <MUIInput
-                    {...field}
-                    className="w-full my-3"
-                    label=""
-                    placeholderShown
-                    placeholder="Mot de passe"
-                    type={passwordViewed ? "text" : "password"}
-                    aria-label="Mot de passe"
-                    after={
-                      <div
-                        className="mr-4 cursor-pointer"
-                        onClick={() => setPasswordViewed((prev) => !prev)}
-                      >
-                        {passwordViewed ? (
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-                              stroke="#888"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M2.45825 12C3.73253 7.94288 7.52281 5 12.0004 5C16.4781 5 20.2684 7.94291 21.5426 12C20.2684 16.0571 16.4781 19 12.0005 19C7.52281 19 3.73251 16.0571 2.45825 12Z"
-                              stroke="#888"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <path
-                              d="M3 3L6.58916 6.58916M21 21L17.4112 17.4112M13.8749 18.8246C13.2677 18.9398 12.6411 19 12.0005 19C7.52281 19 3.73251 16.0571 2.45825 12C2.80515 10.8955 3.33851 9.87361 4.02143 8.97118M9.87868 9.87868C10.4216 9.33579 11.1716 9 12 9C13.6569 9 15 10.3431 15 12C15 12.8284 14.6642 13.5784 14.1213 14.1213M9.87868 9.87868L14.1213 14.1213M9.87868 9.87868L6.58916 6.58916M14.1213 14.1213L6.58916 6.58916M14.1213 14.1213L17.4112 17.4112M6.58916 6.58916C8.14898 5.58354 10.0066 5 12.0004 5C16.4781 5 20.2684 7.94291 21.5426 12C20.8357 14.2507 19.3545 16.1585 17.4112 17.4112"
-                              stroke="#888"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        )}
-                      </div>
-                    }
-                  />
-                )}
-              />
+            <Button
+              className="w-full bg-primary hover:bg-primary/90 text-white"
+              size="lg"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Connexion..." : "Accéder au panel"}
+            </Button>
+          </form>
 
-              <Button
-                className="w-full h-11 rounded-lg mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all"
-                type="submit"
-                disabled={loading}
-              >
-                {loading ? "CONNEXION..." : "ACCÉDER AU PANEL"}
-              </Button>
-            </form>
-
-            <div className="mt-6 pt-6 border-t border-gray-800 text-center">
-              <Link href="/auth/signin">
-                <span className="text-gray-500 text-sm hover:text-gray-300 transition-colors cursor-pointer">
-                  ← Retour à l&apos;espace utilisateur
-                </span>
-              </Link>
-            </div>
+          <div className="mt-6 pt-6 border-t border-slate-800 text-center">
+            <Link
+              href="/auth/signin"
+              className="text-slate-500 text-sm hover:text-slate-300 transition-colors"
+            >
+              Retour à l&apos;espace utilisateur
+            </Link>
           </div>
         </div>
       </div>

@@ -161,10 +161,10 @@ export default function AdminEntrepreneursPage() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-MontserratBold text-gray-900">
+            <h1 className="text-2xl font-bold text-slate-900">
               Entrepreneurs
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-slate-500 text-sm mt-1">
               Manage entrepreneur profiles on the platform
             </p>
           </div>
@@ -181,13 +181,13 @@ export default function AdminEntrepreneursPage() {
 
         {/* Search */}
         <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Search entrepreneurs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00de00]/20 focus:border-[#00de00] transition-all"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
           />
         </div>
 
@@ -195,16 +195,16 @@ export default function AdminEntrepreneursPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Total</p>
-              <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                <Users className="w-4 h-4 text-gray-600" />
+              <p className="text-sm text-slate-500">Total</p>
+              <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
+                <Users className="w-4 h-4 text-slate-600" />
               </div>
             </div>
             <p className="text-2xl font-bold mt-2">{entrepreneurs.length}</p>
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Active</p>
+              <p className="text-sm text-slate-500">Active</p>
               <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                 <UserCheck className="w-4 h-4 text-emerald-600" />
               </div>
@@ -215,7 +215,7 @@ export default function AdminEntrepreneursPage() {
           </div>
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Suspended</p>
+              <p className="text-sm text-slate-500">Suspended</p>
               <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
                 <UserX className="w-4 h-4 text-red-600" />
               </div>
@@ -230,13 +230,13 @@ export default function AdminEntrepreneursPage() {
         <div className="bg-white rounded-xl border border-border overflow-hidden">
           {loading && entrepreneurs.length === 0 ? (
             <div className="flex items-center justify-center py-20">
-              <RefreshCw className="w-8 h-8 animate-spin text-gray-300" />
+              <RefreshCw className="w-8 h-8 animate-spin text-slate-300" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="text-center py-20">
               <div className="flex flex-col items-center gap-3">
                 <Users className="w-16 h-16 text-gray-200" />
-                <p className="text-gray-500 font-MontserratSemiBold text-lg">
+                <p className="text-slate-500 font-semibold text-lg">
                   No entrepreneurs found
                 </p>
               </div>
@@ -248,7 +248,7 @@ export default function AdminEntrepreneursPage() {
                 return (
                   <div
                     key={ent.id}
-                    className="p-5 hover:bg-gray-50/50 transition-colors"
+                    className="p-5 hover:bg-slate-50/50 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-4 flex-1 min-w-0">
@@ -257,7 +257,7 @@ export default function AdminEntrepreneursPage() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-3 flex-wrap">
-                            <h3 className="font-MontserratSemiBold text-gray-900">
+                            <h3 className="font-semibold text-slate-900">
                               {name}
                             </h3>
                             <span
@@ -275,7 +275,7 @@ export default function AdminEntrepreneursPage() {
                               {ent.status === "active" ? "Active" : "Suspended"}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-400 mt-0.5">
+                          <p className="text-xs text-slate-400 mt-0.5">
                             {subtitle}
                           </p>
                         </div>

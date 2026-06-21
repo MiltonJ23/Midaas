@@ -32,7 +32,7 @@ export default function FileItem({
           height={60}
           className="w-[30px] h-auto"
         />
-        <p className="font-MontserratRegular">{truncate(name, 20)}</p>
+        <p className="font-sans">{truncate(name, 20)}</p>
       </div>
 
       <span className="text-sm whitespace-nowrap">{size}</span>

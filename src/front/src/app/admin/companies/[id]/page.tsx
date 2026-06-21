@@ -140,11 +140,11 @@ export default function CompanyDetailsPage() {
             Back
           </Button>
           <div className="text-center py-16 bg-white rounded-xl border border-border">
-            <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-MontserratBold text-gray-900 mb-2">
+            <Building2 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-slate-900 mb-2">
               Company not found
             </h2>
-            <p className="text-gray-500">
+            <p className="text-slate-500">
               {error || "This company does not exist or you don't have access."}
             </p>
           </div>
@@ -168,13 +168,13 @@ export default function CompanyDetailsPage() {
 
         {/* ─── Header ──────────────────────────────────────────────── */}
         <div className="bg-white rounded-xl border border-border overflow-hidden">
-          <div className="bg-gradient-to-r from-[#5E0E08] to-[#7A1A12] px-6 py-8">
+          <div className="bg-gradient-to-r from-primary to-primary px-6 py-8">
             <div className="flex items-start gap-5">
               <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
                 <Building2 className="w-8 h-8 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-2xl font-MontserratBold text-white">
+                <h1 className="text-2xl font-bold text-white">
                   {company.displayName}
                 </h1>
                 <div className="flex items-center gap-3 mt-2 flex-wrap">
@@ -215,10 +215,10 @@ export default function CompanyDetailsPage() {
             <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
               <Clock className="w-8 h-8 text-amber-600" />
             </div>
-            <h2 className="text-2xl font-MontserratBold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
               Pending Validation
             </h2>
-            <p className="text-gray-600 max-w-lg mx-auto">
+            <p className="text-slate-600 max-w-lg mx-auto">
               Your company has been submitted for validation. An administrator
               will review your documents and information shortly. You will be
               notified once the status changes.
@@ -231,10 +231,10 @@ export default function CompanyDetailsPage() {
             <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
               <XCircle className="w-8 h-8 text-red-600" />
             </div>
-            <h2 className="text-2xl font-MontserratBold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
               Validation Rejected
             </h2>
-            <p className="text-gray-600 max-w-lg mx-auto">
+            <p className="text-slate-600 max-w-lg mx-auto">
               Your company submission was not approved. Please review the
               feedback and update your information before resubmitting.
             </p>
@@ -249,7 +249,7 @@ export default function CompanyDetailsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Total campaigns</p>
+                  <p className="text-sm text-slate-500">Total campaigns</p>
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Layers className="w-4 h-4 text-primary" />
                   </div>
@@ -261,7 +261,7 @@ export default function CompanyDetailsPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Active campaigns</p>
+                  <p className="text-sm text-slate-500">Active campaigns</p>
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-blue-600" />
                   </div>
@@ -273,7 +273,7 @@ export default function CompanyDetailsPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Funding goal</p>
+                  <p className="text-sm text-slate-500">Funding goal</p>
                   <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                     <Target className="w-4 h-4 text-amber-600" />
                   </div>
@@ -281,12 +281,12 @@ export default function CompanyDetailsPage() {
                 <p className="text-2xl font-bold mt-2">
                   {stats.totalFundingGoal.toLocaleString()}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">XOF</p>
+                <p className="text-xs text-slate-400 mt-0.5">XOF</p>
               </div>
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Raised / Completed</p>
+                  <p className="text-sm text-slate-500">Raised / Completed</p>
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   </div>
@@ -294,7 +294,7 @@ export default function CompanyDetailsPage() {
                 <p className="text-2xl font-bold mt-2">
                   {stats.totalFundingRaised.toLocaleString()}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-slate-400 mt-0.5">
                   {stats.completedCampaigns} campaigns completed
                 </p>
               </div>
@@ -304,10 +304,10 @@ export default function CompanyDetailsPage() {
             <div className="bg-white rounded-xl border border-border overflow-hidden">
               <div className="flex items-center justify-between p-5 border-b border-border">
                 <div>
-                  <h3 className="text-lg font-MontserratBold text-gray-900">
+                  <h3 className="text-lg font-bold text-slate-900">
                     Campaigns
                   </h3>
-                  <p className="text-sm text-gray-500 mt-0.5">
+                  <p className="text-sm text-slate-500 mt-0.5">
                     {stats.totalCampaigns > 0
                       ? `All campaigns linked to ${company.displayName}`
                       : "No campaigns yet for this company"}
@@ -328,10 +328,10 @@ export default function CompanyDetailsPage() {
                   {campaigns.map((campaign) => (
                     <div
                       key={campaign.id}
-                      className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                      className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
                     >
                       <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">
                           {campaign.coverImageUrl ? (
                             <img
                               src={campaign.coverImageUrl}
@@ -339,14 +339,14 @@ export default function CompanyDetailsPage() {
                               className="w-full h-full object-cover rounded-lg"
                             />
                           ) : (
-                            <FileText className="w-5 h-5 text-gray-400" />
+                            <FileText className="w-5 h-5 text-slate-400" />
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-gray-900 truncate">
+                          <p className="font-medium text-slate-900 truncate">
                             {campaign.title}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-slate-500">
                             {campaign.category || "Uncategorized"} ·{" "}
                             {campaign.fundingGoal.toLocaleString()}{" "}
                             {campaign.currency}
@@ -356,7 +356,7 @@ export default function CompanyDetailsPage() {
 
                       <div className="flex items-center gap-4 flex-shrink-0">
                         <div className="hidden sm:flex items-center gap-2">
-                          <div className="w-16 h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
                             <div
                               className={`h-full rounded-full ${
                                 campaign.progressPercentage >= 100
@@ -370,7 +370,7 @@ export default function CompanyDetailsPage() {
                               }}
                             />
                           </div>
-                          <span className="text-xs font-medium text-gray-500 w-8">
+                          <span className="text-xs font-medium text-slate-500 w-8">
                             {campaign.progressPercentage}%
                           </span>
                         </div>
@@ -387,11 +387,11 @@ export default function CompanyDetailsPage() {
               ) : (
                 <div className="text-center py-12">
                   <div className="flex flex-col items-center gap-3">
-                    <Layers className="w-12 h-12 text-gray-300" />
-                    <p className="text-gray-500 font-medium">
+                    <Layers className="w-12 h-12 text-slate-300" />
+                    <p className="text-slate-500 font-medium">
                       No campaigns yet
                     </p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-slate-400 text-sm">
                       Create your first campaign for this company
                     </p>
                   </div>

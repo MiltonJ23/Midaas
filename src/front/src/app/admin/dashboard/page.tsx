@@ -107,10 +107,10 @@ export default function DashboardPage() {
           {/* Header */}
           <div className="flex items-center justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-2xl font-MontserratBold text-gray-900">
+              <h1 className="text-2xl font-bold text-slate-900">
                 Admin Dashboard
               </h1>
-              <p className="text-gray-500 text-sm mt-1">
+              <p className="text-slate-500 text-sm mt-1">
                 Manage companies, entrepreneurs and platform users
               </p>
             </div>
@@ -121,7 +121,7 @@ export default function DashboardPage() {
             <Link href="/admin/companies/pending">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-slate-500">
                     En attente de validation
                   </p>
                   <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
@@ -135,9 +135,9 @@ export default function DashboardPage() {
             <Link href="/admin/companies/pending">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Total Companies</p>
-                  <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                    <Building2 className="w-4 h-4 text-gray-600" />
+                  <p className="text-sm text-slate-500">Total Companies</p>
+                  <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
+                    <Building2 className="w-4 h-4 text-slate-600" />
                   </div>
                 </div>
                 <p className="text-2xl font-bold mt-2">{pendingCount}</p>
@@ -147,7 +147,7 @@ export default function DashboardPage() {
             <Link href="/admin/entrepreneurs">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Entrepreneurs</p>
+                  <p className="text-sm text-slate-500">Entrepreneurs</p>
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                     <UserCheck className="w-4 h-4 text-emerald-600" />
                   </div>
@@ -159,7 +159,7 @@ export default function DashboardPage() {
             <Link href="/admin/users">
               <div className="bg-white rounded-xl border border-border p-5 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Users</p>
+                  <p className="text-sm text-slate-500">Users</p>
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <Users className="w-4 h-4 text-blue-600" />
                   </div>
@@ -178,10 +178,10 @@ export default function DashboardPage() {
                     <Shield className="w-6 h-6 text-amber-600" />
                   </div>
                   <div>
-                    <h3 className="font-MontserratSemiBold text-gray-900">
+                    <h3 className="font-semibold text-slate-900">
                       Review Companies
                     </h3>
-                    <p className="text-sm text-gray-500 mt-0.5">
+                    <p className="text-sm text-slate-500 mt-0.5">
                       {pendingReviewCount > 0
                         ? `${pendingReviewCount} company(ies) pending`
                         : "None pending"}
@@ -198,10 +198,10 @@ export default function DashboardPage() {
                     <Users className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
-                    <h3 className="font-MontserratSemiBold text-gray-900">
+                    <h3 className="font-semibold text-slate-900">
                       Manage Entrepreneurs
                     </h3>
-                    <p className="text-sm text-gray-500 mt-0.5">
+                    <p className="text-sm text-slate-500 mt-0.5">
                       {entrepreneursCount} entrepreneur(s) inscrit(s)
                     </p>
                   </div>
@@ -216,10 +216,10 @@ export default function DashboardPage() {
                     <Users className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-MontserratSemiBold text-gray-900">
+                    <h3 className="font-semibold text-slate-900">
                       View Users
                     </h3>
-                    <p className="text-sm text-gray-500 mt-0.5">
+                    <p className="text-sm text-slate-500 mt-0.5">
                       {usersCount} utilisateur(s) inscrit(s)
                     </p>
                   </div>
@@ -233,10 +233,10 @@ export default function DashboardPage() {
             <div className="bg-white rounded-xl border border-border overflow-hidden">
               <div className="flex items-center justify-between p-5 border-b border-border">
                 <div>
-                  <h3 className="text-lg font-MontserratBold text-gray-900">
+                  <h3 className="text-lg font-bold text-slate-900">
                     Latest Pending Requests
                   </h3>
-                  <p className="text-sm text-gray-500 mt-0.5">
+                  <p className="text-sm text-slate-500 mt-0.5">
                     Companies awaiting your review
                   </p>
                 </div>
@@ -250,17 +250,17 @@ export default function DashboardPage() {
                 {pendingCompanies.slice(0, 5).map((company) => (
                   <div
                     key={company.id}
-                    className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center border border-border">
-                        <Building2 className="w-5 h-5 text-gray-500" />
+                      <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center border border-border">
+                        <Building2 className="w-5 h-5 text-slate-500" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-slate-900">
                           {company.trade_name || company.legal_name}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-500">
                           {company.corporate_form}
                           {company.entrepreneur?.user?.full_name
                             ? ` · ${company.entrepreneur.user.full_name}`
@@ -298,10 +298,10 @@ export default function DashboardPage() {
             <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
               <Briefcase className="w-8 h-8 text-amber-600" />
             </div>
-            <h2 className="text-2xl font-MontserratBold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
               Demande en cours de validation
             </h2>
-            <p className="text-gray-600 max-w-lg mx-auto">
+            <p className="text-slate-600 max-w-lg mx-auto">
               Votre demande de passage en mode entrepreneur a été soumise avec
               succès. Un administrateur va vérifier vos informations sous peu.
               Vous recevrez une notification dès que votre statut sera actif.
@@ -318,10 +318,10 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-MontserratBold text-gray-900">
+            <h1 className="text-2xl font-bold text-slate-900">
               Tableau de bord
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-slate-500 text-sm mt-1">
               {isAdmin
                 ? "Midaas Platform Administration"
                 : isActiveEntrepreneur
@@ -357,7 +357,7 @@ export default function DashboardPage() {
               {/* Entrepreneur Stats */}
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Mes entreprises</p>
+                  <p className="text-sm text-slate-500">Mes entreprises</p>
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Building2 className="w-4 h-4 text-primary" />
                   </div>
@@ -367,7 +367,7 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Mes campagnes</p>
+                  <p className="text-sm text-slate-500">Mes campagnes</p>
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <Layers className="w-4 h-4 text-blue-600" />
                   </div>
@@ -377,7 +377,7 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Campagnes actives</p>
+                  <p className="text-sm text-slate-500">Campagnes actives</p>
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-emerald-600" />
                   </div>
@@ -387,7 +387,7 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Total collecté</p>
+                  <p className="text-sm text-slate-500">Total collecté</p>
                   <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                     <Target className="w-4 h-4 text-amber-600" />
                   </div>
@@ -395,7 +395,7 @@ export default function DashboardPage() {
                 <p className="text-2xl font-bold mt-2">
                   {totalFundingRaised.toLocaleString()}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">XOF</p>
+                <p className="text-xs text-slate-400 mt-0.5">XOF</p>
               </div>
             </>
           ) : (
@@ -403,7 +403,7 @@ export default function DashboardPage() {
               {/* Investor Stats */}
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Projets disponibles</p>
+                  <p className="text-sm text-slate-500">Projets disponibles</p>
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Layers className="w-4 h-4 text-primary" />
                   </div>
@@ -413,7 +413,7 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Montant total levé</p>
+                  <p className="text-sm text-slate-500">Montant total levé</p>
                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                     <TrendingUp className="w-4 h-4 text-blue-600" />
                   </div>
@@ -421,12 +421,12 @@ export default function DashboardPage() {
                 <p className="text-2xl font-bold mt-2">
                   {totalFundingRaised.toLocaleString()}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">XOF</p>
+                <p className="text-xs text-slate-400 mt-0.5">XOF</p>
               </div>
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Projets actifs</p>
+                  <p className="text-sm text-slate-500">Projets actifs</p>
                   <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                     <Target className="w-4 h-4 text-emerald-600" />
                   </div>
@@ -436,7 +436,7 @@ export default function DashboardPage() {
 
               <div className="bg-white rounded-xl border border-border p-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Investisseurs</p>
+                  <p className="text-sm text-slate-500">Investisseurs</p>
                   <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                     <Users className="w-4 h-4 text-amber-600" />
                   </div>
@@ -452,10 +452,10 @@ export default function DashboardPage() {
           <div className="bg-white rounded-xl border border-border overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-border">
               <div>
-                <h3 className="text-lg font-MontserratBold text-gray-900">
+                <h3 className="text-lg font-bold text-slate-900">
                   Mes entreprises
                 </h3>
-                <p className="text-sm text-gray-500 mt-0.5">
+                <p className="text-sm text-slate-500 mt-0.5">
                   Gérez les entreprises liées à vos campagnes
                 </p>
               </div>
@@ -470,17 +470,17 @@ export default function DashboardPage() {
                 {companies.map((company) => (
                   <div
                     key={company.id}
-                    className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center">
                         <Building2 className="w-5 h-5 text-primary" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">
+                        <p className="font-medium text-slate-900">
                           {company.displayName}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-500">
                           {company.corporateForm} ·{" "}
                           {company.industrySector || "Non spécifié"}
                         </p>
@@ -504,11 +504,11 @@ export default function DashboardPage() {
             ) : (
               <div className="text-center py-12">
                 <div className="flex flex-col items-center gap-3">
-                  <Building2 className="w-12 h-12 text-gray-300" />
-                  <p className="text-gray-500 font-medium">
+                  <Building2 className="w-12 h-12 text-slate-300" />
+                  <p className="text-slate-500 font-medium">
                     Aucune entreprise créée
                   </p>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-slate-400 text-sm">
                     Créez votre première entreprise pour commencer à lancer des
                     campagnes
                   </p>
@@ -526,12 +526,12 @@ export default function DashboardPage() {
         <div className="bg-white rounded-xl border border-border overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-border">
             <div>
-              <h3 className="text-lg font-MontserratBold text-gray-900">
+              <h3 className="text-lg font-bold text-slate-900">
                 {isActiveEntrepreneur
                   ? "Mes campagnes récentes"
                   : "Campagnes récentes"}
               </h3>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <p className="text-sm text-slate-500 mt-0.5">
                 {isActiveEntrepreneur
                   ? "Aperçu de vos dernières campagnes"
                   : "Découvrez les dernières opportunités"}
@@ -554,10 +554,10 @@ export default function DashboardPage() {
               {campaigns.slice(0, 5).map((campaign) => (
                 <div
                   key={campaign.id}
-                  className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center overflow-hidden flex-shrink-0">
                       {campaign.coverImageUrl ? (
                         <img
                           src={campaign.coverImageUrl}
@@ -565,14 +565,14 @@ export default function DashboardPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <Layers className="w-5 h-5 text-gray-400" />
+                        <Layers className="w-5 h-5 text-slate-400" />
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-medium text-gray-900 truncate">
+                      <p className="font-medium text-slate-900 truncate">
                         {campaign.title}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-500">
                         {campaign.category || "Non catégorisé"} ·{" "}
                         {campaign.fundingGoal.toLocaleString()}{" "}
                         {campaign.currency}
@@ -582,7 +582,7 @@ export default function DashboardPage() {
 
                   <div className="flex items-center gap-4 flex-shrink-0">
                     <div className="hidden sm:flex items-center gap-2">
-                      <div className="w-16 h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full ${
                             campaign.progressPercentage >= 100
@@ -594,7 +594,7 @@ export default function DashboardPage() {
                           style={{ width: `${campaign.progressPercentage}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-gray-500 w-8">
+                      <span className="text-xs font-medium text-slate-500 w-8">
                         {campaign.progressPercentage}%
                       </span>
                     </div>
@@ -619,13 +619,13 @@ export default function DashboardPage() {
           ) : (
             <div className="text-center py-12">
               <div className="flex flex-col items-center gap-3">
-                <Search className="w-12 h-12 text-gray-300" />
-                <p className="text-gray-500 font-medium">
+                <Search className="w-12 h-12 text-slate-300" />
+                <p className="text-slate-500 font-medium">
                   {isActiveEntrepreneur
                     ? "Aucune campagne créée"
                     : "Aucune campagne disponible"}
                 </p>
-                <p className="text-gray-400 text-sm">
+                <p className="text-slate-400 text-sm">
                   {isActiveEntrepreneur
                     ? "Créez votre première campagne après avoir enregistré une entreprise"
                     : "Revenez plus tard pour découvrir les nouveaux projets"}
@@ -645,10 +645,10 @@ export default function DashboardPage() {
         {!isActiveEntrepreneur &&
           !isPendingEntrepreneur &&
           campaignCount > 0 && (
-            <div className="bg-gradient-to-br from-[#5E0E08] to-[#7A1A12] rounded-2xl p-8 text-white">
+            <div className="bg-primary rounded-2xl p-8 text-white">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
-                  <h3 className="text-xl font-MontserratBold">
+                  <h3 className="text-xl font-bold">
                     Prêt à investir ?
                   </h3>
                   <p className="text-white/80 mt-1 max-w-lg text-sm">
@@ -657,7 +657,7 @@ export default function DashboardPage() {
                   </p>
                 </div>
                 <Link href="/admin/projects">
-                  <Button className="bg-white text-[#5E0E08] hover:bg-gray-100 gap-2 min-w-[180px]">
+                  <Button className="bg-white text-primary hover:bg-slate-100 gap-2 min-w-[180px]">
                     Explorer les projets
                     <ArrowRight className="w-4 h-4" />
                   </Button>

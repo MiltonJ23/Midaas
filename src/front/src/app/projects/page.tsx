@@ -118,7 +118,7 @@ export default function ValidatedProjectsPage() {
       {/* Top Static Context Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h1 className="text-2xl font-MontserratSemiBold text-foreground">
+          <h1 className="text-2xl font-semibold text-foreground">
             Validated Projects
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -133,7 +133,7 @@ export default function ValidatedProjectsPage() {
             onClick={() => setViewMode("grid")}
             className={`p-2 rounded-md transition-colors ${
               viewMode === "grid"
-                ? "text-[#e9b807]"
+                ? "text-primary"
                 : "text-black hover:bg-slate-100"
             }`}
             title="Grid Layout"
@@ -156,7 +156,7 @@ export default function ValidatedProjectsPage() {
             onClick={() => setViewMode("list")}
             className={`p-2 rounded-md transition-colors ${
               viewMode === "list"
-                ? "text-[#e9b807]"
+                ? "text-primary"
                 : "text-black hover:bg-slate-100"
             }`}
             title="List Layout"
@@ -231,7 +231,7 @@ export default function ValidatedProjectsPage() {
                     {project.category}
                   </span>
                   <span
-                    className={`text-[10px] font-MontserratSemiBold uppercase tracking-wider px-2 py-0.5 rounded ${
+                    className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded ${
                       project.status === "Active"
                         ? "bg-green-100 text-green-800"
                         : project.status === "Completed"
@@ -243,7 +243,7 @@ export default function ValidatedProjectsPage() {
                   </span>
                 </div>
 
-                <h3 className="font-MontserratSemiBold text-base text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
+                <h3 className="font-semibold text-base text-foreground group-hover:text-primary transition-colors line-clamp-1 mb-1">
                   {project.title}
                 </h3>
                 <p className="text-xs text-muted-foreground mb-4">
@@ -328,7 +328,7 @@ export default function ValidatedProjectsPage() {
                 >
                   <TableCell className="pl-6">
                     <div className="flex flex-col">
-                      <span className="font-MontserratSemiBold text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <span className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
                         {project.title}
                       </span>
                       <span className="text-xs text-muted-foreground">
@@ -363,7 +363,7 @@ export default function ValidatedProjectsPage() {
                   </TableCell>
                   <TableCell className="pr-6">
                     <span
-                      className={`text-[10px] font-MontserratSemiBold uppercase tracking-wider px-2 py-1 rounded-md ${
+                      className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-md ${
                         project.status === "Active"
                           ? "bg-green-100 text-green-800"
                           : project.status === "Completed"

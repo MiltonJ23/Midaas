@@ -213,8 +213,8 @@ export default function AdminCompanyReviewPage() {
       <section className="p-6">
         <div className="max-w-5xl mx-auto mt-8 flex items-center justify-center min-h-[500px]">
           <div className="flex flex-col items-center gap-4">
-            <Loader className="w-10 h-10 animate-spin text-gray-300" />
-            <p className="text-gray-400 text-sm">Chargement des données...</p>
+            <Loader className="w-10 h-10 animate-spin text-slate-300" />
+            <p className="text-slate-400 text-sm">Chargement des données...</p>
           </div>
         </div>
       </section>
@@ -236,10 +236,10 @@ export default function AdminCompanyReviewPage() {
           </Button>
           <div className="text-center py-20 bg-white rounded-2xl border border-border">
             <AlertTriangle className="w-16 h-16 text-amber-300 mx-auto mb-4" />
-            <h2 className="text-xl font-MontserratBold text-gray-900 mb-2">
+            <h2 className="text-xl font-bold text-slate-900 mb-2">
               Entreprise introuvable
             </h2>
-            <p className="text-gray-500 text-sm">
+            <p className="text-slate-500 text-sm">
               Cette entreprise n&apos;existe pas ou a déjà été traitée.
             </p>
           </div>
@@ -262,7 +262,7 @@ export default function AdminCompanyReviewPage() {
             Retour à la liste
           </Button>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500 font-MontserratSemiBold">
+            <span className="text-sm text-slate-500 font-semibold">
               {totalPending > 0 ? `${currentIndex + 1} / ${totalPending}` : "—"}
             </span>
             <div className="flex gap-1">
@@ -310,7 +310,7 @@ export default function AdminCompanyReviewPage() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-2xl font-MontserratBold">
+                <h1 className="text-2xl font-bold">
                   {company.trade_name || company.legal_name}
                 </h1>
                 <span
@@ -320,12 +320,12 @@ export default function AdminCompanyReviewPage() {
                   {meta.label}
                 </span>
               </div>
-              <p className="text-gray-400 text-sm mt-1.5">
+              <p className="text-slate-400 text-sm mt-1.5">
                 {company.legal_name} · {company.corporate_form}
                 {company.industry_sector && ` · ${company.industry_sector}`}
               </p>
               {isTreated && (
-                <p className="text-xs text-gray-500 mt-2 italic">
+                <p className="text-xs text-slate-500 mt-2 italic">
                   Cette demande a déjà été traitée
                 </p>
               )}
@@ -353,12 +353,12 @@ export default function AdminCompanyReviewPage() {
                   }`}
                 >
                   <span
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-MontserratBold transition-all ${
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
                       isActive
-                        ? "bg-[#00de00] text-white shadow-lg shadow-[#00de00]/20"
+                        ? "bg-primary text-white shadow-lg shadow-primary/20"
                         : isDone
                           ? "bg-emerald-100 text-emerald-700"
-                          : "bg-gray-100 text-gray-400"
+                          : "bg-slate-100 text-slate-400"
                     }`}
                   >
                     {isDone ? (
@@ -368,8 +368,8 @@ export default function AdminCompanyReviewPage() {
                     )}
                   </span>
                   <span
-                    className={`text-[10px] font-MontserratSemiBold whitespace-nowrap ${
-                      isActive ? "text-gray-900" : "text-gray-400"
+                    className={`text-[10px] font-semibold whitespace-nowrap ${
+                      isActive ? "text-slate-900" : "text-slate-400"
                     }`}
                   >
                     {s.label}
@@ -384,23 +384,23 @@ export default function AdminCompanyReviewPage() {
         <div className="bg-white rounded-2xl border border-border p-6 md:p-8">
           {detailLoading ? (
             <div className="flex items-center justify-center py-16">
-              <Loader className="w-8 h-8 animate-spin text-gray-300" />
+              <Loader className="w-8 h-8 animate-spin text-slate-300" />
             </div>
           ) : (
             <>
               {/* Step header */}
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
-                <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
                   {(() => {
                     const Icon = step.icon;
-                    return <Icon className="w-5 h-5 text-gray-600" />;
+                    return <Icon className="w-5 h-5 text-slate-600" />;
                   })()}
                 </div>
                 <div>
-                  <h2 className="text-lg font-MontserratBold text-gray-900">
+                  <h2 className="text-lg font-bold text-slate-900">
                     {step.label}
                   </h2>
-                  <p className="text-sm text-gray-500">{step.description}</p>
+                  <p className="text-sm text-slate-500">{step.description}</p>
                 </div>
               </div>
 
@@ -471,8 +471,8 @@ function StepIdentity({ company }: { company: AdminCompanyDetail }) {
     <div className="space-y-8">
       {/* Company identity */}
       <div>
-        <h3 className="text-base font-MontserratSemiBold text-gray-900 mb-4 flex items-center gap-2">
-          <Building2 className="w-4 h-4 text-gray-400" />
+        <h3 className="text-base font-semibold text-slate-900 mb-4 flex items-center gap-2">
+          <Building2 className="w-4 h-4 text-slate-400" />
           Informations générales
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -519,26 +519,26 @@ function StepIdentity({ company }: { company: AdminCompanyDetail }) {
       {/* Entrepreneur */}
       {company.entrepreneur && (
         <div>
-          <h3 className="text-base font-MontserratSemiBold text-gray-900 mb-4 flex items-center gap-2">
-            <User className="w-4 h-4 text-gray-400" />
+          <h3 className="text-base font-semibold text-slate-900 mb-4 flex items-center gap-2">
+            <User className="w-4 h-4 text-slate-400" />
             Porteur du projet
           </h3>
-          <div className="p-5 bg-gray-50 rounded-xl border border-border">
+          <div className="p-5 bg-slate-50 rounded-xl border border-border">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center flex-shrink-0 border border-emerald-100">
                 <User className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
-                <p className="font-MontserratSemiBold text-gray-900">
+                <p className="font-semibold text-slate-900">
                   {company.entrepreneur.user?.full_name || "Inconnu"}
                 </p>
                 {company.entrepreneur.user?.email && (
-                  <p className="text-sm text-gray-500 mt-0.5">
+                  <p className="text-sm text-slate-500 mt-0.5">
                     {company.entrepreneur.user.email}
                   </p>
                 )}
                 {company.entrepreneur.user?.phone_number && (
-                  <p className="text-sm text-gray-400 mt-0.5">
+                  <p className="text-sm text-slate-400 mt-0.5">
                     {company.entrepreneur.user.phone_number}
                   </p>
                 )}
@@ -579,7 +579,7 @@ function StepLegal({ company }: { company: AdminCompanyDetail }) {
         value={docs?.rccm_number || "—"}
       />
 
-      <h4 className="text-sm font-MontserratSemiBold text-gray-700 mt-6 mb-3">
+      <h4 className="text-sm font-semibold text-slate-700 mt-6 mb-3">
         Documents fournis
       </h4>
 
@@ -612,27 +612,27 @@ function StepOwners({ company }: { company: AdminCompanyDetail }) {
   return (
     <div className="space-y-4">
       {owners.map((o, i) => (
-        <div key={i} className="p-5 bg-gray-50 rounded-xl border border-border">
+        <div key={i} className="p-5 bg-slate-50 rounded-xl border border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
                 <Users className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="font-MontserratSemiBold text-gray-900">
+                <p className="font-semibold text-slate-900">
                   {o.full_name}
                 </p>
-                <p className="text-sm text-gray-500">Actionnaire #{i + 1}</p>
+                <p className="text-sm text-slate-500">Actionnaire #{i + 1}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-lg font-MontserratBold text-emerald-600">
+              <p className="text-lg font-bold text-emerald-600">
                 {o.equity_percentage}%
               </p>
-              <p className="text-xs text-gray-400">Parts</p>
+              <p className="text-xs text-slate-400">Parts</p>
             </div>
           </div>
-          <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+          <div className="mt-3 w-full bg-slate-200 rounded-full h-2">
             <div
               className="bg-emerald-500 h-2 rounded-full"
               style={{ width: `${Math.min(o.equity_percentage, 100)}%` }}
@@ -640,7 +640,7 @@ function StepOwners({ company }: { company: AdminCompanyDetail }) {
           </div>
         </div>
       ))}
-      <div className="p-4 bg-gray-50 rounded-xl border border-border text-sm text-gray-500 text-center">
+      <div className="p-4 bg-slate-50 rounded-xl border border-border text-sm text-slate-500 text-center">
         Total : {owners.reduce((s, o) => s + o.equity_percentage, 0)}%
       </div>
     </div>
@@ -663,16 +663,16 @@ function StepManagement({ company }: { company: AdminCompanyDetail }) {
   return (
     <div className="space-y-4">
       {managers.map((m, i) => (
-        <div key={i} className="p-5 bg-gray-50 rounded-xl border border-border">
+        <div key={i} className="p-5 bg-slate-50 rounded-xl border border-border">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-blue-600" />
             </div>
             <div className="flex-1">
-              <p className="font-MontserratSemiBold text-gray-900">
+              <p className="font-semibold text-slate-900">
                 {m.full_name}
               </p>
-              <p className="text-sm text-gray-500">{m.role}</p>
+              <p className="text-sm text-slate-500">{m.role}</p>
             </div>
           </div>
         </div>
@@ -694,7 +694,7 @@ function StepFinancial({ company }: { company: AdminCompanyDetail }) {
         value={fin?.dsf_years?.length ? fin.dsf_years.join(", ") : "—"}
       />
 
-      <h4 className="text-sm font-MontserratSemiBold text-gray-700 mt-6 mb-3">
+      <h4 className="text-sm font-semibold text-slate-700 mt-6 mb-3">
         Relevés financiers
       </h4>
       <div className="space-y-3">
@@ -763,10 +763,10 @@ function StepDecision({
             <XCircle className="w-8 h-8 text-red-600" />
           )}
         </div>
-        <h3 className="text-xl font-MontserratBold text-gray-900 mb-2">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
           {isApproved ? "Entreprise approuvée" : "Entreprise rejetée"}
         </h3>
-        <p className="text-gray-500 text-sm max-w-md mx-auto">
+        <p className="text-slate-500 text-sm max-w-md mx-auto">
           {isApproved
             ? "Cette entreprise a été validée et peut désormais lancer des campagnes."
             : "Cette entreprise a été rejetée. L'entrepreneur sera notifié."}
@@ -781,10 +781,10 @@ function StepDecision({
         <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
           <Shield className="w-8 h-8 text-amber-600" />
         </div>
-        <h3 className="text-xl font-MontserratBold text-gray-900 mb-2">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
           Prêt à statuer ?
         </h3>
-        <p className="text-gray-500 text-sm max-w-md mx-auto">
+        <p className="text-slate-500 text-sm max-w-md mx-auto">
           Vous avez examiné toutes les informations. Confirmez votre décision
           pour cette entreprise.
         </p>
@@ -816,7 +816,7 @@ function StepDecision({
           </Button>
         ) : (
           <div className="space-y-3 p-4 rounded-xl bg-red-50 border border-red-200">
-            <label className="block text-sm font-MontserratSemiBold text-red-800">
+            <label className="block text-sm font-semibold text-red-800">
               Motif du rejet
             </label>
             <MUITextarea
@@ -876,12 +876,12 @@ function Field({
 }) {
   return (
     <div className="min-w-0">
-      <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-1">
+      <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
         <Icon className="w-3.5 h-3.5" />
         <span>{label}</span>
       </div>
       <p
-        className={`text-sm font-MontserratSemiBold truncate ${muted ? "text-gray-400" : "text-gray-900"}`}
+        className={`text-sm font-semibold truncate ${muted ? "text-slate-400" : "text-slate-900"}`}
       >
         {value}
       </p>
@@ -892,17 +892,17 @@ function Field({
 function DocRow({ label, urls }: { label: string; urls?: string[] }) {
   const docs = urls ?? [];
   return (
-    <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-border">
+    <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-border">
       <div className="flex items-center gap-2 min-w-0">
-        <FileText className="w-4 h-4 text-gray-400 flex-shrink-0" />
-        <span className="text-sm text-gray-700 truncate">{label}</span>
+        <FileText className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        <span className="text-sm text-slate-700 truncate">{label}</span>
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
         {docs.length === 0 ? (
-          <span className="text-xs text-gray-400">Aucun fichier</span>
+          <span className="text-xs text-slate-400">Aucun fichier</span>
         ) : (
           <>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-500">
               {docs.length} fichier(s)
             </span>
             {docs.map((url, i) => (
@@ -911,7 +911,7 @@ function DocRow({ label, urls }: { label: string; urls?: string[] }) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg bg-white border border-border hover:bg-gray-100 transition-colors"
+                className="p-1.5 rounded-lg bg-white border border-border hover:bg-slate-100 transition-colors"
                 title={`Voir ${label} #${i + 1}`}
               >
                 <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
@@ -934,7 +934,7 @@ function EmptyState({
   return (
     <div className="text-center py-10">
       <Icon className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-      <p className="text-gray-400 text-sm">{message}</p>
+      <p className="text-slate-400 text-sm">{message}</p>
     </div>
   );
 }
