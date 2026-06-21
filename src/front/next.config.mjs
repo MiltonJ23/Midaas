@@ -5,39 +5,30 @@ const withPWA = withPWAInit({
   dest: "public",
   disable: true,
   aggressiveFrontEndNavCaching: false,
-  register: process.env.NODE_ENV === "production", // Only register in production
-  //   skipWaiting: process.env.NODE_ENV === 'production', // Only skip waiting in production
+  register: process.env.NODE_ENV === "production",
 });
 
 export default withPWA({
   reactStrictMode: false,
 
   eslint: {
-    // ⚠ Ignore ESLint errors during builds - this is to eqse dockerization
     ignoreDuringBuilds: true,
   },
 
   typescript: {
-    // ⚠ Ignore Typescript errors during builds - this is to eqse dockerization
     ignoreBuildErrors: true,
   },
 
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-      {
-        protocol: "https",
-        hostname: "backend.mymidaas.com",
-      },
-      {
-        protocol: "http",
-        hostname: "backend.mymidaas.com",
-      },
+      { protocol: "https", hostname: "picsum.photos" },
+      { protocol: "https", hostname: "backend.mymidaas.com" },
+      { protocol: "http", hostname: "backend.mymidaas.com" },
     ],
   },
+
+  // Force output to the standard directory
+  distDir: ".next",
 
   async redirects() {
     return [];
