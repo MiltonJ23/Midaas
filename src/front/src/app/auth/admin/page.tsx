@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/atoms/button";
 import { MUIInput } from "@/components/atoms/input";
-import Image from "next/image";
 import Link from "next/link";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useState, useEffect } from "react";
@@ -28,7 +27,7 @@ export default function AdminSignin() {
   const { admin, loadAdmin } = useAdminStore();
   const { loadUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const [passwordViewed, setPasswordViewed] = useState(false);
+  const [pw, setPw] = useState(false);
 
   useEffect(() => {
     const token = Storage.getItem(AdminStorageKeys.adminAccess);
@@ -37,27 +36,22 @@ export default function AdminSignin() {
     }
   }, [admin, router]);
 
-  const onSubmit: SubmitHandler<IAdminSigninForm> = async (formData) => {
+  const onSubmit: SubmitHandler<IAdminSigninForm> = async (fd) => {
     setLoading(true);
-    const { data, error } = await adminProvider.login(formData);
-
+    const { data, error } = await adminProvider.login(fd);
     if (data && !error) {
       loadAdmin(data.admin);
-
-      const adminUser = new User({
-        id: data.admin.id,
-        email: data.admin.email,
-        name: data.admin.full_name,
-        validationStatus: "verified",
-        role: "admin",
-      });
-      loadUser(adminUser);
-
-      if (data.token) {
-        Storage.setItem(StorageKeys.access, data.token);
-      }
-
-      toast.success("Connexion administrateur réussie");
+      loadUser(
+        new User({
+          id: data.admin.id,
+          email: data.admin.email,
+          name: data.admin.full_name,
+          validationStatus: "verified",
+          role: "admin",
+        })
+      );
+      if (data.token) Storage.setItem(StorageKeys.access, data.token);
+      toast.success("Connexion reussie");
       reset();
       router.push("/admin/dashboard");
     } else {
@@ -67,34 +61,20 @@ export default function AdminSignin() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        {/* Shield badge */}
         <div className="flex justify-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-2xl bg-primary/15 border border-primary/25 flex items-center justify-center">
             <Shield className="w-7 h-7 text-primary" />
           </div>
         </div>
-
-        {/* Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8">
           <div className="flex justify-center mb-6">
-            <Image
-              src="/logo.png"
-              alt="Midaas Admin"
-              width={120}
-              height={36}
-              className="object-contain brightness-0 invert opacity-90"
-            />
+            <span className="text-lg font-bold text-white">MIDAAS</span>
           </div>
-
           <div className="text-center mb-8">
-            <h1 className="text-lg font-bold text-white">Administration</h1>
-            <p className="text-slate-400 text-sm mt-1">
-              Accès réservé aux administrateurs
-            </p>
+            <p className="text-xs text-slate-500 uppercase tracking-[0.2em]">Administration</p>
           </div>
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <Controller
               name="email"
@@ -111,7 +91,6 @@ export default function AdminSignin() {
                 />
               )}
             />
-
             <Controller
               name="password"
               control={control}
@@ -120,16 +99,16 @@ export default function AdminSignin() {
                 <MUIInput
                   {...field}
                   label="Mot de passe"
-                  type={passwordViewed ? "text" : "password"}
+                  type={pw ? "text" : "password"}
                   placeholder="Votre mot de passe"
                   before={<Lock className="w-4 h-4" />}
                   after={
                     <button
                       type="button"
-                      onClick={() => setPasswordViewed((prev) => !prev)}
+                      onClick={() => setPw((p) => !p)}
                       className="text-slate-500 hover:text-slate-300"
                     >
-                      {passwordViewed ? (
+                      {pw ? (
                         <EyeOff className="w-4 h-4" />
                       ) : (
                         <Eye className="w-4 h-4" />
@@ -140,23 +119,19 @@ export default function AdminSignin() {
                 />
               )}
             />
-
             <Button
               className="w-full bg-primary hover:bg-primary/90 text-white"
-              size="lg"
-              type="submit"
               disabled={loading}
             >
-              {loading ? "Connexion..." : "Accéder au panel"}
+              {loading ? "Connexion..." : "Acceder au panel"}
             </Button>
           </form>
-
           <div className="mt-6 pt-6 border-t border-slate-800 text-center">
             <Link
               href="/auth/signin"
-              className="text-slate-500 text-sm hover:text-slate-300 transition-colors"
+              className="text-xs text-slate-500 hover:text-slate-400"
             >
-              Retour à l&apos;espace utilisateur
+              Retour a l&apos;espace utilisateur
             </Link>
           </div>
         </div>

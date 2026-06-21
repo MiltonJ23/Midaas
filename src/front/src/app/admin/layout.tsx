@@ -38,7 +38,7 @@ export default function Layout({ children }: Props) {
   const pathname = usePathname();
 
   return (
-    <section className="bg-slate-50 w-screen h-screen flex overflow-hidden">
+    <section className="bg-white w-screen h-screen flex overflow-hidden">
       {/* Navbar */}
       <div className="fixed top-0 left-0 right-0 z-30">
         <Navbar

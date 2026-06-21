@@ -1,655 +1,130 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { campaignProvider, type DiscoverProjectItem } from "@/api/campaigns";
+import { ArrowRight, Search, MapPin } from "lucide-react";
 
-const CATEGORIES = [
-  "All",
-  "Fintech",
-  "Agribusiness",
-  "Healthcare",
-  "Energy",
-  "Tech & Innovation",
-  "Retail & Trade",
-];
+const CATEGORIES = ["All", "Fintech", "Agribusiness", "Healthcare", "Energy", "Tech & Innovation", "Retail & Trade"];
 
-const CORPORATE_FORMS = ["All", "ETS", "SARL", "SA", "SAS"];
-
-/* ─── Helpers ─────────────────────────── */
-
-const categoryColor = (cat: string) => {
-  const map: Record<string, string> = {
-    Fintech: "bg-blue-100 text-blue-700",
-    Agribusiness: "bg-green-100 text-green-700",
-    Healthcare: "bg-red-100 text-red-700",
-    Energy: "bg-yellow-100 text-yellow-700",
-    "Tech & Innovation": "bg-purple-100 text-purple-700",
-    "Retail & Trade": "bg-orange-100 text-orange-700",
-  };
-  return map[cat] ?? "bg-slate-100 text-slate-600";
-};
-
-const formatCurrency = (amount: number, currency = "XOF") =>
-  new Intl.NumberFormat("en-US").format(amount) + ` ${currency}`;
-
-/* ─── Component ──────────────────────── */
+const fmt = (n: number, c = "XOF") => new Intl.NumberFormat("fr-FR").format(n) + " " + c;
 
 export default function ExplorePage() {
   const [projects, setProjects] = useState<DiscoverProjectItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sectorFilter, setSectorFilter] = useState("All");
-  const [formFilter, setFormFilter] = useState("All");
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await campaignProvider.discover();
-      if (data) setProjects(data);
-      setLoading(false);
-    })();
-  }, []);
+  useEffect(() => { (async () => { const { data } = await campaignProvider.discover(); if (data) setProjects(data); setLoading(false); })(); }, []);
 
-  const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      const sector = p.company?.industry_sector ?? p.category ?? "";
-      const form = p.company?.corporate_form ?? "";
-
-      if (sectorFilter !== "All" && sector !== sectorFilter) return false;
-      if (formFilter !== "All" && form !== formFilter) return false;
-
-      if (search) {
-        const q = search.toLowerCase();
-        const matchesProject = p.title.toLowerCase().includes(q);
-        const matchesCompany = (p.company?.legal_name ?? "")
-          .toLowerCase()
-          .includes(q);
-        const matchesSector = sector.toLowerCase().includes(q);
-        if (!matchesProject && !matchesCompany && !matchesSector) return false;
-      }
-      return true;
-    });
-  }, [projects, search, sectorFilter, formFilter]);
+  const filtered = useMemo(() => projects.filter((p) => {
+    const sector = p.company?.industry_sector ?? p.category ?? "";
+    if (sectorFilter !== "All" && sector !== sectorFilter) return false;
+    if (search) { const q = search.toLowerCase(); if (!p.title.toLowerCase().includes(q) && !(p.company?.legal_name ?? "").toLowerCase().includes(q) && !sector.toLowerCase().includes(q)) return false; }
+    return true;
+  }), [projects, search, sectorFilter]);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ─── NAV ──────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <Image
-                src="/logo.png"
-                alt="Midaas"
-                width={100}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-
-            <nav className="hidden md:flex items-center gap-8">
-              <Link
-                href="/#features"
-                className="text-sm text-slate-600 hover:text-primary transition-colors font-sans"
-              >
-                Features
-              </Link>
-              <Link
-                href="/#how-it-works"
-                className="text-sm text-slate-600 hover:text-primary transition-colors font-sans"
-              >
-                How It Works
-              </Link>
-              <Link
-                href="/explore"
-                className="text-sm text-primary font-semibold"
-              >
-                Explore Projects
-              </Link>
-            </nav>
-
-            <div className="hidden md:flex items-center gap-3">
-              <Link
-                href="/auth/signin"
-                className="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-primary transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="px-5 py-2.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-sm"
-              >
-                Get Started
-              </Link>
-            </div>
-
-            <button
-              className="md:hidden p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              >
-                {mobileMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <>
-                    <path d="M4 6h16M4 12h16M4 18h16" />
-                  </>
-                )}
-              </svg>
-            </button>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
+        <div className="max-w-7xl mx-auto px-8 lg:px-12 flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M2 24L8 6L14 24L20 6L26 24" stroke="#C2410C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 24L14 12L20 24" stroke="#C2410C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/></svg>
+            <span className="text-lg font-bold text-black">MIDAAS</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/auth/signin" className="text-sm text-black/50 hover:text-primary transition-colors font-medium">Se connecter</Link>
+            <Link href="/auth/signup" className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary/90 transition-all shadow-sm shadow-primary/25">Investir <ArrowRight className="w-3.5 h-3.5" /></Link>
           </div>
-        </div>
-
-        <div
-          className={twMerge(
-            "md:hidden overflow-hidden transition-all duration-300",
-            mobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
-          )}
-        >
-          <div className="px-4 py-4 space-y-3 border-t border-slate-100">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-slate-600 py-2"
-            >
-              Home
-            </Link>
-            <Link
-              href="/#features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-slate-600 py-2"
-            >
-              Features
-            </Link>
-            <Link
-              href="/#how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-slate-600 py-2"
-            >
-              How It Works
-            </Link>
-            <hr className="border-slate-100" />
-            <Link
-              href="/auth/signin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-semibold text-slate-700 py-2"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/auth/signup"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-center text-sm font-semibold text-white bg-primary rounded-full py-2.5"
-            >
-              Get Started
-            </Link>
-          </div>
+          <button className="md:hidden text-black/50" onClick={() => setMobileOpen(!mobileOpen)}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">{mobileOpen ? <path d="M6 18L18 6M6 6l12 12" /> : <><path d="M4 6h16M4 12h16M4 18h16" /></>}</svg>
+          </button>
         </div>
       </header>
 
-      {/* ─── HERO ─────────────────────────── */}
-      <section className="pt-32 pb-12 md:pt-40 md:pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-            Explore <span className="text-primary">Approved Projects</span>
-          </h1>
-          <p className="mt-4 text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Browse verified businesses and initiatives looking for capital. No
-            account required — dive in and discover where your investment could
-            make a difference.
-          </p>
+      <section className="pt-32 pb-12 px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-black tracking-tight">Explorez les <span className="text-primary">projets verifies</span></h1>
+          <p className="mt-3 text-black/40 max-w-xl mx-auto text-sm">Parcourez les initiatives validees par notre equipe. Aucun compte requis.</p>
         </div>
       </section>
 
-      {/* ─── FILTERS ──────────────────────── */}
-      <section className="pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Search bar */}
-          <div className="relative max-w-xl mx-auto mb-6">
-            <svg
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search by name, industry…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 text-sm border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all"
-            />
+      <section className="pb-8 px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative max-w-md mx-auto mb-6">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/20" />
+            <input type="text" placeholder="Rechercher par nom, secteur..." value={search} onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-11 pr-4 py-3 text-sm border border-black/10 rounded-xl bg-white text-black placeholder:text-black/20 focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all" />
           </div>
-
-          {/* Desktop filters */}
-          <div className="hidden md:flex items-center justify-center gap-3 flex-wrap">
-            {/* Sector */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-slate-400 mr-1">Sector:</span>
-              {CATEGORIES.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSectorFilter(s)}
-                  className={twMerge(
-                    "px-3.5 py-1.5 text-xs rounded-full border transition-colors font-semibold",
-                    sectorFilter === s
-                      ? "bg-primary text-white border-primary"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary",
-                  )}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-            <span className="w-px h-5 bg-slate-200" />
-            {/* Corporate form */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-slate-400 mr-1">Type:</span>
-              {CORPORATE_FORMS.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFormFilter(f)}
-                  className={twMerge(
-                    "px-3 py-1.5 text-xs rounded-full border transition-colors font-semibold",
-                    formFilter === f
-                      ? "bg-gray-900 text-white border-gray-900"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-gray-900 hover:text-slate-900",
-                  )}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile filter toggle */}
-          <div className="md:hidden flex justify-center mb-4">
-            <button
-              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-600 border border-slate-200 rounded-full"
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              >
-                <line x1="4" y1="6" x2="20" y2="6" />
-                <line x1="8" y1="12" x2="20" y2="12" />
-                <line x1="12" y1="18" x2="20" y2="18" />
-              </svg>
-              Filters
-            </button>
-          </div>
-
-          {/* Mobile filter panel */}
-          <div
-            className={twMerge(
-              "md:hidden overflow-hidden transition-all duration-300",
-              mobileFiltersOpen
-                ? "max-h-96 opacity-100 mb-4"
-                : "max-h-0 opacity-0",
-            )}
-          >
-            <div className="space-y-4 bg-slate-50 rounded-xl p-4">
-              <div>
-                <p className="text-xs text-slate-400 mb-2 font-semibold">
-                  Sector
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {CATEGORIES.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setSectorFilter(s)}
-                      className={twMerge(
-                        "px-3 py-1.5 text-xs rounded-full border transition-colors",
-                        sectorFilter === s
-                          ? "bg-primary text-white border-primary"
-                          : "bg-white text-slate-600 border-slate-200",
-                      )}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <p className="text-xs text-slate-400 mb-2 font-semibold">
-                  Legal Form
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {CORPORATE_FORMS.map((f) => (
-                    <button
-                      key={f}
-                      onClick={() => setFormFilter(f)}
-                      className={twMerge(
-                        "px-3 py-1.5 text-xs rounded-full border transition-colors",
-                        formFilter === f
-                          ? "bg-gray-900 text-white border-gray-900"
-                          : "bg-white text-slate-600 border-slate-200",
-                      )}
-                    >
-                      {f}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            {CATEGORIES.map((s) => (
+              <button key={s} onClick={() => setSectorFilter(s)}
+                className={twMerge("px-3.5 py-1.5 text-xs rounded-lg border transition-colors font-medium", sectorFilter === s ? "bg-primary text-white border-primary" : "bg-white text-black/40 border-black/10 hover:border-primary hover:text-primary")}>{s}</button>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─── PROJECT GRID ─────────────────── */}
-      <section className="pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filtered.length === 0 ? (
+      <section className="pb-20 px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto">
+          {loading ? (
+            <div className="flex items-center justify-center py-20"><div className="w-6 h-6 border-2 border-black/10 border-t-primary rounded-full animate-spin" /></div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-20">
-              <svg
-                className="mx-auto mb-4 text-slate-300"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-              <p className="text-slate-400 text-sm">
-                No projects match your filters.
-              </p>
-              <button
-                onClick={() => {
-                  setSearch("");
-                  setSectorFilter("All");
-                  setFormFilter("All");
-                }}
-                className="mt-3 text-xs text-primary hover:underline"
-              >
-                Reset filters
-              </button>
+              <p className="text-black/30 text-sm">Aucun projet ne correspond.</p>
+              <button onClick={() => { setSearch(""); setSectorFilter("All"); }} className="mt-3 text-xs text-primary hover:underline font-medium">Reinitialiser les filtres</button>
             </div>
           ) : (
             <>
-              {loading ? (
-                <div className="flex items-center justify-center py-20">
-                  <svg
-                    className="w-8 h-8 animate-spin text-slate-300"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeDasharray="31.4 31.4"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-              ) : (
-                <>
-                  <p className="text-xs text-slate-400 mb-4">
-                    Showing {filtered.length} of {projects.length} projects
-                  </p>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filtered.map((project) => {
-                      const company = project.company;
-                      const sector =
-                        company?.industry_sector ?? project.category ?? "";
-                      const progress =
-                        project.funding_goal > 0
-                          ? Math.round(
-                              ((project.funding_raised ?? 0) /
-                                project.funding_goal) *
-                                100,
-                            )
-                          : 0;
-
-                      return (
-                        <div
-                          key={project.id}
-                          className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 p-6 flex flex-col"
-                        >
-                          {/* Project title */}
-                          <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1 min-w-0">
-                              <h3 className="text-base font-semibold text-slate-900 truncate">
-                                {project.title}
-                              </h3>
-                              {company && (
-                                <p className="text-xs text-slate-400 mt-0.5 truncate">
-                                  {company.trade_name || company.legal_name} ·{" "}
-                                  {company.corporate_form}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Category badge */}
-                          {sector && (
-                            <div className="mb-3">
-                              <span
-                                className={twMerge(
-                                  "inline-block px-3 py-1 text-xs font-semibold rounded-full",
-                                  categoryColor(sector),
-                                )}
-                              >
-                                {sector}
-                              </span>
-                            </div>
-                          )}
-
-                          {/* Funding progress */}
-                          <div className="mb-3">
-                            <div className="flex items-center justify-between text-xs mb-1.5">
-                              <span className="text-slate-500 font-semibold">
-                                {formatCurrency(
-                                  project.funding_raised ?? 0,
-                                  project.currency,
-                                )}
-                              </span>
-                              <span className="text-slate-400">
-                                of{" "}
-                                {formatCurrency(
-                                  project.funding_goal,
-                                  project.currency,
-                                )}
-                              </span>
-                            </div>
-                            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full rounded-full transition-all ${
-                                  progress >= 100
-                                    ? "bg-emerald-500"
-                                    : progress >= 50
-                                      ? "bg-blue-500"
-                                      : "bg-amber-500"
-                                }`}
-                                style={{ width: `${Math.min(progress, 100)}%` }}
-                              />
-                            </div>
-                            <p className="text-right text-[10px] text-slate-400 mt-1">
-                              {progress}%
-                            </p>
-                          </div>
-
-                          {/* Location + investors */}
-                          <div className="flex items-center gap-3 text-xs text-slate-400 mb-1">
-                            {company?.physical_address && (
-                              <span className="inline-flex items-center gap-1">
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5"
-                                >
-                                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                  <circle cx="12" cy="10" r="3" />
-                                </svg>
-                                {company.physical_address}
-                              </span>
-                            )}
-                            {project.investor_count !== undefined &&
-                              project.investor_count > 0 && (
-                                <>
-                                  {company?.physical_address && <span>·</span>}
-                                  <span>
-                                    {project.investor_count} investor
-                                    {project.investor_count > 1 ? "s" : ""}
-                                  </span>
-                                </>
-                              )}
-                          </div>
-
-                          {/* ROI badges */}
-                          {(project.short_term_roi ||
-                            project.medium_term_roi) && (
-                            <div className="flex flex-wrap gap-1.5 mt-2">
-                              {project.short_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-emerald-50 text-emerald-700 rounded-full">
-                                  {project.short_term_roi}% ST ROI
-                                </span>
-                              )}
-                              {project.medium_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-blue-50 text-blue-700 rounded-full">
-                                  {project.medium_term_roi}% MT ROI
-                                </span>
-                              )}
-                              {project.long_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-purple-50 text-purple-700 rounded-full">
-                                  {project.long_term_roi}% LT ROI
-                                </span>
-                              )}
-                            </div>
-                          )}
-
-                          {/* Spacer */}
-                          <div className="flex-1" />
-
-                          {/* CTA */}
-                          <Link
-                            href="/auth/signup"
-                            className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-primary rounded-xl hover:bg-primary/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
-                          >
-                            Sign Up to Invest
-                            <svg
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                          </Link>
+              <p className="text-xs text-black/30 mb-6">{filtered.length} projet{filtered.length > 1 ? "s" : ""} trouve{filtered.length > 1 ? "s" : ""}</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filtered.map((p) => {
+                  const sector = p.company?.industry_sector ?? p.category ?? "";
+                  const progress = p.funding_goal > 0 ? Math.round(((p.funding_raised ?? 0) / p.funding_goal) * 100) : 0;
+                  return (
+                    <div key={p.id} className="group bg-white border border-black/5 rounded-xl p-6 hover:border-primary/20 hover:shadow-md transition-all flex flex-col">
+                      <h3 className="font-semibold text-black text-sm truncate">{p.title}</h3>
+                      {p.company && <p className="text-xs text-black/30 mt-1 truncate">{p.company.trade_name || p.company.legal_name} · {p.company.corporate_form}</p>}
+                      {sector && <div className="mt-3"><span className="inline-block px-2.5 py-0.5 text-[10px] font-semibold rounded-md border bg-primary/5 text-primary border-primary/15">{sector}</span></div>}
+                      <div className="mt-4">
+                        <div className="flex items-center justify-between text-xs mb-1.5"><span className="text-black/70 font-semibold">{fmt(p.funding_raised ?? 0, p.currency)}</span><span className="text-black/30">sur {fmt(p.funding_goal, p.currency)}</span></div>
+                        <div className="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div className={`h-full rounded-full ${progress >= 100 ? "bg-primary" : "bg-primary/60"}`} style={{ width: `${Math.min(progress, 100)}%` }} /></div>
+                        <p className="text-right text-[10px] text-black/30 mt-1">{progress}%</p>
+                      </div>
+                      {p.company?.physical_address && <div className="flex items-center gap-1 mt-3 text-xs text-black/30"><MapPin className="w-3 h-3" /> {p.company.physical_address}</div>}
+                      {(p.short_term_roi || p.medium_term_roi) && (
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {p.short_term_roi && <span className="px-2 py-0.5 text-[10px] font-semibold bg-primary/5 text-primary border border-primary/15 rounded-md">{p.short_term_roi}% CT</span>}
+                          {p.medium_term_roi && <span className="px-2 py-0.5 text-[10px] font-semibold bg-primary/5 text-primary border border-primary/15 rounded-md">{p.medium_term_roi}% MT</span>}
+                          {p.long_term_roi && <span className="px-2 py-0.5 text-[10px] font-semibold bg-primary/5 text-primary border border-primary/15 rounded-md">{p.long_term_roi}% LT</span>}
                         </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
+                      )}
+                      <div className="flex-1" />
+                      <Link href="/auth/signup" className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors opacity-0 group-hover:opacity-100">
+                        S&apos;inscrire pour investir <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
             </>
           )}
         </div>
       </section>
 
-      {/* ─── CTA BANNER ───────────────────── */}
-      <section className="py-16 bg-slate-50/50 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            Ready to Start Investing?
-          </h2>
-          <p className="mt-3 text-slate-500 max-w-xl mx-auto">
-            Create your free account today and get access to detailed project
-            information, milestone tracking, and secure investment tools.
-          </p>
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <Link
-              href="/auth/signup"
-              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-lg shadow-primary/25"
-            >
-              Create Free Account
-            </Link>
-            <Link
-              href="/auth/signin"
-              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-slate-700 border border-slate-200 rounded-full hover:border-primary hover:text-primary transition-colors"
-            >
-              Sign In
-            </Link>
+      <footer className="bg-[#0A0A0A] border-t border-white/5 py-10 px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M2 24L8 6L14 24L20 6L26 24" stroke="#C2410C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 24L14 12L20 24" stroke="#C2410C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/></svg>
+            <span className="text-sm font-bold text-white/30">MIDAAS</span>
           </div>
-        </div>
-      </section>
-
-      {/* ─── FOOTER ───────────────────────── */}
-      <footer className="border-t border-slate-100 py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Image
-                src="/logo.png"
-                alt="Midaas"
-                width={80}
-                height={26}
-                className="object-contain"
-              />
-            </div>
-            <p className="text-xs text-slate-400">
-              &copy; {new Date().getFullYear()} Midaas. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link
-                href="/"
-                className="text-xs text-slate-400 hover:text-primary transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/auth/signin"
-                className="text-xs text-slate-400 hover:text-primary transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="text-xs text-slate-400 hover:text-primary transition-colors"
-              >
-                Sign Up
-              </Link>
-            </div>
+          <p className="text-xs text-white/10">&copy; {new Date().getFullYear()} Midaas</p>
+          <div className="flex gap-8">
+            <Link href="/" className="text-xs text-white/10 hover:text-white/30">Accueil</Link>
+            <Link href="/auth/signin" className="text-xs text-white/10 hover:text-white/30">Connexion</Link>
+            <Link href="/auth/signup" className="text-xs text-white/10 hover:text-white/30">Inscription</Link>
           </div>
         </div>
       </footer>

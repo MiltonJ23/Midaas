@@ -86,7 +86,7 @@ export default function Navbar({ onOpen, sidebarCollapsed }: Props) {
           onClick={onOpen}
           aria-label="Open menu"
         >
-          <Menu className="w-5 h-5 text-slate-600" />
+          <Menu className="w-5 h-5 text-slate-500" />
         </button>
 
         <div className="flex flex-col gap-0.5">
@@ -122,7 +122,7 @@ export default function Navbar({ onOpen, sidebarCollapsed }: Props) {
           className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
           aria-label="Settings"
         >
-          <Settings className="w-5 h-5 text-slate-500" />
+          <Settings className="w-5 h-5 text-slate-400" />
         </button>
 
         <Link href="/admin/notifications">
@@ -130,7 +130,7 @@ export default function Navbar({ onOpen, sidebarCollapsed }: Props) {
             className="relative w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
             aria-label="Notifications"
           >
-            <Bell className="w-5 h-5 text-slate-500" />
+            <Bell className="w-5 h-5 text-slate-400" />
             {unreadCount > 0 && (
               <span className="absolute top-1 right-1 w-4 h-4 rounded-full flex items-center justify-center text-[9px] text-white bg-destructive font-bold">
                 {unreadCount > 9 ? "9+" : unreadCount}
