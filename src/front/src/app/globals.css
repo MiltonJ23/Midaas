@@ -17,82 +17,40 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  /* transform: scale(0.75);
-    transform-origin: center top;
-    min-height: 133.33vh; /* 100/0.75 to compensate for scale */
-  /* 100/0.75 to compensate for scale */
-  /* width: 133.33vw; 
-    margin: 0 auto;
-    position: absolute;
-    left: 50%;
-    transform-origin: 50% 0;
-    transform: scale(0.75) translateX(-50%); */
-}
-
 body {
   font-family: "Montserrat-Regular", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {
   :root {
-    --background: #fafafa;
-    --foreground: #000000;
+    --background: #ffffff;
+    --foreground: #0f172a;
     --card: #ffffff;
-    --card-foreground: #000000;
+    --card-foreground: #0f172a;
     --popover: #ffffff;
-    --popover-foreground: #000000;
-    --primary: #00de00;
-    --primary-dark: #e9b807;
+    --popover-foreground: #0f172a;
+    --primary: #0d4a3a;
     --primary-foreground: #ffffff;
-    --secondary: #f5f5f5;
-    --secondary-foreground: #333333;
-    --muted: #f5f5f5;
-    --muted-foreground: #737373;
-    --accent: #f5f5f5;
-    --accent-foreground: #333333;
-    --destructive: #ef4343;
+    --secondary: #f8fafc;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #f1f5f9;
+    --accent-foreground: #0f172a;
+    --destructive: #ef4444;
     --destructive-foreground: #ffffff;
-    --border: #e6e6e6;
-    --input: #e6e6e6;
-    --ring: #00de00;
-    --chart-1: #00de00;
-    --chart-2: #999999;
-    --chart-3: #666666;
-    --chart-4: #cccccc;
-    --chart-5: #b3b3b3;
-    --radius: 0.5rem;
-
-    /* Other */
-    --light-gray: #f7f7f7;
-    --success: #08a83e;
-  }
-  .dark {
-    --background: #040812;
-    --foreground: #f6f9fc;
-    --card: #040812;
-    --card-foreground: #f6f9fc;
-    --popover: #040812;
-    --popover-foreground: #f6f9fc;
-    --primary: #444fad;
-    --primary-dark: #30287b;
-    --primary-foreground: #0f172a;
-    --secondary: #1f344c;
-    --secondary-foreground: #f6f9fc;
-    --muted: #1f344c;
-    --muted-foreground: #8ca2bc;
-    --accent: #1f344c;
-    --accent-foreground: #f6f9fc;
-    --destructive: #7f1d1d;
-    --destructive-foreground: #f6f9fc;
-    --border: #1f344c;
-    --input: #1f344c;
-    --ring: #afc5de;
-    --chart-1: #2666d9;
-    --chart-2: #25b682;
-    --chart-3: #e68a17;
-    --chart-4: #b15fd3;
-    --chart-5: #dd3c7a;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #0d4a3a;
+    --chart-1: #0d4a3a;
+    --chart-2: #0f766e;
+    --chart-3: #475569;
+    --chart-4: #94a3b8;
+    --chart-5: #cbd5e1;
+    --radius: 0.625rem;
+    --success: #059669;
   }
 }
 
@@ -105,63 +63,7 @@ body {
   }
 }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
-}
-/* * {
-  scroll-behavior: smooth;
-} */
-
-/* Automatic zoom/scale based on screen width */
-/* @media (max-width: 1480px) {
-  html {
-    /* Use transform: scale() for better compatibility */
-/* transform: scale(0.75); */
-/* transform-origin: top left; Prevents shifting; adjust if needed 
-    width: calc(100% / 0.75);  Compensate for scaling to avoid overflow 
-    height: calc(100% / 0.75);
-  }
-} */
-
-/* Optional: Reset for larger screens if needed */
-/* @media (min-width: 1481px) {
-  html {
-    transform: scale(1);
-    width: 100%;
-    height: 100%;
-  }
-}  */
-
-.float-label-input {
-  margin: 6px 0;
-}
-
-.float-label-input:focus-within label,
-.float-label-input input:not(:placeholder-shown) + label {
-  transform: translateY(-1.5rem) scale(0.75);
-  background-color: white;
-}
-
-.float-label-input:focus-within label,
-.float-label-input textarea:not(:placeholder-shown) + label {
-  transform: translateY(-1.5rem) scale(0.75);
-  background-color: white;
-}
-
-/* Global scrollbar styles for all elements */
 *::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   background-color: transparent;
 }
@@ -174,12 +76,10 @@ body {
 
 *::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.2);
 }
 
-/* Additional scrollbar styles for better browser support */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary)) transparent;
+  scrollbar-color: hsl(var(--primary) / 0.2) transparent;
 }

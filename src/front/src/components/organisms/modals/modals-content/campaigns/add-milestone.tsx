@@ -143,7 +143,7 @@ export default function AddMilestoneModal() {
               label="Montant alloué"
               after={
                 <div className="pr-4">
-                  <span className="text-gray-500 text-sm">XOF</span>
+                  <span className="text-slate-500 text-sm">XOF</span>
                 </div>
               }
               className="pl-4"

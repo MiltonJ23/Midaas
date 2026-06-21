@@ -11,7 +11,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ─── NAV ─────────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -29,19 +29,19 @@ export default function LandingPage() {
             <nav className="hidden md:flex items-center gap-8">
               <Link
                 href="/#features"
-                className="text-sm text-gray-600 hover:text-[#00de00] transition-colors font-MontserratRegular"
+                className="text-sm text-slate-600 hover:text-primary transition-colors"
               >
                 Features
               </Link>
               <Link
                 href="/#how-it-works"
-                className="text-sm text-gray-600 hover:text-[#00de00] transition-colors font-MontserratRegular"
+                className="text-sm text-slate-600 hover:text-primary transition-colors"
               >
                 How It Works
               </Link>
               <Link
                 href="/explore"
-                className="text-sm text-gray-600 hover:text-[#00de00] transition-colors font-MontserratRegular"
+                className="text-sm text-slate-600 hover:text-primary transition-colors"
               >
                 Explore Projects
               </Link>
@@ -51,13 +51,13 @@ export default function LandingPage() {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 href="/auth/signin"
-                className="px-5 py-2 text-sm font-MontserratSemiBold text-gray-700 hover:text-[#00de00] transition-colors"
+                className="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-primary transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className="px-5 py-2.5 text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full hover:bg-[#00c800] transition-colors shadow-sm"
+                className="px-5 py-2.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-sm"
               >
                 Get Started
               </Link>
@@ -99,40 +99,40 @@ export default function LandingPage() {
             mobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
           )}
         >
-          <div className="px-4 py-4 space-y-3 border-t border-gray-100">
+          <div className="px-4 py-4 space-y-3 border-t border-slate-100">
             <Link
               href="/#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               Features
             </Link>
             <Link
               href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               How It Works
             </Link>
             <Link
               href="/explore"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               Explore Projects
             </Link>
-            <hr className="border-gray-100" />
+            <hr className="border-slate-100" />
             <Link
               href="/auth/signin"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-MontserratSemiBold text-gray-700 py-2"
+              className="block text-sm font-semibold text-slate-700 py-2"
             >
               Sign In
             </Link>
             <Link
               href="/auth/signup"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-center text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full py-2.5"
+              className="block text-center text-sm font-semibold text-white bg-primary rounded-full py-2.5"
             >
               Get Started
             </Link>
@@ -144,21 +144,21 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
         {/* Subtle background decoration */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00de00]/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#00de00]/5 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-4 py-1.5 mb-6 text-xs font-MontserratSemiBold text-[#00de00] bg-[#00de00]/10 rounded-full tracking-wide uppercase">
+            <span className="inline-block px-4 py-1.5 mb-6 text-xs font-semibold text-primary bg-primary/10 rounded-full tracking-wide uppercase">
               Inclusive Investment in Africa
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-MontserratBold text-gray-900 leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
               Invest in Local{" "}
-              <span className="text-[#00de00]">African Businesses</span>{" "}
+              <span className="text-primary">African Businesses</span>{" "}
               Transparently
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto">
+            <p className="mt-6 text-lg sm:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
               Discover, vet, and back real entrepreneurial initiatives across
               Africa. Track every milestone, release funds securely, and follow
               the impact of your capital — from pledge to completion.
@@ -166,7 +166,7 @@ export default function LandingPage() {
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/auth/signup"
-                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full hover:bg-[#00c800] transition-colors shadow-lg shadow-[#00de00]/25"
+                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-lg shadow-primary/25"
               >
                 Start Investing
                 <svg
@@ -184,7 +184,7 @@ export default function LandingPage() {
               </Link>
               <Link
                 href="/explore"
-                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-MontserratSemiBold text-gray-700 border border-gray-200 rounded-full hover:border-[#00de00] hover:text-[#00de00] transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold text-slate-700 border border-slate-200 rounded-full hover:border-primary hover:text-primary transition-colors"
               >
                 Explore Projects
               </Link>
@@ -194,13 +194,13 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FEATURES ────────────────────────── */}
-      <section id="features" className="py-20 md:py-28 bg-gray-50/50">
+      <section id="features" className="py-20 md:py-28 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl sm:text-4xl font-MontserratBold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
               Why Midaas?
             </h2>
-            <p className="mt-4 text-gray-500 leading-relaxed">
+            <p className="mt-4 text-slate-500 leading-relaxed">
               We bridge the gap between local entrepreneurs and conscious
               investors through transparency, security, and real-time tracking.
             </p>
@@ -210,15 +210,15 @@ export default function LandingPage() {
             {features.map((feature, i) => (
               <div
                 key={i}
-                className="group relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#00de00]/20 transition-all duration-300"
+                className="group relative bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md hover:border-primary/20 transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-[#00de00]/10 flex items-center justify-center mb-5 group-hover:bg-[#00de00]/20 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-MontserratSemiBold text-gray-900 mb-3">
+                <h3 className="text-lg font-semibold text-slate-900 mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm text-slate-500 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -231,10 +231,10 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl sm:text-4xl font-MontserratBold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
               How It Works
             </h2>
-            <p className="mt-4 text-gray-500 leading-relaxed">
+            <p className="mt-4 text-slate-500 leading-relaxed">
               From discovery to impact — four simple steps to start making a
               difference.
             </p>
@@ -242,19 +242,19 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-4 gap-8 relative">
             {/* Connector line (desktop) */}
-            <div className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-[#00de00]/20" />
+            <div className="hidden md:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-primary/20" />
 
             {steps.map((step, i) => (
               <div key={i} className="relative text-center">
-                <div className="w-24 h-24 mx-auto rounded-full bg-[#00de00]/10 flex items-center justify-center mb-6 relative z-10">
-                  <span className="text-2xl font-MontserratBold text-[#00de00]">
+                <div className="w-24 h-24 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-6 relative z-10">
+                  <span className="text-2xl font-bold text-primary">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="text-base font-MontserratSemiBold text-gray-900 mb-2">
+                <h3 className="text-base font-semibold text-slate-900 mb-2">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-[220px] mx-auto">
+                <p className="text-sm text-slate-500 leading-relaxed max-w-[220px] mx-auto">
                   {step.description}
                 </p>
               </div>
@@ -264,12 +264,12 @@ export default function LandingPage() {
       </section>
 
       {/* ─── STATS BANNER ────────────────────── */}
-      <section className="py-16 bg-[#00de00]">
+      <section className="py-16 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {stats.map((stat, i) => (
               <div key={i}>
-                <p className="text-3xl md:text-4xl font-MontserratBold text-white">
+                <p className="text-3xl md:text-4xl font-bold text-white">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-sm text-white/80">{stat.label}</p>
@@ -283,23 +283,23 @@ export default function LandingPage() {
       <section className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl font-MontserratBold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
               Ready to Make an Impact?
             </h2>
-            <p className="mt-4 text-gray-500 leading-relaxed">
+            <p className="mt-4 text-slate-500 leading-relaxed">
               Join a growing community of investors and entrepreneurs building
               Africa&apos;s future — one milestone at a time.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/auth/signup"
-                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full hover:bg-[#00c800] transition-colors shadow-lg shadow-[#00de00]/25"
+                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-lg shadow-primary/25"
               >
                 Create Your Account
               </Link>
               <Link
                 href="/explore"
-                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-MontserratSemiBold text-gray-700 border border-gray-200 rounded-full hover:border-[#00de00] hover:text-[#00de00] transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold text-slate-700 border border-slate-200 rounded-full hover:border-primary hover:text-primary transition-colors"
               >
                 Browse Projects
               </Link>
@@ -309,7 +309,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FOOTER ──────────────────────────── */}
-      <footer className="border-t border-gray-100 py-10">
+      <footer className="border-t border-slate-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
@@ -321,25 +321,25 @@ export default function LandingPage() {
                 className="object-contain"
               />
             </div>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-slate-400">
               &copy; {new Date().getFullYear()} Midaas. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="/explore"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Projects
               </Link>
               <Link
                 href="/auth/signin"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Sign Up
               </Link>
@@ -361,7 +361,7 @@ const features = [
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#00de00"
+        stroke="currentColor" className="text-primary"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -381,7 +381,7 @@ const features = [
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#00de00"
+        stroke="currentColor" className="text-primary"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -403,7 +403,7 @@ const features = [
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#00de00"
+        stroke="currentColor" className="text-primary"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

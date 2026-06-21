@@ -99,10 +99,10 @@ export default function MyCampaignsPage() {
         {/* Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-MontserratBold text-gray-900">
+            <h1 className="text-2xl font-bold text-slate-900">
               My Campaigns
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-slate-500 text-sm mt-1">
               Manage your crowdfunding projects
             </p>
           </div>
@@ -116,7 +116,7 @@ export default function MyCampaignsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Total Campaigns</p>
+              <p className="text-sm text-slate-500">Total Campaigns</p>
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Layers className="w-4 h-4 text-primary" />
               </div>
@@ -126,7 +126,7 @@ export default function MyCampaignsPage() {
 
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Total Goal</p>
+              <p className="text-sm text-slate-500">Total Goal</p>
               <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 text-blue-600" />
               </div>
@@ -134,12 +134,12 @@ export default function MyCampaignsPage() {
             <p className="text-2xl font-bold mt-2">
               {totalFundingGoal.toLocaleString()}
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">XOF</p>
+            <p className="text-xs text-slate-400 mt-0.5">XOF</p>
           </div>
 
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Raised</p>
+              <p className="text-sm text-slate-500">Raised</p>
               <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
                 <TrendingUp className="w-4 h-4 text-emerald-600" />
               </div>
@@ -147,19 +147,19 @@ export default function MyCampaignsPage() {
             <p className="text-2xl font-bold mt-2">
               {totalFundingRaised.toLocaleString()}
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">XOF</p>
+            <p className="text-xs text-slate-400 mt-0.5">XOF</p>
           </div>
 
           <div className="bg-white rounded-xl border border-border p-5">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">Active / Completed</p>
+              <p className="text-sm text-slate-500">Active / Completed</p>
               <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
                 <Loader className="w-4 h-4 text-amber-600" />
               </div>
             </div>
             <p className="text-2xl font-bold mt-2">
               {activeCampaigns}
-              <span className="text-gray-400 text-lg font-normal">
+              <span className="text-slate-400 text-lg font-normal">
                 {" "}
                 / {completedCampaigns}
               </span>
@@ -170,11 +170,11 @@ export default function MyCampaignsPage() {
         {/* Filters */}
         <div className="flex gap-4 bg-white p-4 rounded-xl border border-border items-end">
           <div className="flex-1">
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">
+            <label className="block text-xs font-medium text-slate-500 mb-1.5">
               Search
             </label>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Title, category or ID..."
@@ -185,7 +185,7 @@ export default function MyCampaignsPage() {
             </div>
           </div>
           <div className="w-48">
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">
+            <label className="block text-xs font-medium text-slate-500 mb-1.5">
               Status
             </label>
             <select
@@ -209,26 +209,26 @@ export default function MyCampaignsPage() {
         <div className="bg-white rounded-xl border border-border overflow-hidden">
           <Table className="min-w-[900px]">
             <TableHeader>
-              <TableRow className="hover:bg-transparent border-b bg-gray-50">
-                <TableHead className="font-semibold text-gray-700">
+              <TableRow className="hover:bg-transparent border-b bg-slate-50">
+                <TableHead className="font-semibold text-slate-700">
                   Title
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700">
+                <TableHead className="font-semibold text-slate-700">
                   Category
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700 text-right">
+                <TableHead className="font-semibold text-slate-700 text-right">
                   Goal
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700 text-right">
+                <TableHead className="font-semibold text-slate-700 text-right">
                   Raised
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700 text-center">
+                <TableHead className="font-semibold text-slate-700 text-center">
                   Progress
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700">
+                <TableHead className="font-semibold text-slate-700">
                   Status
                 </TableHead>
-                <TableHead className="font-semibold text-gray-700 text-right">
+                <TableHead className="font-semibold text-slate-700 text-right">
                   Actions
                 </TableHead>
               </TableRow>
@@ -238,38 +238,38 @@ export default function MyCampaignsPage() {
                 filteredCampaigns.map((campaign) => (
                   <TableRow
                     key={campaign.id}
-                    className="border-b hover:bg-gray-50 transition-colors"
+                    className="border-b hover:bg-slate-50 transition-colors"
                   >
                     <TableCell>
                       <div>
-                        <p className="font-medium text-gray-900 truncate max-w-[200px]">
+                        <p className="font-medium text-slate-900 truncate max-w-[200px]">
                           {campaign.title}
                         </p>
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-xs text-slate-400 mt-0.5">
                           {campaign.createdAt.toLocaleDateString()}
                         </p>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-slate-600">
                         {campaign.category || "-"}
                       </span>
                     </TableCell>
                     <TableCell className="text-right font-medium">
                       {campaign.fundingGoal.toLocaleString()}{" "}
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-slate-400">
                         {campaign.currency}
                       </span>
                     </TableCell>
                     <TableCell className="text-right font-medium">
                       {campaign.fundingRaised.toLocaleString()}{" "}
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-slate-400">
                         {campaign.currency}
                       </span>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center gap-2 justify-center">
-                        <div className="w-20 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               campaign.progressPercentage >= 100
@@ -283,7 +283,7 @@ export default function MyCampaignsPage() {
                             }}
                           />
                         </div>
-                        <span className="text-xs font-medium text-gray-500 w-8">
+                        <span className="text-xs font-medium text-slate-500 w-8">
                           {campaign.progressPercentage}%
                         </span>
                       </div>
@@ -326,13 +326,13 @@ export default function MyCampaignsPage() {
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-16">
                     <div className="flex flex-col items-center gap-2">
-                      <Layers className="w-10 h-10 text-gray-300" />
-                      <p className="text-gray-500 font-medium">
+                      <Layers className="w-10 h-10 text-slate-300" />
+                      <p className="text-slate-500 font-medium">
                         {search || statusFilter !== "all"
                           ? "No campaigns found"
                           : "You haven't created any campaigns yet"}
                       </p>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-slate-400 text-sm">
                         {search || statusFilter !== "all"
                           ? "Try adjusting your filters"
                           : "Click « New Campaign » to get started"}

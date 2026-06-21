@@ -128,7 +128,7 @@ export default function CampaignDetailsModal() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             stroke="currentColor"
-            className="text-[#00de00]"
+            className="text-primary"
           >
             <path
               d="M6 18L18 6M6 6L18 18"
@@ -143,40 +143,40 @@ export default function CampaignDetailsModal() {
       <div className="flex-1 overflow-y-auto mt-4 space-y-6 pr-2">
         {/* Status & Progress */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-500">Status</p>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <p className="text-sm text-slate-500">Status</p>
             <span
               className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-semibold ${campaign.statusColor}`}
             >
               {campaign.statusLabel}
             </span>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-500">Progress</p>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <p className="text-sm text-slate-500">Progress</p>
             <p className="text-xl font-bold mt-1">
               {campaign.progressPercentage}%
             </p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-500">Goal</p>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <p className="text-sm text-slate-500">Goal</p>
             <p className="text-lg font-semibold mt-1">
               {campaign.fundingGoal.toLocaleString()}{" "}
-              <span className="text-sm text-gray-500">{campaign.currency}</span>
+              <span className="text-sm text-slate-500">{campaign.currency}</span>
             </p>
           </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-500">Raised</p>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <p className="text-sm text-slate-500">Raised</p>
             <p className="text-lg font-semibold mt-1">
               {campaign.fundingRaised.toLocaleString()}{" "}
-              <span className="text-sm text-gray-500">{campaign.currency}</span>
+              <span className="text-sm text-slate-500">{campaign.currency}</span>
             </p>
           </div>
         </div>
 
         {/* Description */}
         <div>
-          <h3 className="font-semibold text-gray-900 mb-1">Description</h3>
-          <p className="text-gray-600 text-sm leading-relaxed">
+          <h3 className="font-semibold text-slate-900 mb-1">Description</h3>
+          <p className="text-slate-600 text-sm leading-relaxed">
             {campaign.description}
           </p>
         </div>
@@ -184,16 +184,16 @@ export default function CampaignDetailsModal() {
         {/* Category & Dates */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <span className="text-gray-500">Category:</span>
+            <span className="text-slate-500">Category:</span>
             <span className="ml-2 font-medium">{campaign.category}</span>
           </div>
           <div>
-            <span className="text-gray-500">Currency:</span>
+            <span className="text-slate-500">Currency:</span>
             <span className="ml-2 font-medium">{campaign.currency}</span>
           </div>
           {campaign.startDate && (
             <div>
-              <span className="text-gray-500">Start:</span>
+              <span className="text-slate-500">Start:</span>
               <span className="ml-2 font-medium">
                 {campaign.startDate.toLocaleDateString()}
               </span>
@@ -201,7 +201,7 @@ export default function CampaignDetailsModal() {
           )}
           {campaign.endDate && (
             <div>
-              <span className="text-gray-500">End:</span>
+              <span className="text-slate-500">End:</span>
               <span className="ml-2 font-medium">
                 {campaign.endDate.toLocaleDateString()}
               </span>
@@ -212,7 +212,7 @@ export default function CampaignDetailsModal() {
         {/* Milestones Section */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-gray-900">
+            <h3 className="font-semibold text-slate-900">
               Milestones ({milestones.length})
             </h3>
             <Button
@@ -231,18 +231,18 @@ export default function CampaignDetailsModal() {
               <Loader className="animate-spin" />
             </div>
           ) : milestones.length === 0 ? (
-            <div className="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-              <p className="text-gray-500 text-sm">
+            <div className="text-center py-8 bg-slate-50 rounded-lg border border-dashed border-gray-300">
+              <p className="text-slate-500 text-sm">
                 No milestones defined for this campaign
               </p>
-              <p className="text-gray-400 text-xs mt-1">
+              <p className="text-slate-400 text-xs mt-1">
                 Milestones allow you to release funds progressively as goals are
                 met
               </p>
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-gray-500 px-2 mb-1">
+              <div className="flex items-center justify-between text-xs text-slate-500 px-2 mb-1">
                 <span>
                   {completedMilestones}/{milestones.length} completed
                 </span>
@@ -254,17 +254,17 @@ export default function CampaignDetailsModal() {
               {milestones.map((milestone, index) => (
                 <div
                   key={milestone.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 hover:border-gray-200 transition-colors"
+                  className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors"
                 >
                   <div className="flex items-start gap-3 flex-1 min-w-0">
                     <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">
                       {index + 1}
                     </span>
                     <div className="min-w-0">
-                      <p className="font-medium text-sm text-gray-900 truncate">
+                      <p className="font-medium text-sm text-slate-900 truncate">
                         {milestone.title}
                       </p>
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-slate-500 truncate">
                         {milestone.fundAllocation.toLocaleString()}{" "}
                         {campaign.currency}
                         {milestone.dueDate &&

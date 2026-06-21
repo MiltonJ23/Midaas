@@ -50,7 +50,7 @@ export function ApplicationsTable({
 
     const handleReject = (application: any) => {
         toggle({
-            name: ModalNames.CONFIRM_DELETE,
+            name: ModalNames.CONFIRM_ACTION,
             data: {
                 title: "Rejeter la candidature",
                 itemName: application.fullName || "cette candidature",
@@ -114,8 +114,8 @@ export function ApplicationsTable({
                                             strokeLinejoin="round"
                                         />
                                     </svg>
-                                    <p className="text-gray-500 font-medium">Aucune candidature disponible</p>
-                                    <p className="text-sm text-gray-400">Les candidatures apparaîtront ici une fois soumises</p>
+                                    <p className="text-slate-500 font-medium">Aucune candidature disponible</p>
+                                    <p className="text-sm text-slate-400">Les candidatures apparaîtront ici une fois soumises</p>
                                 </div>
                             </TableCell>
                         </TableRow>

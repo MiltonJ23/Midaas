@@ -29,7 +29,7 @@ const categoryColor = (cat: string) => {
     "Tech & Innovation": "bg-purple-100 text-purple-700",
     "Retail & Trade": "bg-orange-100 text-orange-700",
   };
-  return map[cat] ?? "bg-gray-100 text-gray-600";
+  return map[cat] ?? "bg-slate-100 text-slate-600";
 };
 
 const formatCurrency = (amount: number, currency = "XOF") =>
@@ -78,7 +78,7 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ─── NAV ──────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -94,19 +94,19 @@ export default function ExplorePage() {
             <nav className="hidden md:flex items-center gap-8">
               <Link
                 href="/#features"
-                className="text-sm text-gray-600 hover:text-[#00de00] transition-colors font-MontserratRegular"
+                className="text-sm text-slate-600 hover:text-primary transition-colors font-sans"
               >
                 Features
               </Link>
               <Link
                 href="/#how-it-works"
-                className="text-sm text-gray-600 hover:text-[#00de00] transition-colors font-MontserratRegular"
+                className="text-sm text-slate-600 hover:text-primary transition-colors font-sans"
               >
                 How It Works
               </Link>
               <Link
                 href="/explore"
-                className="text-sm text-[#00de00] font-MontserratSemiBold"
+                className="text-sm text-primary font-semibold"
               >
                 Explore Projects
               </Link>
@@ -115,13 +115,13 @@ export default function ExplorePage() {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 href="/auth/signin"
-                className="px-5 py-2 text-sm font-MontserratSemiBold text-gray-700 hover:text-[#00de00] transition-colors"
+                className="px-5 py-2 text-sm font-semibold text-slate-700 hover:text-primary transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className="px-5 py-2.5 text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full hover:bg-[#00c800] transition-colors shadow-sm"
+                className="px-5 py-2.5 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-sm"
               >
                 Get Started
               </Link>
@@ -159,40 +159,40 @@ export default function ExplorePage() {
             mobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
           )}
         >
-          <div className="px-4 py-4 space-y-3 border-t border-gray-100">
+          <div className="px-4 py-4 space-y-3 border-t border-slate-100">
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               Home
             </Link>
             <Link
               href="/#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               Features
             </Link>
             <Link
               href="/#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm text-gray-600 py-2"
+              className="block text-sm text-slate-600 py-2"
             >
               How It Works
             </Link>
-            <hr className="border-gray-100" />
+            <hr className="border-slate-100" />
             <Link
               href="/auth/signin"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-MontserratSemiBold text-gray-700 py-2"
+              className="block text-sm font-semibold text-slate-700 py-2"
             >
               Sign In
             </Link>
             <Link
               href="/auth/signup"
               onClick={() => setMobileMenuOpen(false)}
-              className="block text-center text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full py-2.5"
+              className="block text-center text-sm font-semibold text-white bg-primary rounded-full py-2.5"
             >
               Get Started
             </Link>
@@ -203,10 +203,10 @@ export default function ExplorePage() {
       {/* ─── HERO ─────────────────────────── */}
       <section className="pt-32 pb-12 md:pt-40 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-MontserratBold text-gray-900 tracking-tight">
-            Explore <span className="text-[#00de00]">Approved Projects</span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
+            Explore <span className="text-primary">Approved Projects</span>
           </h1>
-          <p className="mt-4 text-gray-500 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 text-slate-500 max-w-2xl mx-auto leading-relaxed">
             Browse verified businesses and initiatives looking for capital. No
             account required — dive in and discover where your investment could
             make a difference.
@@ -220,7 +220,7 @@ export default function ExplorePage() {
           {/* Search bar */}
           <div className="relative max-w-xl mx-auto mb-6">
             <svg
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
               width="18"
               height="18"
               viewBox="0 0 24 24"
@@ -238,7 +238,7 @@ export default function ExplorePage() {
               placeholder="Search by name, industry…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-[#00de00] focus:ring-2 focus:ring-[#00de00]/10 outline-none transition-all"
+              className="w-full pl-11 pr-4 py-3 text-sm border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all"
             />
           </div>
 
@@ -246,35 +246,35 @@ export default function ExplorePage() {
           <div className="hidden md:flex items-center justify-center gap-3 flex-wrap">
             {/* Sector */}
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-gray-400 mr-1">Sector:</span>
+              <span className="text-xs text-slate-400 mr-1">Sector:</span>
               {CATEGORIES.map((s) => (
                 <button
                   key={s}
                   onClick={() => setSectorFilter(s)}
                   className={twMerge(
-                    "px-3.5 py-1.5 text-xs rounded-full border transition-colors font-MontserratSemiBold",
+                    "px-3.5 py-1.5 text-xs rounded-full border transition-colors font-semibold",
                     sectorFilter === s
-                      ? "bg-[#00de00] text-white border-[#00de00]"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-[#00de00] hover:text-[#00de00]",
+                      ? "bg-primary text-white border-primary"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary",
                   )}
                 >
                   {s}
                 </button>
               ))}
             </div>
-            <span className="w-px h-5 bg-gray-200" />
+            <span className="w-px h-5 bg-slate-200" />
             {/* Corporate form */}
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-gray-400 mr-1">Type:</span>
+              <span className="text-xs text-slate-400 mr-1">Type:</span>
               {CORPORATE_FORMS.map((f) => (
                 <button
                   key={f}
                   onClick={() => setFormFilter(f)}
                   className={twMerge(
-                    "px-3 py-1.5 text-xs rounded-full border transition-colors font-MontserratSemiBold",
+                    "px-3 py-1.5 text-xs rounded-full border transition-colors font-semibold",
                     formFilter === f
                       ? "bg-gray-900 text-white border-gray-900"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-900 hover:text-gray-900",
+                      : "bg-white text-slate-600 border-slate-200 hover:border-gray-900 hover:text-slate-900",
                   )}
                 >
                   {f}
@@ -287,7 +287,7 @@ export default function ExplorePage() {
           <div className="md:hidden flex justify-center mb-4">
             <button
               onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-MontserratSemiBold text-gray-600 border border-gray-200 rounded-full"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-slate-600 border border-slate-200 rounded-full"
             >
               <svg
                 width="14"
@@ -315,9 +315,9 @@ export default function ExplorePage() {
                 : "max-h-0 opacity-0",
             )}
           >
-            <div className="space-y-4 bg-gray-50 rounded-xl p-4">
+            <div className="space-y-4 bg-slate-50 rounded-xl p-4">
               <div>
-                <p className="text-xs text-gray-400 mb-2 font-MontserratSemiBold">
+                <p className="text-xs text-slate-400 mb-2 font-semibold">
                   Sector
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -328,8 +328,8 @@ export default function ExplorePage() {
                       className={twMerge(
                         "px-3 py-1.5 text-xs rounded-full border transition-colors",
                         sectorFilter === s
-                          ? "bg-[#00de00] text-white border-[#00de00]"
-                          : "bg-white text-gray-600 border-gray-200",
+                          ? "bg-primary text-white border-primary"
+                          : "bg-white text-slate-600 border-slate-200",
                       )}
                     >
                       {s}
@@ -338,7 +338,7 @@ export default function ExplorePage() {
                 </div>
               </div>
               <div>
-                <p className="text-xs text-gray-400 mb-2 font-MontserratSemiBold">
+                <p className="text-xs text-slate-400 mb-2 font-semibold">
                   Legal Form
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -350,7 +350,7 @@ export default function ExplorePage() {
                         "px-3 py-1.5 text-xs rounded-full border transition-colors",
                         formFilter === f
                           ? "bg-gray-900 text-white border-gray-900"
-                          : "bg-white text-gray-600 border-gray-200",
+                          : "bg-white text-slate-600 border-slate-200",
                       )}
                     >
                       {f}
@@ -369,7 +369,7 @@ export default function ExplorePage() {
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <svg
-                className="mx-auto mb-4 text-gray-300"
+                className="mx-auto mb-4 text-slate-300"
                 width="48"
                 height="48"
                 viewBox="0 0 24 24"
@@ -381,7 +381,7 @@ export default function ExplorePage() {
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-              <p className="text-gray-400 text-sm">
+              <p className="text-slate-400 text-sm">
                 No projects match your filters.
               </p>
               <button
@@ -390,7 +390,7 @@ export default function ExplorePage() {
                   setSectorFilter("All");
                   setFormFilter("All");
                 }}
-                className="mt-3 text-xs text-[#00de00] hover:underline"
+                className="mt-3 text-xs text-primary hover:underline"
               >
                 Reset filters
               </button>
@@ -400,7 +400,7 @@ export default function ExplorePage() {
               {loading ? (
                 <div className="flex items-center justify-center py-20">
                   <svg
-                    className="w-8 h-8 animate-spin text-gray-300"
+                    className="w-8 h-8 animate-spin text-slate-300"
                     viewBox="0 0 24 24"
                     fill="none"
                   >
@@ -417,7 +417,7 @@ export default function ExplorePage() {
                 </div>
               ) : (
                 <>
-                  <p className="text-xs text-gray-400 mb-4">
+                  <p className="text-xs text-slate-400 mb-4">
                     Showing {filtered.length} of {projects.length} projects
                   </p>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -437,16 +437,16 @@ export default function ExplorePage() {
                       return (
                         <div
                           key={project.id}
-                          className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#00de00]/20 transition-all duration-300 p-6 flex flex-col"
+                          className="group bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/20 transition-all duration-300 p-6 flex flex-col"
                         >
                           {/* Project title */}
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex-1 min-w-0">
-                              <h3 className="text-base font-MontserratSemiBold text-gray-900 truncate">
+                              <h3 className="text-base font-semibold text-slate-900 truncate">
                                 {project.title}
                               </h3>
                               {company && (
-                                <p className="text-xs text-gray-400 mt-0.5 truncate">
+                                <p className="text-xs text-slate-400 mt-0.5 truncate">
                                   {company.trade_name || company.legal_name} ·{" "}
                                   {company.corporate_form}
                                 </p>
@@ -459,7 +459,7 @@ export default function ExplorePage() {
                             <div className="mb-3">
                               <span
                                 className={twMerge(
-                                  "inline-block px-3 py-1 text-xs font-MontserratSemiBold rounded-full",
+                                  "inline-block px-3 py-1 text-xs font-semibold rounded-full",
                                   categoryColor(sector),
                                 )}
                               >
@@ -471,13 +471,13 @@ export default function ExplorePage() {
                           {/* Funding progress */}
                           <div className="mb-3">
                             <div className="flex items-center justify-between text-xs mb-1.5">
-                              <span className="text-gray-500 font-MontserratSemiBold">
+                              <span className="text-slate-500 font-semibold">
                                 {formatCurrency(
                                   project.funding_raised ?? 0,
                                   project.currency,
                                 )}
                               </span>
-                              <span className="text-gray-400">
+                              <span className="text-slate-400">
                                 of{" "}
                                 {formatCurrency(
                                   project.funding_goal,
@@ -485,7 +485,7 @@ export default function ExplorePage() {
                                 )}
                               </span>
                             </div>
-                            <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                               <div
                                 className={`h-full rounded-full transition-all ${
                                   progress >= 100
@@ -497,13 +497,13 @@ export default function ExplorePage() {
                                 style={{ width: `${Math.min(progress, 100)}%` }}
                               />
                             </div>
-                            <p className="text-right text-[10px] text-gray-400 mt-1">
+                            <p className="text-right text-[10px] text-slate-400 mt-1">
                               {progress}%
                             </p>
                           </div>
 
                           {/* Location + investors */}
-                          <div className="flex items-center gap-3 text-xs text-gray-400 mb-1">
+                          <div className="flex items-center gap-3 text-xs text-slate-400 mb-1">
                             {company?.physical_address && (
                               <span className="inline-flex items-center gap-1">
                                 <svg
@@ -537,17 +537,17 @@ export default function ExplorePage() {
                             project.medium_term_roi) && (
                             <div className="flex flex-wrap gap-1.5 mt-2">
                               {project.short_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-emerald-50 text-emerald-700 rounded-full">
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-emerald-50 text-emerald-700 rounded-full">
                                   {project.short_term_roi}% ST ROI
                                 </span>
                               )}
                               {project.medium_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-blue-50 text-blue-700 rounded-full">
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-blue-50 text-blue-700 rounded-full">
                                   {project.medium_term_roi}% MT ROI
                                 </span>
                               )}
                               {project.long_term_roi && (
-                                <span className="inline-block px-2 py-0.5 text-[10px] font-MontserratSemiBold bg-purple-50 text-purple-700 rounded-full">
+                                <span className="inline-block px-2 py-0.5 text-[10px] font-semibold bg-purple-50 text-purple-700 rounded-full">
                                   {project.long_term_roi}% LT ROI
                                 </span>
                               )}
@@ -560,7 +560,7 @@ export default function ExplorePage() {
                           {/* CTA */}
                           <Link
                             href="/auth/signup"
-                            className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-MontserratSemiBold text-white bg-[#00de00] rounded-xl hover:bg-[#00c800] transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                            className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-primary rounded-xl hover:bg-primary/80 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                           >
                             Sign Up to Invest
                             <svg
@@ -588,25 +588,25 @@ export default function ExplorePage() {
       </section>
 
       {/* ─── CTA BANNER ───────────────────── */}
-      <section className="py-16 bg-gray-50/50 border-t border-gray-100">
+      <section className="py-16 bg-slate-50/50 border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-MontserratBold text-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Ready to Start Investing?
           </h2>
-          <p className="mt-3 text-gray-500 max-w-xl mx-auto">
+          <p className="mt-3 text-slate-500 max-w-xl mx-auto">
             Create your free account today and get access to detailed project
             information, milestone tracking, and secure investment tools.
           </p>
           <div className="mt-6 flex items-center justify-center gap-4">
             <Link
               href="/auth/signup"
-              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-MontserratSemiBold text-white bg-[#00de00] rounded-full hover:bg-[#00c800] transition-colors shadow-lg shadow-[#00de00]/25"
+              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/80 transition-colors shadow-lg shadow-primary/25"
             >
               Create Free Account
             </Link>
             <Link
               href="/auth/signin"
-              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-MontserratSemiBold text-gray-700 border border-gray-200 rounded-full hover:border-[#00de00] hover:text-[#00de00] transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-slate-700 border border-slate-200 rounded-full hover:border-primary hover:text-primary transition-colors"
             >
               Sign In
             </Link>
@@ -615,7 +615,7 @@ export default function ExplorePage() {
       </section>
 
       {/* ─── FOOTER ───────────────────────── */}
-      <footer className="border-t border-gray-100 py-10">
+      <footer className="border-t border-slate-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
@@ -627,25 +627,25 @@ export default function ExplorePage() {
                 className="object-contain"
               />
             </div>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-slate-400">
               &copy; {new Date().getFullYear()} Midaas. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="/"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Home
               </Link>
               <Link
                 href="/auth/signin"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className="text-xs text-gray-400 hover:text-[#00de00] transition-colors"
+                className="text-xs text-slate-400 hover:text-primary transition-colors"
               >
                 Sign Up
               </Link>

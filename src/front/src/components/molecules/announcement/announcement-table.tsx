@@ -34,7 +34,7 @@ export function AnnouncementsTable({
 
     const handleDelete = (announcement: any) => {
         toggle({
-            name: ModalNames.CONFIRM_DELETE,
+            name: ModalNames.CONFIRM_ACTION,
             data: {
                 title: "Supprimer l'annonce",
                 itemName: announcement.title || "cette annonce",
@@ -49,7 +49,7 @@ export function AnnouncementsTable({
 
     const handleEdit = (announcement: any) => {
         toggle({
-            name: ModalNames.EDIT_ANNOUNCEMENT,
+            name: ModalNames.CONFIRM_ACTION,
             data: { 
                 announcement,
                 onRefresh 
@@ -96,8 +96,8 @@ export function AnnouncementsTable({
                                             strokeLinejoin="round"
                                         />
                                     </svg>
-                                    <p className="text-gray-500 font-medium">Aucune annonce disponible</p>
-                                    <p className="text-sm text-gray-400">Vos annonces apparaîtront ici une fois créées</p>
+                                    <p className="text-slate-500 font-medium">Aucune annonce disponible</p>
+                                    <p className="text-sm text-slate-400">Vos annonces apparaîtront ici une fois créées</p>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -156,7 +156,7 @@ export function AnnouncementsTable({
                                 </TableCell>
                                 <TableCell className='text-left'>
                                     <span className={`px-2 py-1 rounded-full text-xs ${
-                                        announcement.furniture_status === "furnished" ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                                        announcement.furniture_status === "furnished" ? 'bg-green-100 text-green-800' : 'bg-slate-100 text-slate-800'
                                     }`}>
                                         {announcement.furniture_status === "furnished" ? "meublé" : 'non meublé'}
                                     </span>

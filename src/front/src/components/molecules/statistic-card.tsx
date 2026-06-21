@@ -1,8 +1,10 @@
+import { cn } from "@/lib/utils";
+
 interface Props {
   title: string;
   value: number | string;
   icon: React.ReactElement<unknown>;
-  variant?: "default" | "maroon";
+  variant?: "default" | "primary";
   subtitle?: string;
 }
 
@@ -13,33 +15,28 @@ export default function StatisticCard({
   variant = "default",
   subtitle,
 }: Props) {
-  const isMaroon = variant === "maroon";
+  const isPrimary = variant === "primary";
 
   return (
     <article
-      className={`min-w-[220px] rounded-3xl px-6 py-6 flex flex-col items-start justify-start gap-3 transition-shadow ${
-        isMaroon ? "bg-[#00de00] text-white shadow-sm" : "bg-white"
-      }`}
+      className={cn(
+        "min-w-[200px] rounded-xl px-6 py-6 flex flex-col items-start justify-start gap-3 border border-slate-200 bg-white",
+        isPrimary && "bg-primary text-white border-primary"
+      )}
     >
-      <div className="flex items-center justify-center [&_svg]:w-12 [&_svg]:h-12 [&_svg]:text-[#D4A574]">
+      <div className="flex items-center justify-center [&_svg]:w-8 [&_svg]:h-8 [&_svg]:text-primary">
         {icon}
       </div>
 
       <div className="flex flex-col justify-center gap-1 w-full">
-        <span
-          className={`text-4xl font-bold font-amikoBold ${
-            isMaroon ? "text-white" : "text-black"
-          }`}
-        >
+        <span className={cn("text-3xl font-bold", isPrimary ? "text-white" : "text-slate-900")}>
           {value}
         </span>
-        <span
-          className={`text-base font-bold ${isMaroon ? "text-white" : "text-gray-600"}`}
-        >
+        <span className={cn("text-sm font-medium", isPrimary ? "text-white/80" : "text-slate-500")}>
           {title}
         </span>
         {subtitle && (
-          <span className="text-sm font-bold text-[#D4A574] mt-1">
+          <span className="text-xs text-primary font-medium mt-0.5">
             {subtitle}
           </span>
         )}
