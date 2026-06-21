@@ -204,10 +204,10 @@ export default function ProjectDetailsPage() {
       </button>
 
       {/* 1. PRIMARY PRESENTATION CARD (Profile, Summary, Actions) */}
-      <div className="bg-white border border-border rounded-2xl p-6 shadow-sm mb-6">
+      <div className="bg-white border border-black/5 rounded-2xl p-6 shadow-sm mb-6">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Cover Media Placeholder Frame */}
-          <div className="w-full lg:w-1/3 aspect-[4/3] bg-slate-100 rounded-xl relative flex items-center justify-center overflow-hidden border border-slate-200">
+          <div className="w-full lg:w-1/3 aspect-[4/3] bg-black/5 rounded-xl relative flex items-center justify-center overflow-hidden border border-black/10">
             <svg
               width="48"
               height="48"
@@ -247,7 +247,7 @@ export default function ProjectDetailsPage() {
                   className={`p-2.5 rounded-xl border transition-all ${
                     isFavorited
                       ? "bg-red-50 border-red-200 text-red-500"
-                      : "bg-white border-border text-slate-400 hover:text-slate-600"
+                      : "bg-white border-black/5 text-black/30 hover:text-black/50"
                   }`}
                   title={
                     isFavorited ? "Remove from watchlist" : "Add to watchlist"
@@ -265,7 +265,7 @@ export default function ProjectDetailsPage() {
                   </svg>
                 </button>
                 <button
-                  className="p-2.5 rounded-xl border border-border bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all"
+                  className="p-2.5 rounded-xl border border-black/5 bg-white text-black/30 hover:text-black/50 hover:bg-black/[0.03] transition-all"
                   title="Share Campaign Overview"
                 >
                   <svg
@@ -286,12 +286,12 @@ export default function ProjectDetailsPage() {
               </div>
             </div>
 
-            <p className="text-sm text-slate-600 leading-relaxed max-w-3xl">
+            <p className="text-sm text-black/50 leading-relaxed max-w-3xl">
               {project.shortDescription}
             </p>
 
             {/* Social Mapping Nodes */}
-            <div className="flex items-center gap-4 pt-2 text-xs font-medium text-slate-500 border-t border-slate-100">
+            <div className="flex items-center gap-4 pt-2 text-xs font-medium text-black/40 border-t border-black/5">
               <span className="flex items-center gap-1.5">
                 <svg
                   width="14"
@@ -306,7 +306,7 @@ export default function ProjectDetailsPage() {
                 </svg>
                 {project.location}
               </span>
-              <div className="h-3 w-[1px] bg-slate-200" />
+              <div className="h-3 w-[1px] bg-black/10" />
               <div className="flex items-center gap-3">
                 <a
                   href={project.socials.website}
@@ -333,10 +333,10 @@ export default function ProjectDetailsPage() {
       </div>
 
       {/* 2. ELEVATED METRICS BAR (Requested placement directly below presentation card) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 bg-white border border-border rounded-2xl p-5 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 bg-white border border-black/5 rounded-2xl p-5 shadow-sm">
         {/* Metric Node: Funding Progress */}
-        <div className="space-y-2 border-r border-slate-100 last:border-0 pr-2">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+        <div className="space-y-2 border-r border-black/5 last:border-0 pr-2">
+          <span className="text-[10px] font-bold text-black/30 uppercase tracking-wider block">
             Capital Velocity
           </span>
           <div className="flex items-baseline gap-1">
@@ -347,7 +347,7 @@ export default function ProjectDetailsPage() {
               of ${project.targetAmount.toLocaleString()}
             </span>
           </div>
-          <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-black/5 h-2 rounded-full overflow-hidden">
             <div
               className="bg-primary h-full rounded-full transition-all"
               style={{ width: `${completionPercentage}%` }}
@@ -359,8 +359,8 @@ export default function ProjectDetailsPage() {
         </div>
 
         {/* Metric Node: Cohort Commitments */}
-        <div className="space-y-1 sm:border-r border-slate-100 pl-0 sm:pl-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+        <div className="space-y-1 sm:border-r border-black/5 pl-0 sm:pl-4">
+          <span className="text-[10px] font-bold text-black/30 uppercase tracking-wider block">
             Backing Cohort
           </span>
           <span className="text-2xl font-mono font-bold text-foreground block">
@@ -372,8 +372,8 @@ export default function ProjectDetailsPage() {
         </div>
 
         {/* Metric Node: Temporal Horizon */}
-        <div className="space-y-1 border-r border-slate-100 pl-0 lg:pl-4">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+        <div className="space-y-1 border-r border-black/5 pl-0 lg:pl-4">
+          <span className="text-[10px] font-bold text-black/30 uppercase tracking-wider block">
             Temporal Window
           </span>
           <span className="text-2xl font-mono font-bold text-foreground block">
@@ -386,7 +386,7 @@ export default function ProjectDetailsPage() {
 
         {/* Metric Node: Platform Registry Seal */}
         <div className="space-y-1 pl-0 lg:pl-4 flex flex-col justify-center">
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+          <span className="text-[10px] font-bold text-black/30 uppercase tracking-wider block mb-1">
             Audit Tracking Vector
           </span>
           <div className="inline-flex items-center gap-2 bg-green-50 border border-green-100 px-3 py-2 rounded-xl w-fit">
@@ -400,7 +400,7 @@ export default function ProjectDetailsPage() {
 
       {/* 3. INTERACTIVE CONTENT NAVIGATION TAB MATRIX */}
       <div className="space-y-6">
-        <div className="flex border-b border-border gap-6">
+        <div className="flex border-b border-black/5 gap-6">
           {TABS.map(({ key, label }) => (
             <button
               key={key}
@@ -408,7 +408,7 @@ export default function ProjectDetailsPage() {
               className={`pb-3 text-sm font-medium tracking-wider border-b-2 transition-all capitalize ${
                 activeTab === key
                   ? "border-black text-foreground font-semibold"
-                  : "border-transparent text-muted-foreground hover:text-slate-700"
+                  : "border-transparent text-muted-foreground hover:text-black/70"
               }`}
             >
               {label}
@@ -417,7 +417,7 @@ export default function ProjectDetailsPage() {
         </div>
 
         {/* TAB TARGET VIEWPORTS */}
-        <div className="bg-white border border-border rounded-2xl p-6 shadow-sm min-h-[300px]">
+        <div className="bg-white border border-black/5 rounded-2xl p-6 shadow-sm min-h-[300px]">
           {/* TAB CONTENT: CORE PROJECT DESCRIPTION */}
           {activeTab === "description" && (
             <div className="space-y-6 max-w-4xl animate-fadeIn">
@@ -425,25 +425,25 @@ export default function ProjectDetailsPage() {
                 <h3 className="text-lg font-semibold text-foreground">
                   Operational Blueprint
                 </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
+                <p className="text-black/50 text-sm leading-relaxed">
                   {project.fullDescription}
                 </p>
               </div>
 
-              <div className="p-4 bg-slate-50 border border-slate-100 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 bg-black/[0.03] border border-black/5 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-1">
+                  <h4 className="text-xs font-bold uppercase text-black/30 tracking-wider mb-1">
                     Deployment Location
                   </h4>
-                  <p className="text-sm font-medium text-slate-700">
+                  <p className="text-sm font-medium text-black/70">
                     {project.location}
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-1">
+                  <h4 className="text-xs font-bold uppercase text-black/30 tracking-wider mb-1">
                     Corporate Registries
                   </h4>
-                  <p className="text-sm font-medium text-slate-700">
+                  <p className="text-sm font-medium text-black/70">
                     {project.company} (Validated)
                   </p>
                 </div>
@@ -465,7 +465,7 @@ export default function ProjectDetailsPage() {
                 </p>
               </div>
 
-              <div className="relative border-l-2 border-slate-100 pl-6 ml-3 space-y-8">
+              <div className="relative border-l-2 border-black/5 pl-6 ml-3 space-y-8">
                 {project.milestones.map((milestone, idx) => (
                   <div key={milestone.id} className="relative">
                     {/* Progress Visual Tracker Node */}
@@ -474,15 +474,15 @@ export default function ProjectDetailsPage() {
                         milestone.status === "Unlocked"
                           ? "border-green-500 bg-green-50"
                           : milestone.status === "In Progress"
-                            ? "border-primary bg-amber-50 animate-pulse"
+                            ? "border-primary bg-primary/5 animate-pulse"
                             : "border-slate-300"
                       }`}
                     />
 
-                    <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="bg-black/[0.03] border border-black/5 rounded-xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-mono font-bold bg-slate-200 px-1.5 py-0.5 rounded text-slate-600">
+                          <span className="text-[10px] font-mono font-bold bg-black/10 px-1.5 py-0.5 rounded text-black/50">
                             STAGE {idx + 1}
                           </span>
                           <span
@@ -490,8 +490,8 @@ export default function ProjectDetailsPage() {
                               milestone.status === "Unlocked"
                                 ? "bg-green-100 text-green-800"
                                 : milestone.status === "In Progress"
-                                  ? "bg-amber-100 text-amber-800"
-                                  : "bg-slate-200 text-slate-500"
+                                  ? "bg-primary/10 text-primary"
+                                  : "bg-black/10 text-black/40"
                             }`}
                           >
                             {milestone.status}
@@ -509,7 +509,7 @@ export default function ProjectDetailsPage() {
                         <span className="text-xs text-muted-foreground block">
                           Escrow Payload Allocation
                         </span>
-                        <span className="text-sm font-mono font-bold text-slate-700">
+                        <span className="text-sm font-mono font-bold text-black/70">
                           {milestone.amountPercentage}% of Total Capital
                         </span>
                       </div>
@@ -533,8 +533,8 @@ export default function ProjectDetailsPage() {
                 </p>
               </div>
 
-              <div className="border border-border rounded-xl overflow-hidden">
-                <div className="grid grid-cols-4 bg-slate-50 border-b border-border p-3 text-xs font-bold text-slate-500 uppercase tracking-wider">
+              <div className="border border-black/5 rounded-xl overflow-hidden">
+                <div className="grid grid-cols-4 bg-black/[0.03] border-b border-black/5 p-3 text-xs font-bold text-black/40 uppercase tracking-wider">
                   <div>Rank</div>
                   <div className="col-span-2">Backer Registry Identifier</div>
                   <div className="text-right">Committed Payload</div>
@@ -546,12 +546,12 @@ export default function ProjectDetailsPage() {
                       key={backer.rank}
                       className="grid grid-cols-4 p-3 items-center text-sm"
                     >
-                      <div className="font-mono text-xs font-bold text-slate-400">
+                      <div className="font-mono text-xs font-bold text-black/30">
                         #0{backer.rank}
                       </div>
                       <div className="col-span-2 flex items-center gap-2">
                         <span
-                          className={`font-medium ${backer.anonymous ? "text-slate-400 italic" : "text-foreground font-semibold"}`}
+                          className={`font-medium ${backer.anonymous ? "text-black/30 italic" : "text-foreground font-semibold"}`}
                         >
                           {backer.name}
                         </span>
@@ -569,7 +569,7 @@ export default function ProjectDetailsPage() {
                           </svg>
                         )}
                       </div>
-                      <div className="text-right font-mono font-bold text-slate-700">
+                      <div className="text-right font-mono font-bold text-black/70">
                         ${backer.amount.toLocaleString()}
                       </div>
                     </div>

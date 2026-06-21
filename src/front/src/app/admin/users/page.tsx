@@ -1,260 +1,88 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { adminProvider, type AdminUserItem } from "@/api/admin";
+import { adminProvider } from "@/api/admin";
 import { useAdminStore } from "@/store/admin";
 import { Button } from "@/components/atoms/button";
-import {
-  Users,
-  Search,
-  RefreshCw,
-  Mail,
-  Phone,
-  Calendar,
-  BadgeCheck,
-  BadgeX,
-  User as UserIcon,
-} from "lucide-react";
+import { Users, Search, RefreshCw, Mail, Phone, ChevronDown, ChevronUp, BadgeCheck, BadgeX } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function AdminUsersPage() {
   const { users, setUsers, setUsersLoading } = useAdminStore();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const fetchUsers = async () => {
-    setLoading(true);
-    setUsersLoading(true);
+    setLoading(true); setUsersLoading(true);
     const { data, error } = await adminProvider.getUsers();
-    if (data) {
-      setUsers(data);
-    } else {
-      toast.error(error || "Failed to load users");
-    }
+    if (data) setUsers(data); else toast.error(error || "Erreur");
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (users.length === 0) {
-      fetchUsers();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => { if (users.length === 0) fetchUsers(); }, []);
 
   const filtered = users.filter((u) => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
-    return (
-      u.full_name?.toLowerCase().includes(q) ||
-      u.email?.toLowerCase().includes(q) ||
-      u.phone_number?.toLowerCase().includes(q) ||
-      u.id_card_number?.toLowerCase().includes(q)
-    );
+    return u.full_name?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q) || u.phone_number?.toLowerCase().includes(q);
   });
 
-  const entrepreneursCount = users.filter((u) => u.is_entrepreneur).length;
-
-  // Stats
-  const verifiedIdCount = users.filter((u) => u.id_card_url).length;
-
   return (
-    <section className="p-6">
-      <div className="max-w-[1400px] mx-auto mt-8 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Users
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">All platform users</p>
-          </div>
-          <Button
-            onClick={fetchUsers}
-            variant="outline"
-            disabled={loading}
-            className="gap-2"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-            Actualiser
-          </Button>
+    <div className="max-w-7xl mx-auto py-10 px-8 space-y-10">
+      <div className="flex items-start justify-between gap-6 flex-wrap">
+        <div>
+          <p className="text-xs font-semibold text-primary uppercase tracking-[0.2em] mb-2">Administration</p>
+          <h1 className="text-3xl font-bold text-black">Utilisateurs</h1>
+          <p className="text-black/40 text-sm mt-2">Tous les utilisateurs de la plateforme</p>
         </div>
-
-        {/* Search */}
-        <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search users..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-          />
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Total</p>
-              <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
-                <Users className="w-4 h-4 text-slate-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2">{users.length}</p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Entrepreneurs</p>
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
-                <BadgeCheck className="w-4 h-4 text-emerald-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2 text-emerald-600">
-              {entrepreneursCount}
-            </p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">ID Document</p>
-              <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                <BadgeCheck className="w-4 h-4 text-blue-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2 text-blue-600">
-              {verifiedIdCount}
-            </p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">No ID</p>
-              <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
-                <BadgeX className="w-4 h-4 text-amber-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2 text-amber-600">
-              {users.length - verifiedIdCount}
-            </p>
-          </div>
-        </div>
-
-        {/* Users Table */}
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          {loading && users.length === 0 ? (
-            <div className="flex items-center justify-center py-20">
-              <RefreshCw className="w-8 h-8 animate-spin text-slate-300" />
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="flex flex-col items-center gap-3">
-                <Users className="w-16 h-16 text-gray-200" />
-                <p className="text-slate-500 font-semibold text-lg">
-                  No users found
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border bg-slate-50/50">
-                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      User
-                    </th>
-                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      Contact
-                    </th>
-                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      ID Card
-                    </th>
-                    <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      Registered
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {filtered.map((user) => (
-                    <tr
-                      key={user.id}
-                      className="hover:bg-slate-50/50 transition-colors"
-                    >
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary flex items-center justify-center flex-shrink-0">
-                            <UserIcon className="w-4 h-4 text-white" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-slate-900 text-sm">
-                              {user.full_name || "N/A"}
-                            </p>
-                            <p className="text-xs text-slate-400 mt-0.5">
-                              ID: {user.id.slice(0, 8)}...
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-1.5 text-sm text-slate-600">
-                            <Mail className="w-3.5 h-3.5 text-slate-400" />
-                            {user.email || "—"}
-                          </div>
-                          {user.phone_number && (
-                            <div className="flex items-center gap-1.5 text-sm text-slate-500">
-                              <Phone className="w-3.5 h-3.5 text-slate-400" />
-                              {user.phone_number}
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-5 py-4">
-                        {user.is_entrepreneur ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
-                            <BadgeCheck className="w-3 h-3" />
-                            Entrepreneur
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-                            <UserIcon className="w-3 h-3" />
-                            Investor
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4">
-                        {user.id_card_url ? (
-                          <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
-                            <BadgeCheck className="w-3.5 h-3.5" />
-                            Provided
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 text-xs text-slate-400">
-                            <BadgeX className="w-3.5 h-3.5" />
-                            Not provided
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-5 py-4 text-sm text-slate-500">
-                        {user.created_at
-                          ? new Date(user.created_at).toLocaleDateString(
-                              "fr-FR",
-                              {
-                                day: "numeric",
-                                month: "short",
-                                year: "numeric",
-                              },
-                            )
-                          : "—"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        <Button onClick={fetchUsers} variant="outline" disabled={loading} className="gap-2"><RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />Actualiser</Button>
       </div>
-    </section>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="bg-white rounded-2xl p-6 border border-black/5"><p className="text-3xl font-bold text-black">{users.length}</p><p className="text-sm text-black/40 mt-1">Total</p></div>
+        <div className="bg-white rounded-2xl p-6 border border-black/5"><p className="text-3xl font-bold text-black">{users.filter((u) => u.is_entrepreneur).length}</p><p className="text-sm text-black/40 mt-1">Entrepreneurs</p></div>
+        <div className="bg-white rounded-2xl p-6 border border-black/5"><p className="text-3xl font-bold text-black">{users.filter((u) => u.id_card_url).length}</p><p className="text-sm text-black/40 mt-1">KYC verifie</p></div>
+      </div>
+
+      <button onClick={() => setShowSearch(!showSearch)} className="flex items-center gap-2 text-sm text-black/40 hover:text-black/60">{showSearch ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}Rechercher</button>
+      {showSearch && (
+        <div className="relative max-w-md"><Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/20" /><input type="text" placeholder="Nom, email..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-11 pr-4 py-3 rounded-xl border border-black/10 bg-white text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all" /></div>
+      )}
+
+      <div className="bg-white rounded-2xl border border-black/5 overflow-hidden">
+        {loading && users.length === 0 ? (
+          <div className="flex items-center justify-center py-20"><RefreshCw className="w-8 h-8 animate-spin text-black/10" /></div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-20"><Users className="w-12 h-12 text-black/10 mx-auto mb-3" /><p className="text-black/40 font-medium">Aucun utilisateur</p></div>
+        ) : (
+          <div className="divide-y divide-black/5">
+            {filtered.map((u) => (
+              <div key={u.id} className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-5 gap-4 hover:bg-black/[0.01] transition-colors">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0"><Users className="w-5 h-5 text-primary" /></div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-black truncate">{u.full_name || "N/A"}</p>
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      <span className="text-xs text-black/30 flex items-center gap-1"><Mail className="w-3 h-3" />{u.email || "—"}</span>
+                      {u.phone_number && <span className="text-xs text-black/30 flex items-center gap-1"><Phone className="w-3 h-3" />{u.phone_number}</span>}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  {u.is_entrepreneur && <span className="text-xs font-medium bg-primary/5 text-primary px-2.5 py-0.5 rounded-full flex items-center gap-1"><BadgeCheck className="w-3 h-3" />Entrepreneur</span>}
+                  {u.id_card_url ? (
+                    <span className="text-xs text-black/40 flex items-center gap-1"><BadgeCheck className="w-3 h-3 text-primary/60" />KYC OK</span>
+                  ) : (
+                    <span className="text-xs text-black/20 flex items-center gap-1"><BadgeX className="w-3 h-3" />Sans KYC</span>
+                  )}
+                  <span className="text-xs text-black/20">{u.created_at ? new Date(u.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : "—"}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

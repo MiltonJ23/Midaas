@@ -128,13 +128,13 @@ export default function ValidatedProjectsPage() {
         </div>
 
         {/* Toggle View Controller */}
-        <div className="flex border border-border rounded-lg p-1 bg-white shadow-sm self-end md:self-auto">
+        <div className="flex border border-black/5 rounded-lg p-1 bg-white shadow-sm self-end md:self-auto">
           <button
             onClick={() => setViewMode("grid")}
             className={`p-2 rounded-md transition-colors ${
               viewMode === "grid"
                 ? "text-primary"
-                : "text-black hover:bg-slate-100"
+                : "text-black hover:bg-black/5"
             }`}
             title="Grid Layout"
           >
@@ -157,7 +157,7 @@ export default function ValidatedProjectsPage() {
             className={`p-2 rounded-md transition-colors ${
               viewMode === "list"
                 ? "text-primary"
-                : "text-black hover:bg-slate-100"
+                : "text-black hover:bg-black/5"
             }`}
             title="List Layout"
           >
@@ -181,7 +181,7 @@ export default function ValidatedProjectsPage() {
       </div>
 
       {/* Query Filter Blocks */}
-      <div className="flex flex-col lg:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-border mb-6">
+      <div className="flex flex-col lg:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-black/5 mb-6">
         <div className="w-full lg:max-w-md">
           <Input
             placeholder="Filter by title, ID or entrepreneur..."
@@ -200,7 +200,7 @@ export default function ValidatedProjectsPage() {
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                 selectedCategory === category
                   ? "bg-black text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  : "bg-black/5 text-black/50 hover:bg-black/10"
               }`}
             >
               {category}
@@ -211,7 +211,7 @@ export default function ValidatedProjectsPage() {
 
       {/* Main Campaign Render Layouts */}
       {filteredProjects.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-xl border border-dashed border-border">
+        <div className="text-center py-12 bg-white rounded-xl border border-dashed border-black/5">
           <p className="text-muted-foreground text-sm">
             No validated items match your search criteria.
           </p>
@@ -223,11 +223,11 @@ export default function ValidatedProjectsPage() {
             <Link
               key={project.id}
               href={`/projects/${project.id}`}
-              className="group bg-white border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-primary/40 transition-all flex flex-col justify-between cursor-pointer"
+              className="group bg-white border border-black/5 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:border-primary/40 transition-all flex flex-col justify-between cursor-pointer"
             >
               <div className="p-5 flex-1">
                 <div className="flex justify-between items-start mb-3">
-                  <span className="text-[10px] uppercase font-bold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full">
+                  <span className="text-[10px] uppercase font-bold px-2.5 py-1 bg-black/5 text-black/70 rounded-full">
                     {project.category}
                   </span>
                   <span
@@ -235,8 +235,8 @@ export default function ValidatedProjectsPage() {
                       project.status === "Active"
                         ? "bg-green-100 text-green-800"
                         : project.status === "Completed"
-                          ? "bg-blue-100 text-blue-800"
-                          : "bg-amber-100 text-amber-800"
+                          ? "bg-primary/10 text-primary"
+                          : "bg-primary/10 text-primary"
                     }`}
                   >
                     {project.status}
@@ -260,7 +260,7 @@ export default function ValidatedProjectsPage() {
                       {project.completionPercentage}%
                     </span>
                   </div>
-                  <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-black/5 h-2 rounded-full overflow-hidden">
                     <div
                       className="bg-primary h-full transition-all duration-300"
                       style={{ width: `${project.completionPercentage}%` }}
@@ -268,18 +268,18 @@ export default function ValidatedProjectsPage() {
                   </div>
                 </div>
 
-                <div className="bg-slate-50 p-2.5 rounded-lg border border-slate-100 text-xs">
-                  <span className="font-semibold block text-slate-500 text-[10px] uppercase tracking-tight">
+                <div className="bg-black/[0.03] p-2.5 rounded-lg border border-black/5 text-xs">
+                  <span className="font-semibold block text-black/40 text-[10px] uppercase tracking-tight">
                     Current Milestone Goal
                   </span>
-                  <span className="text-slate-700 font-medium line-clamp-1">
+                  <span className="text-black/70 font-medium line-clamp-1">
                     {project.currentMilestone}
                   </span>
                 </div>
               </div>
 
               {/* Data Values Context Footer Row */}
-              <div className="px-5 py-3 bg-slate-50 border-t border-border flex justify-between items-center text-xs">
+              <div className="px-5 py-3 bg-black/[0.03] border-t border-black/5 flex justify-between items-center text-xs">
                 <div>
                   <span className="text-muted-foreground block text-[10px]">
                     Raised / Target
@@ -308,10 +308,10 @@ export default function ValidatedProjectsPage() {
         </div>
       ) : (
         /* LIST LAYOUT MODE */
-        <div className="bg-white rounded-xl shadow-sm border border-border overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-black/5 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-slate-50/70 pointer-events-none select-none">
+              <TableRow className="bg-black/[0.03]/70 pointer-events-none select-none">
                 <TableHead className="pl-6">Project Specifications</TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>Active Milestone Target</TableHead>
@@ -323,7 +323,7 @@ export default function ValidatedProjectsPage() {
               {filteredProjects.map((project) => (
                 <TableRow
                   key={project.id}
-                  className="cursor-pointer hover:bg-slate-50/80 transition-colors group"
+                  className="cursor-pointer hover:bg-black/[0.03]/80 transition-colors group"
                   onClick={() => router.push(`/projects/${project.id}`)}
                 >
                   <TableCell className="pl-6">
@@ -337,13 +337,13 @@ export default function ValidatedProjectsPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-md font-medium">
+                    <span className="text-xs bg-black/5 text-black/70 px-2 py-1 rounded-md font-medium">
                       {project.category}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col max-w-[220px]">
-                      <span className="text-xs text-slate-700 truncate font-medium">
+                      <span className="text-xs text-black/70 truncate font-medium">
                         {project.currentMilestone}
                       </span>
                       <span className="text-[10px] text-muted-foreground">
@@ -367,8 +367,8 @@ export default function ValidatedProjectsPage() {
                         project.status === "Active"
                           ? "bg-green-100 text-green-800"
                           : project.status === "Completed"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-amber-100 text-amber-800"
+                            ? "bg-primary/10 text-primary"
+                            : "bg-primary/10 text-primary"
                       }`}
                     >
                       {project.status}

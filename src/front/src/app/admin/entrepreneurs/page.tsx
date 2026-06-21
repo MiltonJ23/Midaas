@@ -5,313 +5,87 @@ import { adminProvider, type AdminEntrepreneurItem } from "@/api/admin";
 import { useAdminStore } from "@/store/admin";
 import { ModalNames, useModalStore } from "@/store/modal";
 import { Button } from "@/components/atoms/button";
-import {
-  Users,
-  Search,
-  RefreshCw,
-  UserCheck,
-  UserX,
-  Mail,
-  Phone,
-  Calendar,
-  Shield,
-  ToggleLeft,
-  ToggleRight,
-} from "lucide-react";
+import { Users, Search, RefreshCw, ChevronDown, ChevronUp, ToggleLeft, ToggleRight } from "lucide-react";
 import { toast } from "react-toastify";
 
-/** Derives a display name for an entrepreneur from the available API data. */
-function entrepreneurDisplayName(ent: AdminEntrepreneurItem): {
-  name: string;
-  subtitle: string;
-} {
-  const user = ent.user;
-
-  // Full name available
-  if (user?.full_name?.trim()) {
-    return { name: user.full_name, subtitle: `ID: ${ent.id.slice(0, 8)}...` };
-  }
-
-  // Email available (even if name is empty)
-  if (user?.email?.trim()) {
-    return {
-      name: user.email,
-      subtitle: `Entrepreneur · ${ent.id.slice(0, 8)}...`,
-    };
-  }
-
-  // User ID available
-  if (user?.id && user.id !== "00000000-0000-0000-0000-000000000000") {
-    return {
-      name: `User ${user.id.slice(0, 8)}...`,
-      subtitle: `Entrepreneur · ${ent.id.slice(0, 8)}...`,
-    };
-  }
-
-  // Fall back to entrepreneur ID
-  return {
-    name: `Entrepreneur ${ent.id.slice(0, 8)}...`,
-    subtitle: `Created ${new Date(ent.created_at ?? "").toLocaleDateString(
-      "en-US",
-      {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      },
-    )}`,
-  };
+function nameFrom(ent: AdminEntrepreneurItem) {
+  return ent.user?.full_name?.trim() || ent.user?.email?.trim() || `Entrepreneur ${ent.id.slice(0, 8)}`;
 }
 
 export default function AdminEntrepreneursPage() {
-  const { entrepreneurs, setEntrepreneurs, setEntrepreneursLoading } =
-    useAdminStore();
+  const { entrepreneurs, setEntrepreneurs, setEntrepreneursLoading } = useAdminStore();
   const { openModal } = useModalStore();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const fetchEntrepreneurs = async () => {
-    setLoading(true);
-    setEntrepreneursLoading(true);
+    setLoading(true); setEntrepreneursLoading(true);
     const { data, error } = await adminProvider.getEntrepreneurs();
-    if (data) {
-      setEntrepreneurs(data);
-    } else {
-      toast.error(error || "Failed to load entrepreneurs");
-    }
+    if (data) setEntrepreneurs(data); else toast.error(error || "Erreur");
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (entrepreneurs.length === 0) {
-      fetchEntrepreneurs();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => { if (entrepreneurs.length === 0) fetchEntrepreneurs(); }, []);
 
   const filtered = entrepreneurs.filter((e) => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
-    const info = entrepreneurDisplayName(e);
-    return (
-      info.name.toLowerCase().includes(q) ||
-      info.subtitle.toLowerCase().includes(q) ||
-      e.status?.toLowerCase().includes(q) ||
-      e.id.toLowerCase().includes(q)
-    );
+    return nameFrom(e).toLowerCase().includes(q) || e.status?.toLowerCase().includes(q);
   });
 
   const activeCount = entrepreneurs.filter((e) => e.status === "active").length;
-  const suspendedCount = entrepreneurs.filter(
-    (e) => e.status === "suspended",
-  ).length;
 
-  const handleSuspend = (ent: AdminEntrepreneurItem) => {
-    const { name } = entrepreneurDisplayName(ent);
-    openModal({
-      name: ModalNames.CONFIRM_ACTION,
-      data: {
-        type: "suspend_entrepreneur",
-        title: "Suspend entrepreneur",
-        description: `Are you sure you want to suspend "${name}"? They will no longer be able to manage their companies.`,
-        itemId: ent.id,
-        onConfirm: async () => {
-          const { data, error } = await adminProvider.suspendEntrepreneur(
-            ent.id,
-          );
-          if (data) {
-            useAdminStore
-              .getState()
-              .updateEntrepreneurStatus(ent.id, "suspended");
-            toast.success("Entrepreneur suspended");
-          } else {
-            toast.error(error || "Failed to suspend");
-          }
-        },
-      },
-    });
-  };
-
-  const handleActivate = (ent: AdminEntrepreneurItem) => {
-    const { name } = entrepreneurDisplayName(ent);
-    openModal({
-      name: ModalNames.CONFIRM_ACTION,
-      data: {
-        type: "activate_entrepreneur",
-        title: "Activate entrepreneur",
-        description: `Do you want to reactivate "${name}"?`,
-        itemId: ent.id,
-        onConfirm: async () => {
-          const { data, error } = await adminProvider.activateEntrepreneur(
-            ent.id,
-          );
-          if (data) {
-            useAdminStore.getState().updateEntrepreneurStatus(ent.id, "active");
-            toast.success("Entrepreneur activated");
-          } else {
-            toast.error(error || "Failed to activate");
-          }
-        },
-      },
-    });
-  };
+  const handleSuspend = (ent: AdminEntrepreneurItem) => openModal({ name: ModalNames.CONFIRM_ACTION, data: { title: "Suspendre", description: `Suspendre "${nameFrom(ent)}" ?`, itemId: ent.id, onConfirm: async () => { const { data, error } = await adminProvider.suspendEntrepreneur(ent.id); if (data) { useAdminStore.getState().updateEntrepreneurStatus(ent.id, "suspended"); toast.success("Suspendu"); } else toast.error(error || "Erreur"); } } });
+  const handleActivate = (ent: AdminEntrepreneurItem) => openModal({ name: ModalNames.CONFIRM_ACTION, data: { title: "Activer", description: `Reactiver "${nameFrom(ent)}" ?`, itemId: ent.id, onConfirm: async () => { const { data, error } = await adminProvider.activateEntrepreneur(ent.id); if (data) { useAdminStore.getState().updateEntrepreneurStatus(ent.id, "active"); toast.success("Active"); } else toast.error(error || "Erreur"); } } });
 
   return (
-    <section className="p-6">
-      <div className="max-w-[1400px] mx-auto mt-8 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Entrepreneurs
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">
-              Manage entrepreneur profiles on the platform
-            </p>
-          </div>
-          <Button
-            onClick={fetchEntrepreneurs}
-            variant="outline"
-            disabled={loading}
-            className="gap-2"
-          >
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-            Refresh
-          </Button>
+    <div className="max-w-7xl mx-auto py-10 px-8 space-y-10">
+      <div className="flex items-start justify-between gap-6 flex-wrap">
+        <div>
+          <p className="text-xs font-semibold text-primary uppercase tracking-[0.2em] mb-2">Administration</p>
+          <h1 className="text-3xl font-bold text-black">Entrepreneurs</h1>
+          <p className="text-black/40 text-sm mt-2">Gerer les profils entrepreneurs</p>
         </div>
-
-        {/* Search */}
-        <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search entrepreneurs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-          />
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Total</p>
-              <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
-                <Users className="w-4 h-4 text-slate-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2">{entrepreneurs.length}</p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Active</p>
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
-                <UserCheck className="w-4 h-4 text-emerald-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2 text-emerald-600">
-              {activeCount}
-            </p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-slate-500">Suspended</p>
-              <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-                <UserX className="w-4 h-4 text-red-600" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold mt-2 text-red-600">
-              {suspendedCount}
-            </p>
-          </div>
-        </div>
-
-        {/* Entrepreneurs List */}
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          {loading && entrepreneurs.length === 0 ? (
-            <div className="flex items-center justify-center py-20">
-              <RefreshCw className="w-8 h-8 animate-spin text-slate-300" />
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="flex flex-col items-center gap-3">
-                <Users className="w-16 h-16 text-gray-200" />
-                <p className="text-slate-500 font-semibold text-lg">
-                  No entrepreneurs found
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="divide-y divide-border">
-              {filtered.map((ent) => {
-                const { name, subtitle } = entrepreneurDisplayName(ent);
-                return (
-                  <div
-                    key={ent.id}
-                    className="p-5 hover:bg-slate-50/50 transition-colors"
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-4 flex-1 min-w-0">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center flex-shrink-0 border border-emerald-100">
-                          <Users className="w-6 h-6 text-emerald-600" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-3 flex-wrap">
-                            <h3 className="font-semibold text-slate-900">
-                              {name}
-                            </h3>
-                            <span
-                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-                                ent.status === "active"
-                                  ? "bg-emerald-100 text-emerald-800 border-emerald-200"
-                                  : "bg-red-100 text-red-800 border-red-200"
-                              }`}
-                            >
-                              {ent.status === "active" ? (
-                                <UserCheck className="w-3 h-3" />
-                              ) : (
-                                <UserX className="w-3 h-3" />
-                              )}
-                              {ent.status === "active" ? "Active" : "Suspended"}
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-400 mt-0.5">
-                            {subtitle}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        {ent.status === "active" ? (
-                          <Button
-                            onClick={() => handleSuspend(ent)}
-                            size="sm"
-                            variant="destructive"
-                            className="gap-1.5"
-                          >
-                            <ToggleLeft className="w-4 h-4" />
-                            Suspend
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={() => handleActivate(ent)}
-                            size="sm"
-                            className="gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
-                          >
-                            <ToggleRight className="w-4 h-4" />
-                            Activate
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        <Button onClick={fetchEntrepreneurs} variant="outline" disabled={loading} className="gap-2"><RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />Actualiser</Button>
       </div>
-    </section>
+
+      <div className="grid grid-cols-2 gap-6">
+        <div className="bg-white rounded-2xl p-6 border border-black/5"><p className="text-3xl font-bold text-black">{entrepreneurs.length}</p><p className="text-sm text-black/40 mt-1">Total</p></div>
+        <div className="bg-white rounded-2xl p-6 border border-black/5"><p className="text-3xl font-bold text-black">{activeCount}</p><p className="text-sm text-black/40 mt-1">Actifs</p></div>
+      </div>
+
+      <button onClick={() => setShowSearch(!showSearch)} className="flex items-center gap-2 text-sm text-black/40 hover:text-black/60">{showSearch ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}Rechercher</button>
+      {showSearch && (
+        <div className="relative max-w-md"><Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/20" /><input type="text" placeholder="Nom..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-11 pr-4 py-3 rounded-xl border border-black/10 bg-white text-sm focus:border-primary focus:ring-2 focus:ring-primary/10 outline-none transition-all" /></div>
+      )}
+
+      <div className="bg-white rounded-2xl border border-black/5 overflow-hidden">
+        {loading && entrepreneurs.length === 0 ? (
+          <div className="flex items-center justify-center py-20"><RefreshCw className="w-8 h-8 animate-spin text-black/10" /></div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-20"><Users className="w-12 h-12 text-black/10 mx-auto mb-3" /><p className="text-black/40 font-medium">Aucun entrepreneur</p></div>
+        ) : (
+          <div className="divide-y divide-black/5">
+            {filtered.map((ent) => (
+              <div key={ent.id} className="flex items-center justify-between px-6 py-5 hover:bg-black/[0.01] transition-colors">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center shrink-0"><Users className="w-5 h-5 text-primary/60" /></div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3"><p className="text-sm font-medium text-black truncate">{nameFrom(ent)}</p><span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${ent.status === "active" ? "bg-primary/5 text-primary" : "bg-red-50 text-red-600"}`}>{ent.status === "active" ? "Actif" : "Suspendu"}</span></div>
+                    <p className="text-xs text-black/30 mt-0.5">ID: {ent.id.slice(0, 8)}...</p>
+                  </div>
+                </div>
+                {ent.status === "active" ? (
+                  <Button onClick={() => handleSuspend(ent)} size="sm" variant="outline" className="gap-1.5 text-red-500 border-red-200 hover:bg-red-50"><ToggleLeft className="w-4 h-4" />Suspendre</Button>
+                ) : (
+                  <Button onClick={() => handleActivate(ent)} size="sm" variant="outline" className="gap-1.5"><ToggleRight className="w-4 h-4" />Activer</Button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
