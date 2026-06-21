@@ -33,6 +33,11 @@ export const metadata: Metadata = {
   keywords:
     "africa investment, local crowdfunding, financing platform, entrepreneur support, secure investing, milestone funding, Midaas",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

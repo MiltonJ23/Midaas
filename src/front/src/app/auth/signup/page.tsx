@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Storage, StorageKeys } from "@/api/auth/storage";
 import { useAuthStore } from "@/store/auth";
-import { User, Mail, Lock, Phone, CircleDollarSign, ArrowLeft, Eye, EyeOff, Sparkles, Check } from "lucide-react";
+import { User, Mail, Lock, Phone, CircleDollarSign, ArrowLeft, Eye, EyeOff, Sparkles, Check, Globe } from "lucide-react";
 
 interface ISignupForm {
   fullName: string; email: string; password: string; phoneNumber: string;
@@ -37,29 +37,9 @@ export default function Signup() {
   };
 
   return (
-    <main className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-5/12 bg-[#0A0A0A] relative overflow-hidden flex-col justify-between p-12">
-        <div>
-          <Link href="/" className="flex items-center gap-2.5">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M2 24L8 6L14 24L20 6L26 24" stroke="#C2410C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 24L14 12L20 24" stroke="#C2410C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/></svg>
-            <span className="text-lg font-bold text-white">MIDAAS</span>
-          </Link>
-        </div>
-        <div className="relative z-10 max-w-sm">
-          <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-6"><Sparkles className="w-6 h-6 text-primary" /></div>
-          <h2 className="text-3xl font-bold text-white leading-tight mb-4">Rejoignez la<br /><span className="text-primary italic font-light">communaute</span> Midaas</h2>
-          <p className="text-white/30 text-sm leading-relaxed">Creez votre compte en quelques minutes. Verification KYC incluse pour securiser vos investissements des le premier jour.</p>
-          <div className="mt-10 space-y-3">
-            {["Investissement securise par escrow", "Suivi transparent des projets", "Retours sur investissement competitifs"].map((t, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm text-white/40"><div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-primary" /></div>{t}</div>
-            ))}
-          </div>
-        </div>
-        <p className="text-xs text-white/10">© {new Date().getFullYear()} Midaas</p>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="flex-1 flex items-center justify-center px-6 lg:px-16 py-12 bg-white overflow-y-auto">
+    <main className="min-h-screen flex animate-fade-in">
+      {/* LEFT — Form (swapped from signin) */}
+      <div className="flex-1 flex items-center justify-center px-6 lg:px-16 py-12 bg-white overflow-y-auto order-1 lg:order-1 animate-slide-in-left">
         <div className="w-full max-w-md my-auto">
           <div className="mb-8 lg:hidden text-center">
             <Link href="/" className="flex items-center gap-2.5 justify-center">
@@ -98,6 +78,47 @@ export default function Signup() {
           </form>
           <p className="mt-8 text-center text-sm text-black/40">Deja un compte ? <Link href="/auth/signin" className="text-primary font-semibold hover:underline">Se connecter</Link></p>
         </div>
+      </div>
+
+      {/* RIGHT — Black panel (swapped from signin) */}
+      <div className="hidden lg:flex lg:w-5/12 bg-[#0A0A0A] relative overflow-hidden flex-col justify-between p-12 order-2 animate-slide-in-right">
+        <div className="flex justify-end">
+          <Link href="/" className="flex items-center gap-2.5">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M2 24L8 6L14 24L20 6L26 24" stroke="#C2410C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 24L14 12L20 24" stroke="#C2410C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/></svg>
+            <span className="text-lg font-bold text-white">MIDAAS</span>
+          </Link>
+        </div>
+
+        <div className="relative z-10 max-w-sm">
+          <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-6">
+            <Globe className="w-6 h-6 text-primary" />
+          </div>
+          <h2 className="text-3xl font-bold text-white leading-tight mb-4">
+            Investissez dans<br />
+            <span className="text-primary italic font-light">20 pays</span> africains
+          </h2>
+          <p className="text-white/30 text-sm leading-relaxed">
+            Avec Midaas, investissez directement dans des entreprises locales
+            sans passer par les bourses regionales. Pas d&apos;intermediaire, pas de
+            frais caches. Votre capital travaille la ou l&apos;impact est reel.
+          </p>
+
+          <div className="mt-10 space-y-3">
+            {[
+              "Cote d'Ivoire, Cameroun, Senegal, Nigeria...",
+              "Pas de BRVM, pas de BVMAC, pas de frais de courtage",
+              "Investissement direct en Mobile Money",
+            ].map((t, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm text-white/40">
+                <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center shrink-0"><Check className="w-3 h-3 text-primary" /></div>
+                {t}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs text-white/10 text-right">© {new Date().getFullYear()} Midaas</p>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       </div>
     </main>
   );

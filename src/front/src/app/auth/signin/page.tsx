@@ -29,8 +29,9 @@ export default function AuthSignin() {
   };
 
   return (
-    <main className="min-h-screen flex">
-      <div className="hidden lg:flex lg:w-5/12 bg-[#0A0A0A] relative overflow-hidden flex-col justify-between p-12">
+    <main className="min-h-screen flex animate-fade-in">
+      {/* LEFT — Black panel */}
+      <div className="hidden lg:flex lg:w-5/12 bg-[#0A0A0A] relative overflow-hidden flex-col justify-between p-12 animate-slide-in-left">
         <div>
           <Link href="/" className="flex items-center gap-2.5">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -40,6 +41,7 @@ export default function AuthSignin() {
             <span className="text-lg font-bold text-white">MIDAAS</span>
           </Link>
         </div>
+
         <div className="relative z-10 max-w-sm">
           <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center mb-6">
             <TrendingUp className="w-6 h-6 text-primary" />
@@ -61,11 +63,13 @@ export default function AuthSignin() {
             ))}
           </div>
         </div>
+
         <p className="text-xs text-white/10">© {new Date().getFullYear()} Midaas</p>
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 lg:px-16 bg-white">
+      {/* RIGHT — Form */}
+      <div className="flex-1 flex items-center justify-center px-6 lg:px-16 bg-white animate-slide-in-right">
         <div className="w-full max-w-md">
           <div className="mb-8 lg:hidden text-center">
             <Link href="/" className="flex items-center gap-2.5 justify-center">
