@@ -33,7 +33,7 @@ export default function Layout({ children }: Props) {
   }, []);
 
   return (
-    <section className="bg-slate-50 w-screen h-screen flex overflow-hidden">
+    <section className="bg-white w-screen h-screen flex overflow-hidden">
       <div className="fixed top-0 left-0 right-0 z-30">
         <Navbar onOpen={() => setOpen(true)} sidebarCollapsed={collapsed} />
       </div>

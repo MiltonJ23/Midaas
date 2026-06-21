@@ -7,7 +7,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
       <input
         type={type}
         className={cn(
-          "flex h-11 w-full rounded-lg border border-input bg-white px-4 py-3 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-11 w-full rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         ref={ref}
@@ -51,7 +51,7 @@ const MUIInput = React.forwardRef<HTMLInputElement, MUIInputProps>(
             type={type}
             id={inputId}
             className={cn(
-              "flex h-11 w-full rounded-lg border border-input bg-white px-4 py-3 text-base shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
+              "flex h-11 w-full rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50",
               before && "pl-10",
               after && "pr-10",
               className
@@ -88,7 +88,7 @@ const MUITextarea = React.forwardRef<
         ref={ref}
         id={inputId}
         className={cn(
-          "flex min-h-[100px] w-full rounded-lg border border-input bg-white px-4 py-3 text-base shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none",
+          "flex min-h-[100px] w-full rounded-lg border border-input bg-transparent px-4 py-3 text-base shadow-sm transition-colors placeholder:text-muted-foreground/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-none",
           className
         )}
         {...props}

@@ -4,7 +4,6 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import ZoomAlert from "@/components/molecules/zoom/zoom-alert";
 import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
@@ -80,17 +79,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ZoomAlert />
-        {children}
+        <div className="animate-fade-in">
+          {children}
+        </div>
         <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
+          position="bottom-right"
+          autoClose={4000}
+          hideProgressBar
+          newestOnTop
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           pauseOnHover
+          toastClassName="!bg-white !text-black !border !border-black/10 !rounded-lg !shadow-lg !font-medium"
+          bodyClassName="!text-sm"
+          progressClassName="!bg-primary"
         />
       </body>
     </html>
